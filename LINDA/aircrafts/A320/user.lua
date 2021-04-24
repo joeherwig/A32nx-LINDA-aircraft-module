@@ -106,10 +106,100 @@ function A32nx_Autobreak_Max()
      DspShow ("A-BRK", "max")
 end
 
+-- ## Overhead ADIRS #####################################
+
+function A32nx_ADIRS_KNOB_1_OFF()
+     adirs1Knob = 0
+     A32nx_ADIRS_KNOB_1_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_1_NAV()
+     adirs1Knob = 1
+	A32nx_ADIRS_KNOB_1_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_1_ATT()
+     adirs1Knob = 2
+	A32nx_ADIRS_KNOB_1_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_1_INC()
+     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_1")
+     if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
+     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
+	A32nx_ADIRS_KNOB_1_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_1_DEC()
+     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_1")
+     if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
+     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
+	A32nx_ADIRS_KNOB_1_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_1_SET(adirs1Knob)
+     ipc.display("ADIRS 1 setting: " .. adirs1Knob .. "\n", 5)
+     ipc.writeLvar("L:A32NX_ADIRS_KNOB_1", adirs1Knob) 
+end
+
+function A32nx_ADIRS_KNOB_2_OFF()
+     adirs1Knob = 0
+     A32nx_ADIRS_KNOB_2_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_2_NAV()
+     adirs1Knob = 1
+	A32nx_ADIRS_KNOB_2_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_2_ATT()
+     adirs1Knob = 2
+	A32nx_ADIRS_KNOB_2_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_2_INC()
+     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_2")
+     if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
+     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
+	A32nx_ADIRS_KNOB_2_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_2_DEC()
+     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_2")
+     if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
+     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
+	A32nx_ADIRS_KNOB_2_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_2_SET(adirs1Knob)
+     ipc.display("ADIRS 1 setting: " .. adirs1Knob .. "\n", 5)
+     ipc.writeLvar("L:A32NX_ADIRS_KNOB_2", adirs1Knob) 
+end
+
+function A32nx_ADIRS_KNOB_3_OFF()
+     adirs1Knob = 0
+     A32nx_ADIRS_KNOB_3_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_3_NAV()
+     adirs1Knob = 1
+	A32nx_ADIRS_KNOB_3_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_3_ATT()
+     adirs1Knob = 2
+	A32nx_ADIRS_KNOB_3_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_3_INC()
+     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_3")
+     if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
+     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
+	A32nx_ADIRS_KNOB_3_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_3_DEC()
+     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_3")
+     if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
+     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
+	A32nx_ADIRS_KNOB_3_SET(adirs1Knob) 
+end
+function A32nx_ADIRS_KNOB_3_SET(adirs1Knob)
+     ipc.display("ADIRS 1 setting: " .. adirs1Knob .. "\n", 5)
+     ipc.writeLvar("L:A32NX_ADIRS_KNOB_3", adirs1Knob) 
+end
+
+
 -- ## Overhead electrics #####################################
 
 function A32nx_FCU_APPR_MODE_On()
-	ipc.writeLvar("A32NX_FCU_APPR_MODE_ACTIVE", 1) 
+	ipc.writeLvar("L:A32NX_FCU_APPR_MODE_ACTIVE", 1) 
      appr =  ipc.readLvar("L:A32NX_FCU_APPR_MODE_ACTIVE") 
      DspShow ("APPR", appr)
 end
