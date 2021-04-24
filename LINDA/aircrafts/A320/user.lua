@@ -19,6 +19,8 @@ _log("[USER] User's modifications script is loaded...")
 
 mfd1Mode = 0
 mfd1Range = 0
+eicasEcam2Page = 1
+eicasEcam2Functions = {"A32nx_EICAS_2_ECAM_PAGE_ENG","A32nx_EICAS_2_ECAM_PAGE_BLEED","A32nx_EICAS_2_ECAM_PAGE_PRESS","A32nx_EICAS_2_ECAM_PAGE_ELEC","A32nx_EICAS_2_ECAM_PAGE_HYD","A32nx_EICAS_2_ECAM_PAGE_FUEL","A32nx_EICAS_2_ECAM_PAGE_APU","A32nx_EICAS_2_ECAM_PAGE_COND","A32nx_EICAS_2_ECAM_PAGE_DOOR","A32nx_EICAS_2_ECAM_PAGE_WHEEL","A32nx_EICAS_2_ECAM_PAGE_FTCL","A32nx_EICAS_2_ECAM_PAGE_STS","A32nx_EICAS_2_ECAM_PAGE_cycle"}
 
 -- ## AP / FCU #####################################
 
@@ -245,10 +247,71 @@ function A32nx_MFD_Range_1_DEC()
      ipc.display("MFD range: " .. mfd1Range .. "\n", 5)
 end
 
--- ## Tests #####################################
-function A32nx_Test_INC()
-     leftIgnitionSwitchPos = ipc.readLvar("L:ignSwL")
-     if leftIgnitionSwitchPos <= 0 then leftIgnitionSwitchPos = 0 else leftIgnitionSwitchPos = leftIgnitionSwitchPos - 1 end
-     ipc.writeLvar("ignSwL", leftIgnitionSwitchPos)
-     DspShow ("MFDr", leftIgnitionSwitchPos)
+-- ## EICAS ECAM Buttons #####################################
+
+function A32nx_EICAS_2_ECAM_PAGE_ENG()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_ENG")
+     eicasEcam2Page = 1
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_BLEED()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_BLEED")
+     eicasEcam2Page = 2
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_PRESS()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_PRESS")
+     eicasEcam2Page = 3
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_ELEC()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_ELEC")
+     eicasEcam2Page = 4
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_HYD()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_HYD")
+     eicasEcam2Page = 5
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_FUEL()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_FUEL")
+     eicasEcam2Page = 6
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_APU()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_APU")
+     eicasEcam2Page = 7
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_COND()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_COND")
+     eicasEcam2Page = 8
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_DOOR()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_DOOR")
+     eicasEcam2Page = 9
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_WHEEL()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_WHEEL")
+     eicasEcam2Page = 10
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_FTCL()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_FTCL")
+     eicasEcam2Page = 11
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_STS()
+     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_STS")
+     eicasEcam2Page = 12
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_cycle()
+     if type(_G[eicasEcam2Functions[eicasEcam2Page]]) == 'function' then
+          assert(_G[eicasEcam2Functions[eicasEcam2Page]])()
+     end
+     if eicasEcam2Page >= 12 then eicasEcam2Page = 1 else eicasEcam2Page = eicasEcam2Page + 1 end
 end
