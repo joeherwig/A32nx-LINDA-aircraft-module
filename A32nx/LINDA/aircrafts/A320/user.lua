@@ -112,28 +112,30 @@ function A32nx_ADIRS_KNOB_1_OFF()
      adirs1Knob = 0
      A32nx_ADIRS_KNOB_1_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_1_NAV()
      adirs1Knob = 1
 	A32nx_ADIRS_KNOB_1_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_1_ATT()
      adirs1Knob = 2
 	A32nx_ADIRS_KNOB_1_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_1_INC()
      adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_1")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
-     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
 	A32nx_ADIRS_KNOB_1_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_1_DEC()
      adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_1")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
-     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
 	A32nx_ADIRS_KNOB_1_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_1_SET(adirs1Knob)
-     ipc.display("ADIRS 1 setting: " .. adirs1Knob .. "\n", 5)
      ipc.writeLvar("L:A32NX_ADIRS_KNOB_1", adirs1Knob) 
 end
 
@@ -141,28 +143,30 @@ function A32nx_ADIRS_KNOB_2_OFF()
      adirs1Knob = 0
      A32nx_ADIRS_KNOB_2_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_2_NAV()
      adirs1Knob = 1
 	A32nx_ADIRS_KNOB_2_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_2_ATT()
      adirs1Knob = 2
 	A32nx_ADIRS_KNOB_2_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_2_INC()
      adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_2")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
-     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
 	A32nx_ADIRS_KNOB_2_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_2_DEC()
      adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_2")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
-     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
 	A32nx_ADIRS_KNOB_2_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_2_SET(adirs1Knob)
-     ipc.display("ADIRS 1 setting: " .. adirs1Knob .. "\n", 5)
      ipc.writeLvar("L:A32NX_ADIRS_KNOB_2", adirs1Knob) 
 end
 
@@ -170,28 +174,30 @@ function A32nx_ADIRS_KNOB_3_OFF()
      adirs1Knob = 0
      A32nx_ADIRS_KNOB_3_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_3_NAV()
      adirs1Knob = 1
 	A32nx_ADIRS_KNOB_3_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_3_ATT()
      adirs1Knob = 2
 	A32nx_ADIRS_KNOB_3_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_3_INC()
      adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_3")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
-     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
 	A32nx_ADIRS_KNOB_3_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_3_DEC()
      adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_3")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
-     --ipc.display("ADIRS 1: " .. adirs1Knob .. "\n", 5)
 	A32nx_ADIRS_KNOB_3_SET(adirs1Knob) 
 end
+
 function A32nx_ADIRS_KNOB_3_SET(adirs1Knob)
-     ipc.display("ADIRS 1 setting: " .. adirs1Knob .. "\n", 5)
      ipc.writeLvar("L:A32NX_ADIRS_KNOB_3", adirs1Knob) 
 end
 
@@ -245,25 +251,21 @@ end
 function A32nx_MFD_NAV_MODE_1_LS()
      ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", 0)
      mfd1Mode = ipc.readLvar("A320_Neo_MFD_NAV_MODE_1")
-     ipc.display("MFD mode: " .. mfd1Mode .. "\n", 5)
 end
 
 function A32nx_MFD_NAV_MODE_1_VOR()
      ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", 1)
      mfd1Mode = ipc.readLvar("A320_Neo_MFD_NAV_MODE_1")
-     ipc.display("MFD mode: " .. mfd1Mode .. "\n", 5)
 end
 
 function A32nx_MFD_NAV_MODE_1_NAV()
      ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", 2)
      mfd1Mode = ipc.readLvar("A320_Neo_MFD_NAV_MODE_1")
-     ipc.display("MFD mode: " .. mfd1Mode .. "\n", 5)
 end
 
 function A32nx_MFD_NAV_MODE_1_ARC()
      ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", 3)
      mfd1Mode = ipc.readLvar("L:A320_Neo_MFD_NAV_MODE_1")
-     ipc.display("MFD mode: " .. mfd1Mode .. "\n", 5)
 end
 
 function A32nx_MFD_NAV_MODE_1_PLAN()
@@ -276,65 +278,55 @@ function A32nx_MFD_NAV_MODE_1_INC()
      mfd1Mode = ipc.readLvar("L:A320_Neo_MFD_NAV_MODE_1")
      if mfd1Mode >= 5 then mfd1Mode = 5 else mfd1Mode = mfd1Mode + 1 end
      ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", mfd1Mode)
-     ipc.display("MFD mode: " .. mfd1Mode .. "\n", 5)
 end
 
 function A32nx_MFD_NAV_MODE_1_DEC()
      mfd1Mode = ipc.readLvar("L:A320_Neo_MFD_NAV_MODE_1")
      if mfd1Mode <= 0 then mfd1Mode = 0 else mfd1Mode = mfd1Mode - 1 end
      ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", mfd1Mode)
-     ipc.display("MFD mode: " .. mfd1Mode .. "\n", 5)
 end
 
 -- MFD Range --------------------------------------
 function A32nx_MFD_Range_1_10()
      ipc.writeLvar("L:A320_Neo_MFD_Range_1", 0)
      mfd1Range = ipc.readLvar("A320_Neo_MFD_Range_1")
-     ipc.display("MFD range: " .. mfd1Range .. "\n", 5)
 end
 
 function A32nx_MFD_Range_1_20()
      ipc.writeLvar("L:A320_Neo_MFD_Range_1", 1)
      mfd1Range = ipc.readLvar("A320_Neo_MFD_Range_1")
-     ipc.display("MFD range: " .. mfd1Range .. "\n", 5)
 end
 
 function A32nx_MFD_Range_1_40()
      ipc.writeLvar("L:A320_Neo_MFD_Range_1", 2)
      mfd1Range = ipc.readLvar("A320_Neo_MFD_Range_1")
-     ipc.display("MFD range: " .. mfd1Range .. "\n", 5)
 end
 
 function A32nx_MFD_Range_1_80()
      ipc.writeLvar("L:A320_Neo_MFD_Range_1", 3)
      mfd1Range = ipc.readLvar("L:A320_Neo_MFD_Range_1")
-     ipc.display("MFD range: " .. mfd1Range .. "\n", 5)
 end
 
 function A32nx_MFD_Range_1_160()
      ipc.writeLvar("L:A320_Neo_MFD_Range_1", 4)
      mfd1Range = ipc.readLvar("A320_Neo_MFD_Range_1")
-     ipc.display("MFD range: " .. mfd1Range .. "\n", 5)
 end
 
 function A32nx_MFD_Range_1_320()
      ipc.writeLvar("L:A320_Neo_MFD_Range_1", 5)
      mfd1Range = ipc.readLvar("L:A320_Neo_MFD_Range_1")
-     ipc.display("MFD range: " .. mfd1Range .. "\n", 5)
 end
 
 function A32nx_MFD_Range_1_INC()
      mfd1Range = ipc.readLvar("L:A320_Neo_MFD_Range_1")
      if mfd1Range >= 5 then mfd1Range = 5 else mfd1Range = mfd1Range + 1 end
      ipc.writeLvar("L:A320_Neo_MFD_Range_1", mfd1Range)
-     ipc.display("MFD range: " .. mfd1Range .. "\n", 5)
 end
 
 function A32nx_MFD_Range_1_DEC()
      mfd1Range = ipc.readLvar("L:A320_Neo_MFD_Range_1")
      if mfd1Range <= 0 then mfd1Range = 0 else mfd1Range = mfd1Range - 1 end
      ipc.writeLvar("L:A320_Neo_MFD_Range_1", mfd1Range)
-     ipc.display("MFD range: " .. mfd1Range .. "\n", 5)
 end
 
 -- ## EICAS ECAM Buttons #####################################
