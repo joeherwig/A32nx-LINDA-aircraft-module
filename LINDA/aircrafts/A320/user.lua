@@ -104,6 +104,8 @@ function A32nx_Autobreak_Max()
      DspShow ("A-BRK", "max")
 end
 
+-- ## Overhead electrics #####################################
+
 function A32nx_FCU_APPR_MODE_On()
 	ipc.writeLvar("A32NX_FCU_APPR_MODE_ACTIVE", 1) 
      appr =  ipc.readLvar("L:A32NX_FCU_APPR_MODE_ACTIVE") 
@@ -134,7 +136,6 @@ end
 function A32nx_APU_Generator_ON()
      ipc.control(66707, 1)
      DspShow ("APUG", "on")
-     -- sound.play("c:\\mysound\\paxsign.wav")
 end
 
 -- # Flight controls #####################################
@@ -146,10 +147,6 @@ function A32nx_Spoiler_Arm_OFF ()
     ipc.control(66068, 0)
 end
 
-function A32nx_Battery_1_off ()
-     ipc.control(67187, 0)
-     DspShow ("BAT1", "off", "Altern.", "off")
-end
 
 -- ## MFD controls #####################################
 -- MFD Mode --------------------------------------
