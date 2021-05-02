@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2105021732 (LINDA 4.0.5.173) --
+-- config-mcp2a.lua @ 2105022341 (LINDA 4.0.5.173) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -10,7 +10,7 @@ EFIS1 = {
 ["IDENT"]   = "Std"  ,
 ["InHg."]   = Altimeter_BARO_STD_toggle  ,
 ["hPa ."]   = Efis_HPA  ,
-["FD  ."]   = A32nx_TOGGLE_FLIGHT_DIRECTOR  ,
+["FD  ."]   = A32nx_PFD_BTN_FD_1  ,
 ["ILS ."]   = A32nx_PFD_BTN_LS_1  ,
 ["CSTR."]   = A32nx_MFD_BTN_CSTR_1  ,
 ["WPT ."]   = A32nx_MFD_BTN_VORD_1  ,
@@ -224,26 +224,26 @@ NDR3 = {
 MCP1 = {
 ["ENABLED"] 	= true  ,
 ["IDENT"]   	= "MCP1"  ,
-["MACH."]   	= Autopilot_MACH_button  ,
-["LOC ."]   	= AP_LOC_HOLD  ,
+["MACH."]   	= A32nx_MCDU_MODE_SELECTED_SPEED  ,
+["LOC ."]   	= A32nx_AP_LOC_HOLD  ,
 ["TRK ."]   	= Autopilot_TRK_button  ,
-["AP1 ."]   	= JOE_AP_ON  ,
-["AP2 ."]   	= JOE_AP_OFF  ,
+["AP1 ."]   	= A32nx_AP_ON  ,
+["AP2 ."]   	= A32nx_AP_OFF  ,
 ["ATHR."]   	= A32nx_AUTO_THROTTLE_TOGGLE  ,
-["EXPD."]   	= Autopilot_EXPD_button  ,
+["EXPD."]   	= A32nx_FCU_EXPEDITE_MODE  ,
 ["MTR ."]   	= Autopilot_MTR_button  ,
-["APPR."]   	= FCU_APPR_MODE_On  ,
+["APPR."]   	= A32nx_FCU_APPR_MODE_TOGGLE  ,
 }
 
 -- AFCU SPD knob
 SPD1 = {
 ["A SHOW"]  	= SPD_show  ,
 ["A  +"]    	= MSFS_SPD_inc  ,
-["A ++"]    	= SPD_plusfast  ,
+["A ++"]    	= MSFS_SPD_incfast  ,
 ["A  -"]    	= MSFS_SPD_dec  ,
 ["A --"]    	= MSFS_SPD_decfast  ,
-["PRESS"]   	= SPD_Mode_Managed  ,
-["PULL"]    	= SPD_Mode_Selected  ,
+["PRESS"]   	= MSFS_Autopilot_SPD_MNGD  ,
+["PULL"]    	= MSFS_Autopilot_SPD_SET  ,
 }
 
 -- AFCU HDG knob
@@ -253,8 +253,8 @@ HDG1 = {
 ["A ++"]    	= HDG_plusfast  ,
 ["A  -"]    	= HDG_minus  ,
 ["A --"]    	= HDG_minusfast  ,
-["PRESS"]   	= HDG_Mode_Managed  ,
-["PULL"]    	= HDG_Mode_Selected  ,
+["PRESS"]   	= MSFS_NAV1_hold_toggle  ,
+["PULL"]    	= A32nx_HDG_Mode_Selected  ,
 }
 
 -- AFCU ALT knob
@@ -264,19 +264,19 @@ ALT1 = {
 ["A ++"]    	= ALT_plusfast  ,
 ["A  -"]    	= ALT_minus  ,
 ["A --"]    	= ALT_minusfast  ,
-["PRESS"]   	= ALT_Mode_Managed  ,
-["PULL"]    	= ALT_Mode_Selected  ,
+["PRESS"]   	= A32nx_ALT_Mode_Managed  ,
+["PULL"]    	= A32nx_HDG_Mode_Selected  ,
 }
 
 -- AFCU VVS knob
 VVS1 = {
-["A SHOW"]  	= VVS_show  ,
-["A  +"]    	= A32nx_FCU_VS_INC  ,
-["A ++"]    	= VVS_plusfast  ,
-["A  -"]    	= A32nx_FCU_VS_DEC  ,
-["A --"]    	= VVS_minusfast  ,
-["PRESS"]   	= A32nx_FCU_VS_PUSH  ,
-["PULL"]    	= A32nx_FCU_VS_PULL  ,
+["A SHOW"]  	= A32nx_FCU_VVS_show  ,
+["A  +"]    	= MSFS_VS_inc  ,
+["A ++"]    	= A32nx_FCU_VS_INC  ,
+["A  -"]    	= MSFS_VS_dec  ,
+["A --"]    	= A32nx_FCU_VS_DEC  ,
+["PRESS"]   	= MSFS_VS_hold_toggle  ,
+["PULL"]    	= Autopilot_ALT_hold  ,
 }
 
 
@@ -422,8 +422,8 @@ USER1 = {
 ["BTN4."]   = Lights_STROBE_toggle  ,
 ["BTN5."]   = MSFS_ParkingBrake_toggle  ,
 ["BTN6."]   = VRI_EFIS_MODE_toggle  ,
-["BTN7."]   = VRI_MCP_MODE_toggle  ,
-["BTN8."]   = VRI_USER_MODE_toggle  ,
+["BTN7."]   = A32nx_FCU_VVS_show  ,
+["BTN8."]   = VVS_show  ,
 ["USR1."]   = A32nx_EICAS_2_ECAM_PAGE_cycle  ,
 ["USR2."]   = FCU_APPR_MODE_Off  ,
 ["USR3."]   = lvarTest  ,
@@ -432,7 +432,7 @@ USER1 = {
 ["USR6."]   = empty  ,
 ["USR7."]   = empty  ,
 ["USR8."]   = empty  ,
-["LAMP."]   = Lights_PANEL_toggle  ,
+["LAMP."]   = VRI_Light_PANEL_toggle  ,
 }
 
 -- ############################################### --

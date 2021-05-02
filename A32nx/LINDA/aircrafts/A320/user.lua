@@ -238,16 +238,15 @@ function A32nx_AUTO_THROTTLE_TOGGLE()
      ipc.control(65860, 0)
 end
 
-function A32nx_FCU_APPR_MODE_On()
-	ipc.writeLvar("L:A32NX_FCU_APPR_MODE_ACTIVE", 1) 
-     appr =  ipc.readLvar("L:A32NX_FCU_APPR_MODE_ACTIVE") 
-     DspShow ("APPR", appr)
+function A32nx_FCU_APPR_MODE_TOGGLE()
+     ipc.control(65724)
+     DspShow ("APPR", "hold")
 end
 
-function A32nx_FCU_APPR_MODE_Off()
-    ipc.writeLvar("L:A32NX_FCU_APPR_MODE_ACTIVE", 0)
-    appr =  ipc.readLvar("L:A32NX_FCU_APPR_MODE_ACTIVE")
-    DspShow ("APPR", appr)
+function A32nx_FCU_VVS_show()
+	local vsSelected = ipc.readLvar("L:A32NX_AUTOPILOT_VS_SELECTED")
+	DspShow("VS", vsSelected)
+     ipc.display("VS: " .. tostring(vsSelected), 3)
 end
 -- ## GlareShield #####################################
 
@@ -477,7 +476,7 @@ function A32nx_EICAS_2_ECAM_PAGE_cycle()
      if eicasEcam2Page >= 12 then eicasEcam2Page = 1 else eicasEcam2Page = eicasEcam2Page + 1 end
 end
 
--- ## FCU #####################################
+-- ## FCU - HVAR #####################################
 -- HVar-Assignments Mode --------------------------------------
 
 function A32nx_MCDU_MODE_MANAGED_SPEED()
@@ -522,10 +521,12 @@ end
 
 function A32nx_FCU_VS_INC()
     ipc.activateHvar("H:A320_Neo_FCU_VS_INC")
+    A32nx_FCU_VVS_show()
 end
 
 function A32nx_FCU_VS_DEC()
     ipc.activateHvar("H:A320_Neo_FCU_VS_DEC")
+    A32nx_FCU_VVS_show()
 end
 
 function A32nx_FCU_ALT_PULL()
@@ -543,5 +544,288 @@ end
 function A32nx_FCU_VS_PUSH()
     ipc.activateHvar("H:A320_Neo_FCU_VS_PUSH")
 end
+
+-- ## CDU left #####################################
+
+function A32nx_CDU_1_BTN_DIR()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_DIR")
+end
+
+function A32nx_CDU_1_BTN_PROG()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_PROG")
+end
+
+function A32nx_CDU_1_BTN_PERF()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_PERF")
+end
+
+function A32nx_CDU_1_BTN_INIT()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_INIT")
+end
+
+function A32nx_CDU_1_BTN_DATA()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_DATA")
+end
+
+function A32nx_CDU_1_BTN_FPLN()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_FPLN")
+end
+
+function A32nx_CDU_1_BTN_RAD()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_RAD")
+end
+
+function A32nx_CDU_1_BTN_FUEL()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_FUEL")
+end
+
+function A32nx_CDU_1_BTN_SEC()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_SEC")
+end
+
+function A32nx_CDU_1_BTN_ATC()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_ATC")
+end
+
+function A32nx_CDU_1_BTN_MENU()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_MENU")
+end
+
+function A32nx_CDU_1_BTN_AIRPORT()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_AIRPORT")
+end
+
+function A32nx_CDU_1_BTN_UP()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_UP")
+end
+
+function A32nx_CDU_1_BTN_DOWN()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_DOWN")
+end
+
+function A32nx_CDU_1_BTN_PREVPAGE()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_PREVPAGE")
+end
+
+function A32nx_CDU_1_BTN_NEXTPAGE()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_NEXTPAGE")
+end
+
+function A32nx_CDU_1_BTN_L1()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L1")
+end
+
+function A32nx_CDU_1_BTN_L2()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L2")
+end
+
+function A32nx_CDU_1_BTN_L3()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L3")
+end
+
+function A32nx_CDU_1_BTN_L4()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L4")
+end
+
+function A32nx_CDU_1_BTN_L5()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L5")
+end
+
+function A32nx_CDU_1_BTN_L6()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L6")
+end
+
+function A32nx_CDU_1_BTN_R1()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R1")
+end
+
+function A32nx_CDU_1_BTN_R2()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R2")
+end
+
+function A32nx_CDU_1_BTN_R3()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R3")
+end
+
+function A32nx_CDU_1_BTN_R4()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R4")
+end
+
+function A32nx_CDU_1_BTN_R5()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R5")
+end
+
+function A32nx_CDU_1_BTN_R6()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R6")
+end
+
+function A32nx_CDU_1_BTN_A()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_A")
+end
+
+function A32nx_CDU_1_BTN_B()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_B")
+end
+
+function A32nx_CDU_1_BTN_C()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_C")
+end
+
+function A32nx_CDU_1_BTN_D()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_D")
+end
+
+function A32nx_CDU_1_BTN_E()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_E")
+end
+
+function A32nx_CDU_1_BTN_F()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_F")
+end
+
+function A32nx_CDU_1_BTN_G()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_G")
+end
+
+function A32nx_CDU_1_BTN_H()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_H")
+end
+
+function A32nx_CDU_1_BTN_I()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_I")
+end
+
+function A32nx_CDU_1_BTN_J()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_J")
+end
+
+function A32nx_CDU_1_BTN_K()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_K")
+end
+
+function A32nx_CDU_1_BTN_L()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L")
+end
+
+function A32nx_CDU_1_BTN_M()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_M")
+end
+
+function A32nx_CDU_1_BTN_N()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_N")
+end
+
+function A32nx_CDU_1_BTN_O()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_O")
+end
+
+function A32nx_CDU_1_BTN_P()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_P")
+end
+
+function A32nx_CDU_1_BTN_Q()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_Q")
+end
+
+function A32nx_CDU_1_BTN_R()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R")
+end
+
+function A32nx_CDU_1_BTN_S()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_S")
+end
+
+function A32nx_CDU_1_BTN_T()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_T")
+end
+
+function A32nx_CDU_1_BTN_U()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_U")
+end
+
+function A32nx_CDU_1_BTN_V()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_V")
+end
+
+function A32nx_CDU_1_BTN_W()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_W")
+end
+
+function A32nx_CDU_1_BTN_X()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_X")
+end
+
+function A32nx_CDU_1_BTN_Y()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_Y")
+end
+
+function A32nx_CDU_1_BTN_Z()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_Z")
+end
+
+function A32nx_CDU_1_BTN_1()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_1")
+end
+
+function A32nx_CDU_1_BTN_2()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_2")
+end
+
+function A32nx_CDU_1_BTN_3()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_3")
+end
+
+function A32nx_CDU_1_BTN_4()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_4")
+end
+
+function A32nx_CDU_1_BTN_5()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_5")
+end
+
+function A32nx_CDU_1_BTN_6()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_6")
+end
+
+function A32nx_CDU_1_BTN_7()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_7")
+end
+
+function A32nx_CDU_1_BTN_8()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_8")
+end
+
+function A32nx_CDU_1_BTN_9()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_9")
+end
+
+function A32nx_CDU_1_BTN_0()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_0")
+end
+
+function A32nx_CDU_1_BTN_DOT()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_DOT")
+end
+
+function A32nx_CDU_1_BTN_PLUSMINUS()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_PLUSMINUS")
+end
+
+function A32nx_CDU_1_BTN_SP()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_SP")
+end
+
+function A32nx_CDU_1_BTN_DIV()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_DIV")
+end
+
+function A32nx_CDU_1_BTN_OVFY()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_OVFY")
+end
+
+function A32nx_CDU_1_BTN_CLR()
+    ipc.activateHvar("H:A320_Neo_CDU_1_BTN_CLR")
+end
+
 
 
