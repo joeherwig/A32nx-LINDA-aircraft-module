@@ -16,95 +16,14 @@
 
 -- Just a message in console
 _log("[USER] User's modifications script is loaded...")
+-- Debug-Message in-Sim
+-- ipc.display("ABRK_SET: ".. autoBreakLevel,5)
 
 mfd1Mode = 0
 mfd1Range = 0
 eicasEcam2Page = 1
 eicasEcam2Functions = {"A32nx_EICAS_2_ECAM_PAGE_ENG","A32nx_EICAS_2_ECAM_PAGE_BLEED","A32nx_EICAS_2_ECAM_PAGE_PRESS","A32nx_EICAS_2_ECAM_PAGE_ELEC","A32nx_EICAS_2_ECAM_PAGE_HYD","A32nx_EICAS_2_ECAM_PAGE_FUEL","A32nx_EICAS_2_ECAM_PAGE_APU","A32nx_EICAS_2_ECAM_PAGE_COND","A32nx_EICAS_2_ECAM_PAGE_DOOR","A32nx_EICAS_2_ECAM_PAGE_WHEEL","A32nx_EICAS_2_ECAM_PAGE_FTCL","A32nx_EICAS_2_ECAM_PAGE_STS","A32nx_EICAS_2_ECAM_PAGE_cycle"}
-
--- ## AP / FCU #####################################
-
-function A32nx_TOGGLE_FLIGHT_DIRECTOR()
-     ipc.control(66288, 1)
-end
-
-function A32nx_SPD_Mode_Managed ()
-     ipc.control(68066, 2)  
-end 
-
-function A32nx_SPD_Mode_Selected ()
-     ipc.control(68066, 1)  
-end 
-
-function A32nx_HDG_Mode_Managed ()
-     ipc.control(68065, 2)  
-end 
-
-function A32nx_HDG_Mode_Selected ()
-     ipc.control(68065, 1)  
-end 
-
-function A32nx_ALT_Mode_Managed ()
-     ipc.control(68067, 2)  
-end 
-
-function A32nx_ALT_Mode_Selected ()
-     ipc.control(68067, 1)  
-end 
-
-function A32nx_VS_Mode_Managed ()
-     ipc.control(68068, 2)  
-end 
-
-function A32nx_VS_Mode_Selected ()
-     ipc.control(68068, 1)  
-end 
-
-function A32nx_AP_ON()
-     ipc.control(65792,1)
-end
-
-function A32nx_AP_OFF()
-     ipc.control(65791,1)
-end
-
-function A32nx_AP_LOC_HOLD()
-     ipc.control(65723, 0)
-end
-
-function A32nx_AP_APR_HOLD()
-     ipc.control(65724, 0)
-end
-
-function A32nx_AUTO_THROTTLE_TOGGLE()
-     ipc.control(65860, 0)
-end
-
-function A32nx_TOGGLE_FLIGHT_DIRECTOR()
-     ipc.control(66288, 1)
-end
-
--- ## GlareShield #####################################
-
-function A32nx_Autobreak_Off()
-     ipc.control(66723, 0)
-     DspShow ("A-BRK", "mid")
-end
-
-function A32nx_Autobreak_Low()
-     ipc.control(66723, 2)
-     DspShow ("A-BRK", "mid")
-end
-
-function A32nx_Autobreak_Mid()
-     ipc.control(66723, 3)
-     DspShow ("A-BRK", "mid")
-end
-
-function A32nx_Autobreak_Max()
-     ipc.control(66723, 4)
-     DspShow ("A-BRK", "max")
-end
+autoBreakLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
 
 -- ## Overhead ADIRS #####################################
 
@@ -201,8 +120,123 @@ function A32nx_ADIRS_KNOB_3_SET(adirs1Knob)
      ipc.writeLvar("L:A32NX_ADIRS_KNOB_3", adirs1Knob) 
 end
 
+-- ## Overhead AntiIce #####################################
 
--- ## Overhead electrics #####################################
+function A32nx_WINDSHIELD_DEICE_OFF()
+     DspShow ("Ptot", "-off")
+     ipc.control(67225, 0)
+end
+
+function A32nx_WINDSHIELD_DEICE_ON()
+     DspShow ("Ptot", "-on")
+     ipc.control(67225, 1)
+end
+
+-- ## Overhead Electics #####################################
+
+function A32nx_APU_Generator_OFF()
+     ipc.control(66707, 0)
+     DspShow ("APUG", "off")
+end
+
+function A32nx_APU_Generator_ON()
+     ipc.control(66707, 1)
+     DspShow ("APUG", "on")
+end
+
+function A32nx_OVHD_ELEC_BAT1_ON()
+     ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed", 1) 
+     newBat1Status = ipc.readLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed")
+     ipc.display("BAT 1: " .. tostring(newBat1Status), 3)
+end
+
+function A32nx_OVHD_ELEC_BAT1_OFF()
+     ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed", 0) 
+     newBat1Status = ipc.readLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed")
+     ipc.display("BAT 1: " .. tostring(newBat1Status), 3)
+end
+
+function A32nx_OVHD_ELEC_BAT1_TOGGLE()
+     newBat1Status = ipc.readLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed")
+     ipc.display("BAT 1: " .. tostring(newBat1Status), 3)
+     if newBat1Status <= 0 then newBat1Status = 1 else newBat1Status = 0 end
+     ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed", newBat1Status) 
+     ipc.display("BAT 1: " .. tostring(newBat1Status), 3)
+end
+
+function A32nx_OVHD_ELEC_BAT2_ON()
+     ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT2_Pressed", 1) 
+     ipc.display("BAT 2: " .. "1", 3)
+end
+
+function A32nx_OVHD_ELEC_BAT2_TOGGLE()
+     newBat2Status = not ipc.readLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT2_Pressed")
+     ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT2_Pressed", newBat2Status) 
+     ipc.display("BAT 2: " .. tostring(newBat2Status), 3)
+end
+
+
+-- ## FCU #####################################
+
+function A32nx_PFD_BTN_FD_1()
+     ipc.control(66288, 1)
+end
+
+function A32nx_PFD_BTN_LS_1()
+    ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_1")
+end
+
+function A32nx_SPD_Mode_Managed ()
+     ipc.control(68066, 2)  
+end 
+
+function A32nx_SPD_Mode_Selected ()
+     ipc.control(68066, 1)  
+end 
+
+function A32nx_HDG_Mode_Managed ()
+     ipc.control(68065, 2)  
+end 
+
+function A32nx_HDG_Mode_Selected ()
+     ipc.control(68065, 1)  
+end 
+
+function A32nx_ALT_Mode_Managed ()
+     ipc.control(68067, 2)  
+end 
+
+function A32nx_ALT_Mode_Selected ()
+     ipc.control(68067, 1)  
+end 
+
+function A32nx_VS_Mode_Managed ()
+     ipc.control(68068, 2)  
+end 
+
+function A32nx_VS_Mode_Selected ()
+     ipc.control(68068, 1)  
+end 
+
+function A32nx_AP_ON()
+     ipc.control(65792,1)
+end
+
+function A32nx_AP_OFF()
+     ipc.control(65791,1)
+end
+
+function A32nx_AP_LOC_HOLD()
+     ipc.control(65723, 0)
+end
+
+function A32nx_AP_APR_HOLD()
+     ipc.control(65724, 0)
+end
+
+function A32nx_AUTO_THROTTLE_TOGGLE()
+     ipc.control(65860, 0)
+end
 
 function A32nx_FCU_APPR_MODE_On()
 	ipc.writeLvar("L:A32NX_FCU_APPR_MODE_ACTIVE", 1) 
@@ -215,25 +249,50 @@ function A32nx_FCU_APPR_MODE_Off()
     appr =  ipc.readLvar("L:A32NX_FCU_APPR_MODE_ACTIVE")
     DspShow ("APPR", appr)
 end
+-- ## GlareShield #####################################
 
-function A32nx_WINDSHIELD_DEICE_OFF()
-     DspShow ("Ptot", "-off")
-     ipc.control(67225, 0)
+function A32nx_Autobreak_Off()
+     A32nx_Autobreak_SET(0) 
 end
 
-function A32nx_WINDSHIELD_DEICE_ON()
-     DspShow ("Ptot", "-on")
-     ipc.control(67225, 1)
+function A32nx_Autobreak_Low()
+     A32nx_Autobreak_SET(1) 
 end
 
-function A32nx_APU_Generator_OFF()
-     ipc.control(66707, 0)
-     DspShow ("APUG", "off")
+function A32nx_Autobreak_Mid()
+     A32nx_Autobreak_SET(2) 
 end
 
-function A32nx_APU_Generator_ON()
-     ipc.control(66707, 1)
-     DspShow ("APUG", "on")
+function A32nx_Autobreak_Max()
+     A32nx_Autobreak_SET(3) 
+end
+
+function A32nx_Autobreak_SET(autoBreakLevel)
+     ipc.writeLvar("L:XMLVAR_Autobrakes_Level", autoBreakLevel) 
+     local autoBreakLevelText = {"off","low","mid","max"}
+     DspShow ("A-BRK", autoBreakLevelText[autoBreakLevel+1])
+end
+
+function A32nx_Autobreak_INC()
+     autoBreakLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
+     if autoBreakLevel >= 3 then autoBreakLevel = 3 else autoBreakLevel = autoBreakLevel + 1 end
+	A32nx_Autobreak_SET(autoBreakLevel) 
+end
+
+function A32nx_Autobreak_DEC()
+     autoBreakLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
+     if autoBreakLevel <= 0 then autoBreakLevel = 0 else autoBreakLevel = autoBreakLevel - 1 end
+	A32nx_Autobreak_SET(autoBreakLevel) 
+end
+
+function A32nx_Autobreak_CYCLE()
+     autoBreakLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
+     if autoBreakLevel >= 3 then autoBreakLevel = 0 else autoBreakLevel = autoBreakLevel + 1 end
+	A32nx_Autobreak_SET(autoBreakLevel) 
+end
+
+function A32nx_MFD_BTN_TerrOnND_1_TOGGLE()
+    ipc.activateHvar("H:A320_Neo_MFD_BTN_TERRONND_1")
 end
 
 -- # Flight controls #####################################
@@ -246,8 +305,28 @@ function A32nx_Spoiler_Arm_OFF ()
 end
 
 
--- ## MFD controls #####################################
+-- ## MFD 1 controls #####################################
 -- MFD Mode --------------------------------------
+function A32nx_MFD_BTN_CSTR_1()
+    ipc.activateHvar("H:A320_Neo_MFD_BTN_CSTR_1")
+end
+
+function A32nx_MFD_BTN_WPT_1()
+    ipc.activateHvar("H:A320_Neo_MFD_BTN_WPT_1")
+end
+
+function A32nx_MFD_BTN_VORD_1()
+    ipc.activateHvar("H:A320_Neo_MFD_BTN_VORD_1")
+end
+
+function A32nx_MFD_BTN_NDB_1()
+    ipc.activateHvar("H:A320_Neo_MFD_BTN_NDB_1")
+end
+
+function A32nx_MFD_BTN_ARPT_1()
+    ipc.activateHvar("H:A320_Neo_MFD_BTN_ARPT_1")
+end
+
 function A32nx_MFD_NAV_MODE_1_LS()
      ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", 0)
      mfd1Mode = ipc.readLvar("A320_Neo_MFD_NAV_MODE_1")
@@ -397,3 +476,72 @@ function A32nx_EICAS_2_ECAM_PAGE_cycle()
      end
      if eicasEcam2Page >= 12 then eicasEcam2Page = 1 else eicasEcam2Page = eicasEcam2Page + 1 end
 end
+
+-- ## FCU #####################################
+-- HVar-Assignments Mode --------------------------------------
+
+function A32nx_MCDU_MODE_MANAGED_SPEED()
+    ipc.activateHvar("H:A320_Neo_CDU_MODE_MANAGED_SPEED")
+end
+
+function A32nx_FCU_MODE_MANAGED_SPEED()
+    ipc.activateHvar("H:A320_Neo_FCU_MODE_MANAGED_SPEED")
+end
+
+function A32nx_MCDU_MODE_SELECTED_SPEED()
+    ipc.activateHvar("H:A320_Neo_CDU_MODE_SELECTED_SPEED")
+end
+
+function A32nx_FCU_EXPEDITE_MODE()
+    ipc.activateHvar("H:A320_Neo_EXPEDITE_MODE")
+end
+
+function A32nx_FCU_HDG_PUSH()
+    ipc.activateHvar("H:A320_Neo_FCU_HDG_PUSH")
+end
+
+function A32nx_FCU_HDG_PULL()
+    ipc.activateHvar("H:A320_Neo_FCU_HDG_PULL")
+end
+
+function A32nx_FCU_HDG_INC()
+    ipc.activateHvar("H:A320_Neo_FCU_HDG_INC")
+end
+
+function A32nx_FCU_HDG_DEC()
+    ipc.activateHvar("H:A320_Neo_FCU_HDG_DEC")
+end
+
+function A32nx_FCU_SPEED_INC()
+    ipc.activateHvar("H:A320_Neo_FCU_SPEED_INC")
+end
+
+function A32nx_FCU_SPEED_DEC()
+    ipc.activateHvar("H:A320_Neo_FCU_SPEED_DEC")
+end
+
+function A32nx_FCU_VS_INC()
+    ipc.activateHvar("H:A320_Neo_FCU_VS_INC")
+end
+
+function A32nx_FCU_VS_DEC()
+    ipc.activateHvar("H:A320_Neo_FCU_VS_DEC")
+end
+
+function A32nx_FCU_ALT_PULL()
+    ipc.activateHvar("H:A320_Neo_FCU_ALT_PULL")
+end
+
+function A32nx_FCU_ALT_PUSH()
+    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
+end
+
+function A32nx_FCU_VS_PULL()
+    ipc.activateHvar("H:A320_Neo_FCU_VS_PULL")
+end
+
+function A32nx_FCU_VS_PUSH()
+    ipc.activateHvar("H:A320_Neo_FCU_VS_PUSH")
+end
+
+

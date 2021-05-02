@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2104242343 (LINDA 4.0.5.173) --
+-- config-mcp2a.lua @ 2105021732 (LINDA 4.0.5.173) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -10,13 +10,13 @@ EFIS1 = {
 ["IDENT"]   = "Std"  ,
 ["InHg."]   = Altimeter_BARO_STD_toggle  ,
 ["hPa ."]   = Efis_HPA  ,
-["FD  ."]   = TOGGLE_FLIGHT_DIRECTOR  ,
-["ILS ."]   = Efis_ILS_button  ,
-["CSTR."]   = Efis_CSTR_button  ,
-["WPT ."]   = Efis_WPT_button  ,
-["VORD."]   = Efis_VORD_button  ,
-["NDB ."]   = Efis_NDB_button  ,
-["ARPT."]   = Efis_ARPT_button  ,
+["FD  ."]   = A32nx_TOGGLE_FLIGHT_DIRECTOR  ,
+["ILS ."]   = A32nx_PFD_BTN_LS_1  ,
+["CSTR."]   = A32nx_MFD_BTN_CSTR_1  ,
+["WPT ."]   = A32nx_MFD_BTN_VORD_1  ,
+["VORD."]   = A32nx_MFD_BTN_WPT_1  ,
+["NDB ."]   = A32nx_MFD_BTN_NDB_1  ,
+["ARPT."]   = A32nx_MFD_BTN_ARPT_1  ,
 ["ADF1:"]   = empty  ,
 ["ADF1."]   = empty  ,
 ["VOR1:"]   = empty  ,
@@ -229,7 +229,7 @@ MCP1 = {
 ["TRK ."]   	= Autopilot_TRK_button  ,
 ["AP1 ."]   	= JOE_AP_ON  ,
 ["AP2 ."]   	= JOE_AP_OFF  ,
-["ATHR."]   	= AUTO_THROTTLE_ARM  ,
+["ATHR."]   	= A32nx_AUTO_THROTTLE_TOGGLE  ,
 ["EXPD."]   	= Autopilot_EXPD_button  ,
 ["MTR ."]   	= Autopilot_MTR_button  ,
 ["APPR."]   	= FCU_APPR_MODE_On  ,
@@ -271,12 +271,12 @@ ALT1 = {
 -- AFCU VVS knob
 VVS1 = {
 ["A SHOW"]  	= VVS_show  ,
-["A  +"]    	= VVS_plus  ,
+["A  +"]    	= A32nx_FCU_VS_INC  ,
 ["A ++"]    	= VVS_plusfast  ,
-["A  -"]    	= VVS_minus  ,
+["A  -"]    	= A32nx_FCU_VS_DEC  ,
 ["A --"]    	= VVS_minusfast  ,
-["PRESS"]   	= VS_Mode_Managed  ,
-["PULL"]    	= VS_Mode_Selected  ,
+["PRESS"]   	= A32nx_FCU_VS_PUSH  ,
+["PULL"]    	= A32nx_FCU_VS_PULL  ,
 }
 
 
@@ -424,7 +424,7 @@ USER1 = {
 ["BTN6."]   = VRI_EFIS_MODE_toggle  ,
 ["BTN7."]   = VRI_MCP_MODE_toggle  ,
 ["BTN8."]   = VRI_USER_MODE_toggle  ,
-["USR1."]   = DeIce_PITOT_toggle  ,
+["USR1."]   = A32nx_EICAS_2_ECAM_PAGE_cycle  ,
 ["USR2."]   = FCU_APPR_MODE_Off  ,
 ["USR3."]   = lvarTest  ,
 ["USR4."]   = empty  ,

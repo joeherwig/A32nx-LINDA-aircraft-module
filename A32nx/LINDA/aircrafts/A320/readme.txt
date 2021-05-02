@@ -2,15 +2,23 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.1.1
+  Version: 0.2.0
      Date: 2021-04-24
    Author: Joe Herwig
 ------------------------------------------------------------------------
 
-v0.1.1
+0.2.0
++ LVAR-based AutoBreak (off, low, mid, high, SET, INC, DEC, CYCLE)
++ TerrainOnND toggle left.
+
+* Updated PFD 1 FD
+* Updated PFD 1 LS
+* Renamed MFD buttons for CSTR, WPT, VORD, DNB and ARP to match standard naming
+
+0.1.1
 - Debugging Messages
 
-v.0.1
+0.0.1
 + MFD 1 Modes 
 + MFD 1 Ranges 
 + EICAS 2 ECAM Pages
