@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2105042113 (LINDA 4.0.5.173) --
+-- config-mcp2a.lua @ 2105042257 (LINDA 4.0.5.173) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -253,8 +253,8 @@ HDG1 = {
 ["A ++"]    	= HDG_plusfast  ,
 ["A  -"]    	= HDG_minus  ,
 ["A --"]    	= HDG_minusfast  ,
-["PRESS"]   	= MSFS_NAV1_hold_toggle  ,
-["PULL"]    	= A32nx_HDG_Mode_Selected  ,
+["PRESS"]   	= Autopilot_NAV_hold  ,
+["PULL"]    	= Autopilot_HDG_hold  ,
 }
 
 -- AFCU ALT knob

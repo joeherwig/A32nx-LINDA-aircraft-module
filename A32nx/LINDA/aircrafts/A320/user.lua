@@ -142,45 +142,56 @@ end
 
 -- ## Overhead Electics #####################################
 
+function A32nx_Bat1_SET(bat1Status)
+    ipc.writeLvar("L:A32NX_OVHD_ELEC_BAT_10_PB_IS_AUTO", bat1Status)
+end
+
+function A32nx_Bat1_ON()
+     bat1Status = 1
+	A32nx_Bat1_SET(bat1Status) 
+end
+
+function A32nx_Bat1_OFF()
+     bat1Status = 0
+	A32nx_Bat1_SET(bat1Status) 
+end
+
+function A32nx_Bat1_TOGGLE()
+     bat1Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_10_PB_IS_AUTO")
+     if bat1Status >= 1 then bat1Status = 0 else bat1Status = 1 end
+	A32nx_Bat1_SET(bat1Status) 
+end
+
+
+function A32nx_Bat2_SET(bat2Status)
+    ipc.writeLvar("L:A32NX_OVHD_ELEC_BAT_11_PB_IS_AUTO", bat2Status)
+end
+
+function A32nx_Bat2_ON()
+     bat2Status = 1
+	A32nx_Bat2_SET(bat2Status) 
+end
+
+function A32nx_Bat2_OFF()
+     bat2Status = 0
+	A32nx_Bat2_SET(bat2Status) 
+end
+
+function A32nx_Bat2_TOGGLE()
+     bat2Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_11_PB_IS_AUTO")
+     if bat2Status >= 1 then bat2Status = 0 else bat2Status = 1 end
+	A32nx_Bat2_SET(bat2Status) 
+end
+
+
 function A32nx_APU_Generator_OFF()
-     ipc.control(66707, 0)
-     DspShow ("APUG", "off")
+    ipc.control(66707, 0)
+    DspShow ("APUG", "off")
 end
 
 function A32nx_APU_Generator_ON()
      ipc.control(66707, 1)
      DspShow ("APUG", "on")
-end
-
-function A32nx_OVHD_ELEC_BAT1_ON()
-     ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed", 1) 
-     newBat1Status = ipc.readLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed")
-     ipc.display("BAT 1: " .. tostring(newBat1Status), 3)
-end
-
-function A32nx_OVHD_ELEC_BAT1_OFF()
-     ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed", 0) 
-     newBat1Status = ipc.readLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed")
-     ipc.display("BAT 1: " .. tostring(newBat1Status), 3)
-end
-
-function A32nx_OVHD_ELEC_BAT1_TOGGLE()
-     newBat1Status = ipc.readLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed")
-     ipc.display("BAT 1: " .. tostring(newBat1Status), 3)
-     if newBat1Status <= 0 then newBat1Status = 1 else newBat1Status = 0 end
-     ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT1_Pressed", newBat1Status) 
-     ipc.display("BAT 1: " .. tostring(newBat1Status), 3)
-end
-
-function A32nx_OVHD_ELEC_BAT2_ON()
-     ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT2_Pressed", 1) 
-     ipc.display("BAT 2: " .. "1", 3)
-end
-
-function A32nx_OVHD_ELEC_BAT2_TOGGLE()
-     newBat2Status = not ipc.readLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT2_Pressed")
-     ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_ELEC_BAT2_Pressed", newBat2Status) 
-     ipc.display("BAT 2: " .. tostring(newBat2Status), 3)
 end
 
 

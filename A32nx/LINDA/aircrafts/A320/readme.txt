@@ -2,10 +2,15 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.3.1
-     Date: 2021-05-03
+  Version: 0.4.1
+     Date: 2021-05-04
    Author: Joe Herwig
 ------------------------------------------------------------------------
+0.4.1
++ OVHD: Added Battery 1 (SET, ON, OFF, TOGGLE)
++ OVHD: Added Battery 2 (SET, ON, OFF, TOGGLE)
+• fixed version information
+
 0.4.0
 + TCAS: Mode pos (STBY, TA, TA/RA, INC, DEC, CYCLE)
 + Glareshield: Chrono (SET, START, STOP, RESET, CYCLE)
