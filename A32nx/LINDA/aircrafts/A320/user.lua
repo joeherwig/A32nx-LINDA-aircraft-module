@@ -24,6 +24,14 @@ mfd1Range = 0
 eicasEcam2Page = 1
 eicasEcam2Functions = {"A32nx_EICAS_2_ECAM_PAGE_ENG","A32nx_EICAS_2_ECAM_PAGE_BLEED","A32nx_EICAS_2_ECAM_PAGE_PRESS","A32nx_EICAS_2_ECAM_PAGE_ELEC","A32nx_EICAS_2_ECAM_PAGE_HYD","A32nx_EICAS_2_ECAM_PAGE_FUEL","A32nx_EICAS_2_ECAM_PAGE_APU","A32nx_EICAS_2_ECAM_PAGE_COND","A32nx_EICAS_2_ECAM_PAGE_DOOR","A32nx_EICAS_2_ECAM_PAGE_WHEEL","A32nx_EICAS_2_ECAM_PAGE_FTCL","A32nx_EICAS_2_ECAM_PAGE_STS","A32nx_EICAS_2_ECAM_PAGE_cycle"}
 autoBreakLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
+tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
+chronoLState = 0
+
+-- ## Overhead CALLS #####################################
+
+function A32nx_OVHD_calls_ALL()
+    ipc.writeLvar("L:PUSH_OVHD_CALLS_ALL", 1)
+end
 
 -- ## Overhead ADIRS #####################################
 
@@ -248,7 +256,35 @@ function A32nx_FCU_VVS_show()
 	DspShow("VS", vsSelected)
      ipc.display("VS: " .. tostring(vsSelected), 3)
 end
+
 -- ## GlareShield #####################################
+function A32nx_chrono_L_SET(chronoLState)
+    ipc.writeLvar("L:PUSH_AUTOPILOT_CHRONO_L", chronoLState) 
+    ipc.display("Chrono Left: ".. chronoLState)
+end
+
+function A32nx_chrono_L_START()
+    A32nx_chrono_L_SET(1)
+end
+
+function A32nx_chrono_L_STOP()
+    A32nx_chrono_L_SET(0)
+end
+
+function A32nx_chrono_L_RESET()
+    A32nx_chrono_L_SET(2)
+end
+
+function A32nx_chrono_L_CYCLE()
+    if chronoLState == 0 then 
+        chronoLState = 1 
+    elseif chronoLState == 1 then
+        chronoLState = 0
+    elseif chronoLState == 2 then
+        chronoLState = 0
+    end
+    A32nx_chrono_L_SET(chronoLState)
+end
 
 function A32nx_Autobreak_Off()
      A32nx_Autobreak_SET(0) 
@@ -264,6 +300,18 @@ end
 
 function A32nx_Autobreak_Max()
      A32nx_Autobreak_SET(3) 
+end
+
+function A32nx_Autobreak_Low_Toggle()
+     if ipc.readLvar("L:XMLVAR_Autobrakes_Level") > 0 then A32nx_Autobreak_SET(0) else A32nx_Autobreak_SET(1) end
+end
+
+function A32nx_Autobreak_Mid_Toggle()
+     if ipc.readLvar("L:XMLVAR_Autobrakes_Level") > 0 then A32nx_Autobreak_SET(0) else A32nx_Autobreak_SET(2) end
+end
+
+function A32nx_Autobreak_Max_Toggle()
+     if ipc.readLvar("L:XMLVAR_Autobrakes_Level") > 0 then A32nx_Autobreak_SET(0) else A32nx_Autobreak_SET(3) end
 end
 
 function A32nx_Autobreak_SET(autoBreakLevel)
@@ -827,5 +875,43 @@ function A32nx_CDU_1_BTN_CLR()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_CLR")
 end
 
+-- ## TCAS #####################################
+function A32nx_TCAS_switch_pos_SET(tcasSwitchPos)
+    ipc.writeLvar("L:A32NX_SWITCH_TCAS_Position", tcasSwitchPos) 
+    local tcasMode = {"STBY","TA","TA/RA"}
+    DspShow("TCAS",tcasMode[tcasSwitchPos + 1 ])
+end
 
+function A32nx_TCAS_switch_pos_STBY()
+    tcasSwitchPos = 0
+    A32nx_TCAS_switch_pos_SET(tcasSwitchPos)
+end
+
+function A32nx_TCAS_switch_pos_TA()
+    tcasSwitchPos = 1
+    A32nx_TCAS_switch_pos_SET(tcasSwitchPos)
+end
+
+function A32nx_TCAS_switch_pos_TARA()
+    tcasSwitchPos = 2
+    A32nx_TCAS_switch_pos_SET(tcasSwitchPos)
+end
+
+function A32nx_TCAS_switch_pos_INC()
+    tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
+    if tcasSwitchPos >= 2 then tcasSwitchPos = 2 else tcasSwitchPos = tcasSwitchPos + 1 end
+	A32nx_TCAS_switch_pos_SET(tcasSwitchPos) 
+end
+
+function A32nx_TCAS_switch_pos_DEC()
+    tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
+    if tcasSwitchPos <= 0 then tcasSwitchPos = 0 else tcasSwitchPos = tcasSwitchPos - 1 end
+	A32nx_TCAS_switch_pos_SET(tcasSwitchPos) 
+end
+
+function A32nx_TCAS_switch_pos_CYCLE()
+    tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
+    if tcasSwitchPos >= 2 then tcasSwitchPos = 0 else tcasSwitchPos = tcasSwitchPos + 1 end
+	A32nx_TCAS_switch_pos_SET(tcasSwitchPos) 
+end
 
