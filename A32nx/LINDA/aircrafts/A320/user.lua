@@ -196,6 +196,11 @@ end
 
 
 -- ## FCU #####################################
+--	SyncBackHDG (0, ipc.readUW(0x07CC), true)
+--	SyncBackALT (0, ipc.readUD(0x07D4), true)
+--	SyncBackVVS (0, ipc.readUW(0x07F2), true)
+--	SyncBackCRS (0, ipc.readUW(0x0C4E), true)
+--	SyncBackCRS2 (0, ipc.readUW(0x0C5E), true)
 
 function A32nx_PFD_BTN_FD_1()
      ipc.control(66288, 1)
@@ -206,35 +211,51 @@ function A32nx_PFD_BTN_LS_1()
 end
 
 function A32nx_SPD_Mode_Managed ()
-     ipc.control(68066, 2)  
-end 
+    ipc.control(32776, 0)
+    DspShow ("SPD", "mngd")
+   	SyncBackSPD (0, ipc.readUW(0x07E2), true)
+end
 
 function A32nx_SPD_Mode_Selected ()
-     ipc.control(68066, 1)  
+    ipc.control(32777, 0)
+    DspShow ("SPD", "set")
+    SyncBackSPD (0, ipc.readUW(0x07E2), true)
 end 
 
 function A32nx_HDG_Mode_Managed ()
-     ipc.control(68065, 2)  
+     ipc.control(32782, 0)
+     DspShow ("HDG", "mngd")
+     SyncBackHDG (0, ipc.readUW(0x07CC), true)
 end 
 
 function A32nx_HDG_Mode_Selected ()
-     ipc.control(68065, 1)  
+     ipc.control(32783, 0)
+     DspShow ("HDG", "set")
+     SyncBackHDG (0, ipc.readUW(0x07CC), true)
 end 
 
 function A32nx_ALT_Mode_Managed ()
-     ipc.control(68067, 2)  
+     ipc.control(32788, 0)
+     DspShow ("ALT", "mngd")
+     SyncBackALT (0, ipc.readUD(0x07D4), true)
 end 
 
 function A32nx_ALT_Mode_Selected ()
-     ipc.control(68067, 1)  
+     ipc.control(32789, 0)
+     DspShow ("ALT", "set")
+     SyncBackALT (0, ipc.readUD(0x07D4), true)
 end 
 
 function A32nx_VS_Mode_Managed ()
-     ipc.control(68068, 2)  
+     ipc.control(32793, 0)
+     DspShow ("VS", "mngd")
+     SyncBackVVS (0, ipc.readUW(0x07F2), true)
 end 
 
 function A32nx_VS_Mode_Selected ()
-     ipc.control(68068, 1)  
+     ipc.control(32794, 0)
+     DspShow ("VS", "set")
+     SyncBackVVS (0, ipc.readUW(0x07F2), true)
 end 
 
 function A32nx_AP_ON()
@@ -265,7 +286,6 @@ end
 function A32nx_FCU_VVS_show()
 	local vsSelected = ipc.readLvar("L:A32NX_AUTOPILOT_VS_SELECTED")
 	DspShow("VS", vsSelected)
-     ipc.display("VS: " .. tostring(vsSelected), 3)
 end
 
 -- ## GlareShield #####################################
@@ -533,75 +553,6 @@ function A32nx_EICAS_2_ECAM_PAGE_cycle()
           assert(_G[eicasEcam2Functions[eicasEcam2Page]])()
      end
      if eicasEcam2Page >= 12 then eicasEcam2Page = 1 else eicasEcam2Page = eicasEcam2Page + 1 end
-end
-
--- ## FCU - HVAR #####################################
--- HVar-Assignments Mode --------------------------------------
-
-function A32nx_MCDU_MODE_MANAGED_SPEED()
-    ipc.activateHvar("H:A320_Neo_CDU_MODE_MANAGED_SPEED")
-end
-
-function A32nx_FCU_MODE_MANAGED_SPEED()
-    ipc.activateHvar("H:A320_Neo_FCU_MODE_MANAGED_SPEED")
-end
-
-function A32nx_MCDU_MODE_SELECTED_SPEED()
-    ipc.activateHvar("H:A320_Neo_CDU_MODE_SELECTED_SPEED")
-end
-
-function A32nx_FCU_EXPEDITE_MODE()
-    ipc.activateHvar("H:A320_Neo_EXPEDITE_MODE")
-end
-
-function A32nx_FCU_HDG_PUSH()
-    ipc.activateHvar("H:A320_Neo_FCU_HDG_PUSH")
-end
-
-function A32nx_FCU_HDG_PULL()
-    ipc.activateHvar("H:A320_Neo_FCU_HDG_PULL")
-end
-
-function A32nx_FCU_HDG_INC()
-    ipc.activateHvar("H:A320_Neo_FCU_HDG_INC")
-end
-
-function A32nx_FCU_HDG_DEC()
-    ipc.activateHvar("H:A320_Neo_FCU_HDG_DEC")
-end
-
-function A32nx_FCU_SPEED_INC()
-    ipc.activateHvar("H:A320_Neo_FCU_SPEED_INC")
-end
-
-function A32nx_FCU_SPEED_DEC()
-    ipc.activateHvar("H:A320_Neo_FCU_SPEED_DEC")
-end
-
-function A32nx_FCU_VS_INC()
-    ipc.activateHvar("H:A320_Neo_FCU_VS_INC")
-    A32nx_FCU_VVS_show()
-end
-
-function A32nx_FCU_VS_DEC()
-    ipc.activateHvar("H:A320_Neo_FCU_VS_DEC")
-    A32nx_FCU_VVS_show()
-end
-
-function A32nx_FCU_ALT_PULL()
-    ipc.activateHvar("H:A320_Neo_FCU_ALT_PULL")
-end
-
-function A32nx_FCU_ALT_PUSH()
-    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
-end
-
-function A32nx_FCU_VS_PULL()
-    ipc.activateHvar("H:A320_Neo_FCU_VS_PULL")
-end
-
-function A32nx_FCU_VS_PUSH()
-    ipc.activateHvar("H:A320_Neo_FCU_VS_PUSH")
 end
 
 -- ## CDU left #####################################

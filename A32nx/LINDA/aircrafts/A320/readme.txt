@@ -2,10 +2,13 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.4.1
-     Date: 2021-05-04
+  Version: 0.4.2
+     Date: 2021-05-12
    Author: Joe Herwig
 ------------------------------------------------------------------------
+0.4.2
+• Fixed FCU rotaries. Known issue: incfast/decfast not yet working. As well the synchronization of the displayed values betwenn VC and VRi MCP is pending.
+
 0.4.1
 + OVHD: Added Battery 1 (SET, ON, OFF, TOGGLE)
 + OVHD: Added Battery 2 (SET, ON, OFF, TOGGLE)
@@ -38,3 +41,4 @@
 + MFD 1 Ranges 
 + EICAS 2 ECAM Pages
 + ADIRS 1-3 Knobs
+© 2021 GitHub, Inc.

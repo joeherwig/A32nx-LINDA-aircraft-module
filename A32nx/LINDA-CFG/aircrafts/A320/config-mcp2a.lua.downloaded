@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2105042257 (LINDA 4.0.5.173) --
+-- config-mcp2a.lua @ 2105120050 (LINDA 4.0.5.173) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -242,41 +242,41 @@ SPD1 = {
 ["A ++"]    	= MSFS_SPD_incfast  ,
 ["A  -"]    	= MSFS_SPD_dec  ,
 ["A --"]    	= MSFS_SPD_decfast  ,
-["PRESS"]   	= MSFS_Autopilot_SPD_MNGD  ,
-["PULL"]    	= MSFS_Autopilot_SPD_SET  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 -- AFCU HDG knob
 HDG1 = {
 ["A SHOW"]  	= HDG_show  ,
-["A  +"]    	= HDG_plus  ,
-["A ++"]    	= HDG_plusfast  ,
-["A  -"]    	= HDG_minus  ,
-["A --"]    	= HDG_minusfast  ,
-["PRESS"]   	= Autopilot_NAV_hold  ,
-["PULL"]    	= Autopilot_HDG_hold  ,
+["A  +"]    	= MSFS_HDG_inc  ,
+["A ++"]    	= MSFS_HDG_incfast  ,
+["A  -"]    	= MSFS_HDG_dec  ,
+["A --"]    	= MSFS_HDG_decfast  ,
+["PRESS"]   	= A32nx_HDG_Mode_Managed  ,
+["PULL"]    	= A32nx_HDG_Mode_Selected  ,
 }
 
 -- AFCU ALT knob
 ALT1 = {
 ["A SHOW"]  	= ALT_show  ,
-["A  +"]    	= ALT_plus  ,
-["A ++"]    	= ALT_plusfast  ,
-["A  -"]    	= ALT_minus  ,
-["A --"]    	= ALT_minusfast  ,
+["A  +"]    	= MSFS_ALT_inc  ,
+["A ++"]    	= MSFS_ALT_incfast  ,
+["A  -"]    	= MSFS_ALT_dec  ,
+["A --"]    	= MSFS_ALT_decfast  ,
 ["PRESS"]   	= A32nx_ALT_Mode_Managed  ,
-["PULL"]    	= A32nx_HDG_Mode_Selected  ,
+["PULL"]    	= A32nx_ALT_Mode_Selected  ,
 }
 
 -- AFCU VVS knob
 VVS1 = {
-["A SHOW"]  	= A32nx_FCU_VVS_show  ,
+["A SHOW"]  	= VVS_show  ,
 ["A  +"]    	= MSFS_VS_inc  ,
-["A ++"]    	= A32nx_FCU_VS_INC  ,
+["A ++"]    	= MSFS_VS_incfast  ,
 ["A  -"]    	= MSFS_VS_dec  ,
-["A --"]    	= A32nx_FCU_VS_DEC  ,
-["PRESS"]   	= MSFS_VS_hold_toggle  ,
-["PULL"]    	= Autopilot_ALT_hold  ,
+["A --"]    	= MSFS_VS_decfast  ,
+["PRESS"]   	= A32nx_VS_Mode_Managed  ,
+["PULL"]    	= A32nx_VS_Mode_Selected  ,
 }
 
 
