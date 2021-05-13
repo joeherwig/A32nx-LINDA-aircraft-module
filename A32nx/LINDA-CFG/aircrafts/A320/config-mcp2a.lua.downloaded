@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2105120050 (LINDA 4.0.5.173) --
+-- config-mcp2a.lua @ 2105132252 (LINDA 4.0.5.173) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -230,7 +230,7 @@ MCP1 = {
 ["AP1 ."]   	= A32nx_AP_ON  ,
 ["AP2 ."]   	= A32nx_AP_OFF  ,
 ["ATHR."]   	= A32nx_AUTO_THROTTLE_TOGGLE  ,
-["EXPD."]   	= A32nx_FCU_EXPEDITE_MODE  ,
+["EXPD."]   	= A32nx_FCU_EXPED_PUSH  ,
 ["MTR ."]   	= Autopilot_MTR_button  ,
 ["APPR."]   	= A32nx_FCU_APPR_MODE_TOGGLE  ,
 }
@@ -239,20 +239,20 @@ MCP1 = {
 SPD1 = {
 ["A SHOW"]  	= SPD_show  ,
 ["A  +"]    	= MSFS_SPD_inc  ,
-["A ++"]    	= MSFS_SPD_incfast  ,
+["A ++"]    	= MSFS_SPD_inc  ,
 ["A  -"]    	= MSFS_SPD_dec  ,
-["A --"]    	= MSFS_SPD_decfast  ,
-["PRESS"]   	= empty  ,
-["PULL"]    	= empty  ,
+["A --"]    	= MSFS_SPD_dec  ,
+["PRESS"]   	= A32nx_SPD_Mode_Managed  ,
+["PULL"]    	= A32nx_SPD_Mode_Selected  ,
 }
 
 -- AFCU HDG knob
 HDG1 = {
 ["A SHOW"]  	= HDG_show  ,
 ["A  +"]    	= MSFS_HDG_inc  ,
-["A ++"]    	= MSFS_HDG_incfast  ,
+["A ++"]    	= MSFS_HDG_inc  ,
 ["A  -"]    	= MSFS_HDG_dec  ,
-["A --"]    	= MSFS_HDG_decfast  ,
+["A --"]    	= MSFS_HDG_dec  ,
 ["PRESS"]   	= A32nx_HDG_Mode_Managed  ,
 ["PULL"]    	= A32nx_HDG_Mode_Selected  ,
 }

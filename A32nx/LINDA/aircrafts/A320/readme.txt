@@ -2,10 +2,13 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.4.2
-     Date: 2021-05-12
+  Version: 0.4.3
+     Date: 2021-05-13
    Author: Joe Herwig
 ------------------------------------------------------------------------
+0.4.3
+• Fixed FCU to avoid the neccesity of the A32nx event file. Now it runs on HVars directly. Easier to install
+
 0.4.2
 • Fixed FCU rotaries. Known issue: incfast/decfast not yet working. As well the synchronization of the displayed values betwenn VC and VRi MCP is pending.
 

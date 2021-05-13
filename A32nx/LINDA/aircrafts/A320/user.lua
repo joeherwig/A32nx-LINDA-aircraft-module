@@ -209,54 +209,57 @@ end
 function A32nx_PFD_BTN_LS_1()
     ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_1")
 end
+-- SPEED -----------------
+
+function A32nx_SPD_Mode_Selected ()
+    ipc.activateHvar("H:A320_Neo_FCU_SPD_PUSH")
+    DspShow ("SPD", "set")
+    SyncBackSPD (0, ipc.readUW(0x07E2), true)
+end
 
 function A32nx_SPD_Mode_Managed ()
-    ipc.control(32776, 0)
+    ipc.activateHvar("H:A320_Neo_FCU_SPD_PUSH")
     DspShow ("SPD", "mngd")
    	SyncBackSPD (0, ipc.readUW(0x07E2), true)
 end
-
-function A32nx_SPD_Mode_Selected ()
-    ipc.control(32777, 0)
-    DspShow ("SPD", "set")
-    SyncBackSPD (0, ipc.readUW(0x07E2), true)
-end 
-
-function A32nx_HDG_Mode_Managed ()
-     ipc.control(32782, 0)
-     DspShow ("HDG", "mngd")
-     SyncBackHDG (0, ipc.readUW(0x07CC), true)
-end 
+-- HEADING -----------------
 
 function A32nx_HDG_Mode_Selected ()
-     ipc.control(32783, 0)
-     DspShow ("HDG", "set")
-     SyncBackHDG (0, ipc.readUW(0x07CC), true)
+    ipc.activateHvar("H:A320_Neo_FCU_HDG_PULL")
+    DspShow ("HDG", "set")
+    SyncBackHDG (0, ipc.readUW(0x07CC), true)
+end
+
+function A32nx_HDG_Mode_Managed ()
+    ipc.activateHvar("H:A320_Neo_FCU_HDG_PUSH")
+    DspShow ("HDG", "mngd")
+    SyncBackHDG (0, ipc.readUW(0x07CC), true)
 end 
+-- ALTITUDE -----------------
+function A32nx_ALT_Mode_Selected ()
+    ipc.activateHvar("H:A320_Neo_FCU_ALT_PULL")
+     DspShow ("ALT", "set")
+     SyncBackALT (0, ipc.readUD(0x07D4), true)
+end
 
 function A32nx_ALT_Mode_Managed ()
-     ipc.control(32788, 0)
+    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
      DspShow ("ALT", "mngd")
      SyncBackALT (0, ipc.readUD(0x07D4), true)
 end 
 
-function A32nx_ALT_Mode_Selected ()
-     ipc.control(32789, 0)
-     DspShow ("ALT", "set")
-     SyncBackALT (0, ipc.readUD(0x07D4), true)
+-- VERTICAL SPEED -----------------
+function A32nx_VS_Mode_Selected ()
+    ipc.activateHvar("H:A320_Neo_FCU_VS_PULL")
+    DspShow ("VS", "set")
+    SyncBackVVS (0, ipc.readUW(0x07F2), true)
 end 
 
 function A32nx_VS_Mode_Managed ()
-     ipc.control(32793, 0)
+    ipc.activateHvar("H:A320_Neo_FCU_VS_PUSH")
      DspShow ("VS", "mngd")
      SyncBackVVS (0, ipc.readUW(0x07F2), true)
-end 
-
-function A32nx_VS_Mode_Selected ()
-     ipc.control(32794, 0)
-     DspShow ("VS", "set")
-     SyncBackVVS (0, ipc.readUW(0x07F2), true)
-end 
+end
 
 function A32nx_AP_ON()
      ipc.control(65792,1)
@@ -279,9 +282,14 @@ function A32nx_AUTO_THROTTLE_TOGGLE()
 end
 
 function A32nx_FCU_APPR_MODE_TOGGLE()
-     ipc.control(65724)
-     DspShow ("APPR", "hold")
+    ipc.control(65724)
+    --ipc.activateHvar("H:A320_Neo_FCU_APPR_PUSH")
 end
+
+-- function A32nx_FCU_EXPED_PUSH()
+--    ipc.activateHvar("H:A320_Neo_FCU_EXPED_PUSH")
+--    DspShow ("EXPED", "push")
+--end
 
 function A32nx_FCU_VVS_show()
 	local vsSelected = ipc.readLvar("L:A32NX_AUTOPILOT_VS_SELECTED")
