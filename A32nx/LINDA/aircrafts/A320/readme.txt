@@ -5,7 +5,21 @@
   Version: 0.4.3
      Date: 2021-05-13
    Author: Joe Herwig
+           Neil Clements (0.4.4)
 ------------------------------------------------------------------------
+
+0.4.4
+• Fixed  OVHD Master Battery
+• Fixed  Glareshield Autobrakes 
+• Fixed OVHD No Smoking Sign
++ Added OVHD Fuel Pumps
++ Added OVHD APU Master, APU Start, APU Bleed
++ Added OVHD Ext Power
++ Added OVHD Emer Lights
++ Added OVHD Crew Oxygen
++ Added OVHD Wing & Engine Anti Ice
++ Added Pedestal PWS Radar
+
 0.4.3
 • Fixed FCU to avoid the neccesity of the A32nx event file. Now it runs on HVars directly. Easier to install
 
