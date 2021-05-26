@@ -2,10 +2,15 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.4.3
-     Date: 2021-05-13
+  Version: 0.5.0
+     Date: 2021-05-25
    Author: Joe Herwig
 ------------------------------------------------------------------------
+0.5.0
++ Batt1, Batt2
++ APU Master, APU Starter, APU Bleed
++ ENG1 Bleed, ENG2 Bleed
+
 0.4.3
 • Fixed FCU to avoid the neccesity of the A32nx event file. Now it runs on HVars directly. Easier to install
 
