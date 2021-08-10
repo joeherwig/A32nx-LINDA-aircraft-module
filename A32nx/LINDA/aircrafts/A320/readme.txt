@@ -2,10 +2,15 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.5.0
+  Version: 0.5.1
      Date: 2021-05-25
    Author: Joe Herwig
+           Neil Clements (0.4.4)
 ------------------------------------------------------------------------
+0.5.1
+• ADIRS for Dev d30667b
+• Autobreaks
+
 0.5.0
 + Batt1, Batt2
 + APU Master, APU Starter, APU Bleed

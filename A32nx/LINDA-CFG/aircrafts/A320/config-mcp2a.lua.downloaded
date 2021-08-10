@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2105262156 (LINDA 4.0.5.173) --
+-- config-mcp2a.lua @ 2108102134 (LINDA 4.0.5.173) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -238,45 +238,45 @@ MCP1 = {
 -- AFCU SPD knob
 SPD1 = {
 ["A SHOW"]  	= SPD_show  ,
-["A  +"]    	= SPD_plus  ,
-["A ++"]    	= SPD_plusfast  ,
-["A  -"]    	= SPD_minus  ,
-["A --"]    	= SPD_minusfast  ,
+["A  +"]    	= MSFS_SPD_inc  ,
+["A ++"]    	= MSFS_SPD_inc  ,
+["A  -"]    	= MSFS_SPD_dec  ,
+["A --"]    	= MSFS_SPD_dec  ,
 ["PRESS"]   	= A32nx_SPD_MODE_managed  ,
-["PULL"]    	= A32nx_SPD_MODE_selected  ,
+["PULL"]    	= A32nx_FCU_SPD_MODE_selected  ,
 }
 
 -- AFCU HDG knob
 HDG1 = {
 ["A SHOW"]  	= HDG_show  ,
-["A  +"]    	= A32nx_HDG_inc  ,
-["A ++"]    	= A32nx_HDG_incfast  ,
+["A  +"]    	= MSFS_HDG_inc  ,
+["A ++"]    	= MSFS_HDG_inc  ,
 ["A  -"]    	= MSFS_HDG_dec  ,
-["A --"]    	= MSFS_HDG_decfast  ,
-["PRESS"]   	= A32nx_HDG_MODE_managed  ,
-["PULL"]    	= A32nx_HDG_MODE_selected  ,
+["A --"]    	= MSFS_HDG_dec  ,
+["PRESS"]   	= Do_nothing  ,
+["PULL"]    	= Do_nothing  ,
 }
 
 -- AFCU ALT knob
 ALT1 = {
 ["A SHOW"]  	= ALT_show  ,
 ["A  +"]    	= A32nx_ALT_inc  ,
-["A ++"]    	= A32nx_ALT_incfast  ,
+["A ++"]    	= MSFS_ALT_inc  ,
 ["A  -"]    	= A32nx_ALT_dec  ,
-["A --"]    	= A32nx_ALT_decfast  ,
-["PRESS"]   	= A32nx_ALT_MODE_managed  ,
-["PULL"]    	= A32nx_ALT_MODE_selected  ,
+["A --"]    	= MSFS_ALT_dec  ,
+["PRESS"]   	= A32nx_HDG_MODE_managed  ,
+["PULL"]    	= MSFS_ALT_hold_toggle  ,
 }
 
 -- AFCU VVS knob
 VVS1 = {
 ["A SHOW"]  	= VVS_show  ,
-["A  +"]    	= VVS_plus  ,
-["A ++"]    	= VVS_plus  ,
-["A  -"]    	= VVS_minus  ,
-["A --"]    	= VVS_minus  ,
-["PRESS"]   	= A32nx_VS_MODE_managed  ,
-["PULL"]    	= A32nx_VS_MODE_selected  ,
+["A  +"]    	= MSFS_VS_inc  ,
+["A ++"]    	= MSFS_VS_inc  ,
+["A  -"]    	= MSFS_VS_dec  ,
+["A --"]    	= MSFS_VS_dec  ,
+["PRESS"]   	= MSFS_VS_hold_toggle  ,
+["PULL"]    	= empty  ,
 }
 
 
@@ -419,10 +419,10 @@ USER1 = {
 ["BTN1."]   = Lights_PANEL_toggle  ,
 ["BTN2."]   = Autobreak_Mid  ,
 ["BTN3."]   = Autobreak_Max  ,
-["BTN4."]   = Lights_STROBE_toggle  ,
-["BTN5."]   = MSFS_ParkingBrake_toggle  ,
-["BTN6."]   = VRI_EFIS_MODE_toggle  ,
-["BTN7."]   = A32nx_FCU_VVS_show  ,
+["BTN4."]   = A32nx_AUTOBRAKE_low_toggle  ,
+["BTN5."]   = A32nx_AUTOBRAKE_mid_toggle  ,
+["BTN6."]   = A32nx_AUTOBRAKE_max_toggle  ,
+["BTN7."]   = MSFS_ParkingBrake_toggle  ,
 ["BTN8."]   = VVS_show  ,
 ["USR1."]   = A32nx_EICAS_2_ECAM_PAGE_cycle  ,
 ["USR2."]   = A32nx_OVHD_calls_ALL  ,

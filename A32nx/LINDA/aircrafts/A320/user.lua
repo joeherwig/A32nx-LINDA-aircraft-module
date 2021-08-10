@@ -1,18 +1,3 @@
--- Dummy user functions file
--- ===========================
-
--- This file is loaded right after main actions.lua script loaded.
--- You can use this file to:
--- 1. Override any functions or settings in main script
--- 2. Execute any desired startup sequence for this aircraft (i.e. your own c&d state macro)
--- 3. ... use your imagination
-
--- This file will not be replaced on the aircraft module update, so all of your modifications
--- will remain active. Best practice from this moment is DO NOT MAKE ANY CHANGES in original
--- actions.lua file. Make all the modifications HERE.
-
--- insert your code below here:
-
 
 -- Just a message in console
 -- _log("[USER] User's modifications script is loaded...")
@@ -22,6 +7,8 @@
 mfd1MODE = 0
 mfd1Range = 0
 eicasEcam2Page = 1
+bat1Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO")
+bat2Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_2_PB_IS_AUTO")
 eicasEcam2Functions = {"A32nx_EICAS_2_ECAM_PAGE_ENG","A32nx_EICAS_2_ECAM_PAGE_BLEED","A32nx_EICAS_2_ECAM_PAGE_PRESS","A32nx_EICAS_2_ECAM_PAGE_ELEC","A32nx_EICAS_2_ECAM_PAGE_HYD","A32nx_EICAS_2_ECAM_PAGE_FUEL","A32nx_EICAS_2_ECAM_PAGE_APU","A32nx_EICAS_2_ECAM_PAGE_COND","A32nx_EICAS_2_ECAM_PAGE_DOOR","A32nx_EICAS_2_ECAM_PAGE_WHEEL","A32nx_EICAS_2_ECAM_PAGE_FTCL","A32nx_EICAS_2_ECAM_PAGE_STS","A32nx_EICAS_2_ECAM_PAGE_cycle"}
 autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
 tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
@@ -33,7 +20,11 @@ function A32nx_OVHD_CALLS_all()
     ipc.writeLvar("L:PUSH_OVHD_CALLS_ALL", 1)
 end
 
--- io
+
+-- ## Overhead Fuel ######################################
+function A32nx_Fuel_Left_Tanks_1_on()
+    ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_FUEL_LTKPUMPS1_Pressed", 1)
+end
 -- ## Overhead ADIRS #####################################
 function A32nx_ADIRS_KNOB_1_off()
      adirs1Knob = 0
@@ -51,19 +42,21 @@ function A32nx_ADIRS_KNOB_1_ATT()
 end
 
 function A32nx_ADIRS_KNOB_1_inc()
-     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_1")
+     adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_1_MODE_SELECTOR_KNOB")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
 	A32nx_ADIRS_KNOB_1_set(adirs1Knob)
+    DspShow ("ADIRS1", adirs1Knob)
 end
 
 function A32nx_ADIRS_KNOB_1_dec()
-     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_1")
+     adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_1_MODE_SELECTOR_KNOB")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
 	A32nx_ADIRS_KNOB_1_set(adirs1Knob)
 end
 
 function A32nx_ADIRS_KNOB_1_set(adirs1Knob)
-     ipc.writeLvar("L:A32NX_ADIRS_KNOB_1", adirs1Knob)
+     ipc.writeLvar("L:A32NX_OVHD_ADIRS_IR_1_MODE_SELECTOR_KNOB", adirs1Knob)
+     DspShow ("ADIR1", adirs1Knob)
 end
 
 function A32nx_ADIRS_KNOB_2_off()
@@ -82,19 +75,20 @@ function A32nx_ADIRS_KNOB_2_ATT()
 end
 
 function A32nx_ADIRS_KNOB_2_inc()
-     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_2")
+     adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_2_MODE_SELECTOR_KNOB")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
 	A32nx_ADIRS_KNOB_2_set(adirs1Knob)
 end
 
 function A32nx_ADIRS_KNOB_2_dec()
-     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_2")
+     adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_2_MODE_SELECTOR_KNOB")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
 	A32nx_ADIRS_KNOB_2_set(adirs1Knob)
 end
 
 function A32nx_ADIRS_KNOB_2_set(adirs1Knob)
-     ipc.writeLvar("L:A32NX_ADIRS_KNOB_2", adirs1Knob)
+     ipc.writeLvar("L:A32NX_OVHD_ADIRS_IR_2_MODE_SELECTOR_KNOB", adirs1Knob)
+     DspShow ("ADIR2", adirs1Knob)
 end
 
 function A32nx_ADIRS_KNOB_3_off()
@@ -113,34 +107,46 @@ function A32nx_ADIRS_KNOB_3_ATT()
 end
 
 function A32nx_ADIRS_KNOB_3_inc()
-     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_3")
+     adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_3_MODE_SELECTOR_KNOB")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
 	A32nx_ADIRS_KNOB_3_set(adirs1Knob)
 end
 
 function A32nx_ADIRS_KNOB_3_dec()
-     adirs1Knob = ipc.readLvar("L:A32NX_ADIRS_KNOB_3")
+     adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_3_MODE_SELECTOR_KNOB")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
 	A32nx_ADIRS_KNOB_3_set(adirs1Knob)
 end
 
 function A32nx_ADIRS_KNOB_3_set(adirs1Knob)
-     ipc.writeLvar("L:A32NX_ADIRS_KNOB_3", adirs1Knob)
+     ipc.writeLvar("L:A32NX_OVHD_ADIRS_IR_3_MODE_SELECTOR_KNOB", adirs1Knob)
+     DspShow ("ADIR3", adirs1Knob)
 end
 
 -- ## Overhead AntiIce #####################################
 
 function A32nx_WINDSHIELD_DEICE_off()
-    DspShow ("Ptot", "-off")
+    DspShow ("Ptot", "-off   ")
     ipc.control(67225, 0)
 end
 
 function A32nx_WINDSHIELD_DEICE_on()
-    DspShow ("Ptot", "-on")
+    DspShow ("Ptot", "-on   ")
     ipc.control(67225, 1)
 end
 
 -- ## Overhead Electics #####################################
+-- $$ Ext Power
+function A32nx_External_Power_on()
+    ipc.writeLvar("L:A32NX_OVHD_ELEC_EXT_PWR_PB_IS_ON", 1)
+    DspSPD ("ExtPwr","on    ")
+end
+
+function A32nx_External_Power_off()
+    ipc.writeLvar("L:A32NX_OVHD_ELEC_EXT_PWR_PB_IS_ON", 0)
+    DspSPD ("ExtPwr","off   ")
+end
+
 -- $$ Batteries
 function A32nx_Bat1_set(bat1Status)
     ipc.writeLvar("L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO", bat1Status)
@@ -270,13 +276,13 @@ end
 
 function A32nx_APU_Generator_off()
     ipc.control(66707, 0)
-    DspShow ("APUG", "off")
+    DspShow ("APUG", "off   ")
 end
 
 -- io
 function A32nx_APU_Generator_on()
      ipc.control(66707, 1)
-     DspShow ("APUG", "on")
+     DspShow ("APUG", "on   ")
 end
 -- $$ APU pneu bleed -------------
 function A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
@@ -299,6 +305,16 @@ function  A32nx_OVHD_PNEU_APU_BLEED_toggle()
 	 A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
 end
 
+-- ## Master Warn+Caution #####################################
+function A32nx_PUSH_AUTOPILOT_MASTERAWARN_L ()
+    ipc.writeLvar("L:PUSH_AUTOPILOT_MASTERAWARN_L")
+end
+
+function A32nx_PUSH_AUTOPILOT_MASTERCAUT_L ()
+    ipc.writeLvar("L:PUSH_AUTOPILOT_MASTERCAUT_L")
+end
+
+
 -- ## FCU #####################################
 --	SyncBackHDG (0, ipc.readUW(0x07CC), true)
 --	SyncBackALT (0, ipc.readUD(0x07D4), true)
@@ -313,18 +329,28 @@ end
 function A32nx_PFD_BTN_LS_1()
     ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_1")
 end
--- SPEED -----------------
 
-function A32nx_SPD_MODE_selected ()
-    ipc.activateHvar("H:A320_Neo_CDU_MODE_SELECTED_SPEED")
-    ipc.activateHvar("H:A320_Neo_FCU_MODE_SELECTED_SPEED")
+-- SPEED -----------------
+function A32nx_FCU_SPD_inc()
+    ipc.activateHvar("H:A320_Neo_FCU_SPEED_INC")
+end
+
+function A32nx_FCU_SPD_dec()
+    ipc.activateHvar("H:A320_Neo_FCU_SPEED_DEC")
+end
+
+function A32nx_FCU_SPD_MACH_TOGGLE_push()
+    ipc.activateHvar("")
+end
+
+function A32nx_FCU_SPD_MODE_selected ()
+    ipc.activateHvar("H:A320_Neo_FCU_SPEED_PULL")
     DspShow ("SPD", "set")
     SyncBackSPD (0, ipc.readUW(0x07E2), true)
 end
 
 function A32nx_SPD_MODE_managed ()
-    ipc.activateHvar("H:A320_Neo_CDU_MODE_MANAGED_SPEED")
-    ipc.activateHvar("H:A320_Neo_FCU_MODE_MANAGED_SPEED")
+    ipc.activateHvar("H:A320_Neo_FCU_SPEED_PUSH")
     DspShow ("SPD", "mngd")
    	SyncBackSPD (0, ipc.readUW(0x07E2), true)
 end
@@ -339,20 +365,31 @@ end
 function A32nx_HDG_MODE_managed ()
     ipc.activateHvar("H:A320_Neo_FCU_HDG_PUSH")
     DspShow ("HDG", "mngd")
-    SyncBackHDG (0, ipc.readUW(0x07CC), true)
+    SyncBackHDG (0, ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA"), true)
 end
 
 function A32nx_HDG_inc()
-    ipc.control(65879)
-    local newVal = ipc.readUW(0x07CC)
-    SyncBackHDG (0, newVal, true)
+    ipc.activateHvar("H:A32NX_FCU_HDG_INC")
+    ipc.sleep(20)
+    SyncBackHDG (0, ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA"), true)
 end
 
 function A32nx_HDG_incfast()
-    ipc.control(65879)
-    ipc.sleep(500)
-    DspHDG (newVal)
-    --ipc.writeLVar("L:A32NX_AUTOPILOT_HEADING_SELECTED", newVal)
+    ipc.activateHvar("H:A320_Neo_FCU_HDG_INC")
+    ipc.sleep(20)
+    SyncBackHDG (0, ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA"), true)
+end
+
+function A32nx_HDG_dec()
+    ipc.activateHvar("H:A320_Neo_FCU_HDG_DEC")
+    ipc.sleep(20)
+    SyncBackHDG (0, ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA"), true)
+end
+
+function A32nx_HDG_decfast()
+    ipc.activateHvar("H:A320_Neo_FCU_HDG_DEC")
+    ipc.sleep(20)
+    SyncBackHDG (0, ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA"), true)
 end
 
 -- ALTITUDE -----------------
@@ -396,6 +433,14 @@ function A32nx_FCU_ALT_show()
     DspALT (altSelected)
 end
 -- VERTICAL SPEED -----------------
+function A32nx_AP_VS_VAR_inc()
+    ipc.activateHvar("H:AP_VS_VAR_INC")
+end
+
+function A32nx_AP_VS_VAR_dec()
+    ipc.activateHvar("H:AP_VS_VAR_DEC")
+end
+
 function A32nx_VS_MODE_selected ()
     ipc.activateHvar("H:A320_Neo_FCU_VS_PULL")
     DspShow ("VS", "set")
@@ -416,6 +461,18 @@ function A32nx_AP_off()
      ipc.control(65791,1)
 end
 
+function A32nx_AP_1_push()
+    ipc.activateHvar("H:FCU_AP_1_PUSH")
+end
+
+function A32nx_AP_2_push()
+    ipc.activateHvar("H:FCU_AP_2_PUSH")
+end
+
+function A32nx_FCU_AP_DISCONNECT_push()
+    ipc.activateHvar("H:FCU_AP_DISCONNECT_PUSH")
+end
+
 function A32nx_AP_LOC_toggle()
      ipc.control(65723, 0)
 end
@@ -429,14 +486,15 @@ function A32nx_AUTO_THROTTLE_toggle()
 end
 
 function A32nx_FCU_APPR_MODE_toggle()
-    ipc.control(65724)
-    --ipc.activateHvar("H:A320_Neo_FCU_APPR_PUSH")
+    --ipc.control(65724)
+    ipc.activateHvar("H:FCU_APPR_PUSH")
+    DspShow ("APPR", "tgl")
 end
 
---function A32nx_FCU_EXPED_PUSH()
---    ipc.activateHvar("H:A320_Neo_EXPEDITE_MODE")
---    DspShow ("EXPED", "push")
---end
+function A32nx_FCU_EXPED_push()
+    ipc.activateHvar("H:FCU_EXPED_PUSH")
+    DspShow ("EXPED", "tgl")
+end
 
 function A32nx_FCU_VVS_show()
 	local vsSelected = ipc.readLvar("L:A32NX_AUTOPILOT_VS_SELECTED")
@@ -490,37 +548,37 @@ function A32nx_AUTOBRAKE_max()
 end
 
 function A32nx_AUTOBRAKE_low_toggle()
-     if ipc.readLvar("L:XMLVAR_Autobrakes_Level") > 0 then A32nx_AUTOBRAKE_set(0) else A32nx_AUTOBRAKE_set(1) end
+     if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 1 then A32nx_AUTOBRAKE_set(1) else A32nx_AUTOBRAKE_set(0) end
 end
 
 function A32nx_AUTOBRAKE_mid_toggle()
-     if ipc.readLvar("L:XMLVAR_Autobrakes_Level") > 0 then A32nx_AUTOBRAKE_set(0) else A32nx_AUTOBRAKE_set(2) end
+     if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 2 then A32nx_AUTOBRAKE_set(2) else A32nx_AUTOBRAKE_set(0) end
 end
 
 function A32nx_AUTOBRAKE_max_toggle()
-     if ipc.readLvar("L:XMLVAR_Autobrakes_Level") > 0 then A32nx_AUTOBRAKE_set(0) else A32nx_AUTOBRAKE_set(3) end
+     if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 3 then A32nx_AUTOBRAKE_set(3) else A32nx_AUTOBRAKE_set(0) end
 end
 
 function A32nx_AUTOBRAKE_set(autoBrakeLevel)
-     ipc.writeLvar("L:XMLVAR_Autobrakes_Level", autoBrakeLevel)
+     ipc.writeLvar("L:A32NX_AUTOBRAKES_ARMED_MODE", autoBrakeLevel)
      local autoBrakeLevelText = {"off","low","mid","max"}
      DspShow ("A-BRK", autoBrakeLevelText[autoBrakeLevel+1])
 end
 
 function A32nx_AUTOBRAKE_inc()
-     autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
+     autoBrakeLevel = ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE")
      if autoBrakeLevel >= 3 then autoBrakeLevel = 3 else autoBrakeLevel = autoBrakeLevel + 1 end
 	A32nx_AUTOBRAKE_set(autoBrakeLevel)
 end
 
 function A32nx_AUTOBRAKE_dec()
-     autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
+     autoBrakeLevel = ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE")
      if autoBrakeLevel <= 0 then autoBrakeLevel = 0 else autoBrakeLevel = autoBrakeLevel - 1 end
 	A32nx_AUTOBRAKE_set(autoBrakeLevel)
 end
 
 function A32nx_AUTOBRAKE_cycle()
-     autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
+     autoBrakeLevel = ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE")
      if autoBrakeLevel >= 3 then autoBrakeLevel = 0 else autoBrakeLevel = autoBrakeLevel + 1 end
 	A32nx_AUTOBRAKE_set(autoBrakeLevel)
 end
