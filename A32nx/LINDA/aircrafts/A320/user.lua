@@ -123,16 +123,35 @@ function A32nx_ADIRS_KNOB_3_set(adirs1Knob)
      DspShow ("ADIR3", adirs1Knob)
 end
 
+
 -- ## Overhead AntiIce #####################################
 
+function A32nx_WING_DEICE_toggle()
+     ipc.control(66337, 0)
+end
+
+function A32nx_ENG_1_DEICE_toggle()
+     ipc.control(66484, 0)
+end
+
+function A32nx_ENG_2_DEICE_toggle()
+     ipc.control(66485, 0)
+end
+
 function A32nx_WINDSHIELD_DEICE_off()
-    DspShow ("Ptot", "-off   ")
-    ipc.control(67225, 0)
+     ipc.writeLvar("L:A32NX_MAN_PITOT_HEAT", 0)
 end
 
 function A32nx_WINDSHIELD_DEICE_on()
-    DspShow ("Ptot", "-on   ")
-    ipc.control(67225, 1)
+     ipc.writeLvar("L:A32NX_MAN_PITOT_HEAT", 1)
+end
+
+function A32nx_WINDSHIELD_DEICE_toggle()
+    if ipc.readLvar("L:A32NX_MAN_PITOT_HEAT") <= 0
+        then ipc.writeLvar("L:A32NX_MAN_PITOT_HEAT", 1)
+    else
+        ipc.writeLvar("L:A32NX_MAN_PITOT_HEAT", 0)
+	end
 end
 
 -- ## Overhead Electics #####################################
@@ -1066,6 +1085,16 @@ end
 
 function A32nx_ENGINE_MODE_start()
     A32nx_ENGINE_MODE_set(2)
+end
+
+function A32nx_ENGINE_1_on()
+    ipc.writeLvar("L:A32NX_ENGINE_STATE:1", 1)
+    DspShow ("Eng1", ipc.writeLvar("L:A32NX_ENGINE_STATE:1"))
+end
+
+function A32nx_ENGINE_1_off()
+    ipc.writeLvar("L:A32NX_ENGINE_STATE:1", 2)
+    DspShow ("Eng1", ipc.writeLvar("L:A32NX_ENGINE_STATE:1"))
 end
 
 function A32nx_ENGINES_MASTER_on()
