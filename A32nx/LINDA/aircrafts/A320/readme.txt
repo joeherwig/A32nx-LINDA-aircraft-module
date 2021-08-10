@@ -2,7 +2,7 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.5.1
+  Version: 0.6.0
      Date: 2021-08-11
    Author: Joe Herwig
            Neil Clements (0.4.4 / 0.6.1)
