@@ -2,11 +2,16 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.6.0
-     Date: 2021-08-11
+  Version: 0.7.0
+     Date: 2021-08-22
    Author: Joe Herwig
            Neil Clements (0.4.4 / 0.6.1)
 ------------------------------------------------------------------------
+0.7.0
++ Landing Lights L (retract, off, on, pos)
++ Landing Lights R (retract, off, on, pos)
++ Smoking Signs (off, auto, on, pos)
+
 0.6.0
 + Wing de-ice (toggle)
 + ENG1 de-ice (toggle)
@@ -14,7 +19,7 @@
 + Pitot+Window heat (on, off, toggle)
 
 0.5.1
-• ADIRS for Dev d30667b
+• ADIRS
 • Autobreak
 
 0.5.0

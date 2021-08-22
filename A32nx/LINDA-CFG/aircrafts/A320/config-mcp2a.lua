@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2108110009 (LINDA 4.0.5.173) --
+-- config-mcp2a.lua @ 2108221834 (LINDA 4.0.5.173) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -260,12 +260,12 @@ HDG1 = {
 -- AFCU ALT knob
 ALT1 = {
 ["A SHOW"]  	= ALT_show  ,
-["A  +"]    	= A32nx_ALT_inc  ,
-["A ++"]    	= MSFS_ALT_inc  ,
-["A  -"]    	= A32nx_ALT_dec  ,
-["A --"]    	= MSFS_ALT_dec  ,
-["PRESS"]   	= A32nx_HDG_MODE_managed  ,
-["PULL"]    	= MSFS_ALT_hold_toggle  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= A32nx_ALT_MODE_managed  ,
+["PULL"]    	= A32nx_ALT_MODE_selected  ,
 }
 
 -- AFCU VVS knob

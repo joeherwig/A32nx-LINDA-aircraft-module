@@ -252,6 +252,71 @@ function A32nx_Gen2_toggle()
 	A32nx_Gen2_set(Gen2Status)
 end
 
+
+-- ## Overhead Lights & Signs #####################################
+
+-- && Lights
+function A32nx_LandingLts_L_Pos(pos)
+    ipc.writeLvar("L:LIGHTING_LANDING_2", pos)
+end
+function A32nx_LandingLts_L_retract()
+     A32nx_LandingLts_L_Pos(2)
+end
+function A32nx_LandingLts_L_off()
+     A32nx_LandingLts_L_Pos(1)
+end
+function A32nx_LandingLts_L_on()
+     A32nx_LandingLts_L_Pos(0)
+end
+
+function A32nx_LandingLts_R_Pos(pos)
+    ipc.writeLvar("L:LIGHTING_LANDING_3", pos)
+end
+function A32nx_LandingLts_R_retract()
+     A32nx_LandingLts_R_Pos(2)
+end
+function A32nx_LandingLts_R_off()
+     A32nx_LandingLts_R_Pos(1)
+end
+function A32nx_LandingLts_R_on()
+     A32nx_LandingLts_R_Pos(0)
+end
+
+function A32nx_LandingLts_Both_Pos(pos)
+    A32nx_LandingLts_L_Pos(pos)
+    A32nx_LandingLts_R_Pos(pos)
+end
+function A32nx_LandingLts_Both_retract()
+     A32nx_LandingLts_L_Pos(2)
+     A32nx_LandingLts_R_Pos(2)
+end
+function A32nx_LandingLts_Both_off()
+     A32nx_LandingLts_L_Pos(1)
+     A32nx_LandingLts_R_Pos(1)
+end
+function A32nx_LandingLts_Both_on()
+     A32nx_LandingLts_L_Pos(0)
+     A32nx_LandingLts_R_Pos(0)
+end
+
+
+-- $$ Signs
+function A32nx_NoSmoking_Pos(pos)
+    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position", pos)
+end
+
+function A32nx_NoSmoking_off()
+     A32nx_NoSmoking_Pos(2)
+end
+
+function A32nx_NoSmoking_auto()
+     A32nx_NoSmoking_Pos(1)
+end
+
+function A32nx_NoSmoking_on()
+     A32nx_NoSmoking_Pos(0)
+end
+
 -- $$ APU
 function A32nx_APU_MASTER_set(apuMaster)
     ipc.writeLvar("L:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON", APU_MASTERStatus)
@@ -426,24 +491,22 @@ end
 
 function A32nx_ALT_inc()
      ipc.writeLvar("L:XMLVAR_Autopilot_Altitude_Increment", 100)
-    MSFS_ALT_inc()
+    FCU_ALT_INC()
 end
 
 function A32nx_ALT_incfast()
-     ipc.writeLvar("L:XMLVAR_Autopilot_Altitude_Increment", 1000)
-    MSFS_ALT_inc()
+    ipc.control(33538,0)
     DspALT (ipc.readUD(0x07D4))
 end
 
 function A32nx_ALT_dec()
-    ipc.writeLvar("L:XMLVAR_Autopilot_Altitude_Increment", 100)
-    MSFS_ALT_dec()
+    ipc.writeLvar("L:XMLVAR_Autopilot_Altitude_Increment", 1000)
+    FCU_ALT_DEC()
     DspALT (ipc.readUD(0x07D4))
 end
 
 function A32nx_ALT_decfast()
-    ipc.writeLvar("L:XMLVAR_Autopilot_Altitude_Increment", 1000)
-    MSFS_ALT_inc()
+    ipc.control(33537,0)
     DspALT (ipc.readUD(0x07D4))
 end
 
@@ -1095,6 +1158,16 @@ end
 function A32nx_ENGINE_1_off()
     ipc.writeLvar("L:A32NX_ENGINE_STATE:1", 2)
     DspShow ("Eng1", ipc.writeLvar("L:A32NX_ENGINE_STATE:1"))
+end
+
+function A32nx_ENGINE_2_on()
+    ipc.writeLvar("L:A32NX_ENGINE_STATE:2", 1)
+    DspShow ("Eng2", ipc.writeLvar("L:A32NX_ENGINE_STATE:2"))
+end
+
+function A32nx_ENGINE_2_off()
+    ipc.writeLvar("L:A32NX_ENGINE_STATE:2", 2)
+    DspShow ("Eng2", ipc.writeLvar("L:A32NX_ENGINE_STATE:2"))
 end
 
 function A32nx_ENGINES_MASTER_on()
