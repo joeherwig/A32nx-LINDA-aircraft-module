@@ -2,11 +2,17 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.7.0
-     Date: 2021-08-22
+  Version: 0.8.0
+     Date: 2021-08-23
    Author: Joe Herwig
            Neil Clements (0.4.4 / 0.6.1)
 ------------------------------------------------------------------------
+0.8.0
++ Engine Master Switch 1 (off, on)
++ Engine Master Switch 2 (off, on)
+• Overhead Electrics: GEN 1 (off, on, toggle)
+• Overhead Electrics: GEN 2 (off, on, toggle)
+
 0.7.0
 + Landing Lights L (retract, off, on, pos)
 + Landing Lights R (retract, off, on, pos)
