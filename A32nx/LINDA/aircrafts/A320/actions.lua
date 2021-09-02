@@ -285,8 +285,27 @@ function A32nx_LandingLts_Both_on()
      A32nx_LandingLts_R_Pos(0)
 end
 
+function A32nx_EmerExit_Pos(pos)
+    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position", pos)
+end
+function A32nx_EmerExit_off()
+     A32nx_EmerExit_Pos(2)
+end
+function A32nx_EmerExit_arm()
+     A32nx_EmerExit_Pos(1)
+end
+function A32nx_EmerExit_on()
+     A32nx_EmerExit_Pos(0)
+end
 
 -- $$ Signs
+function A32nx_Seatbelt_on()
+    ipc.writeLvar("XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 1)
+end
+function A32nx_Seatbelt_off()
+    ipc.writeLvar("XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 0)
+end
+
 function A32nx_NoSmoking_Pos(pos)
     ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position", pos)
 end
@@ -375,12 +394,12 @@ function  A32nx_OVHD_PNEU_APU_BLEED_toggle()
 end
 
 -- ## Master Warn+Caution #####################################
-function A32nx_PUSH_AUTOPILOT_MASTERAWARN_L ()
-    ipc.writeLvar("L:PUSH_AUTOPILOT_MASTERAWARN_L")
+function A32nx_MasterWarning_push ()
+    ipc.writeLvar("L:A32NX_MASTER_WARNING")
 end
 
-function A32nx_PUSH_AUTOPILOT_MASTERCAUT_L ()
-    ipc.writeLvar("L:PUSH_AUTOPILOT_MASTERCAUT_L")
+function A32nx_MasterCaution_push ()
+    ipc.writeLvar("L:A32NX_MASTER_CAUTION")
 end
 
 

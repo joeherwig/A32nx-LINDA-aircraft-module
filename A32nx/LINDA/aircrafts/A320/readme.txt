@@ -2,11 +2,18 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.8.0
-     Date: 2021-08-23
+  Version: 0.8.1
+     Date: 2021-09-02
    Author: Joe Herwig
            Neil Clements (0.4.4 / 0.6.1)
 ------------------------------------------------------------------------
+0.8.1
++ A32nx_EmerExit (off, arm, on)
+• Master Warning (push) renamed!
+• Master Caution (push) renamed!
+Known_issues:
+- A32nx_Seatbelt_x not working currently with Experimental build
+
 0.8.0
 + Engine Master Switch 1 (off, on)
 + Engine Master Switch 2 (off, on)

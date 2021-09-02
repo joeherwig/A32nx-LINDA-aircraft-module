@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2108232248 (LINDA 4.0.5.173) --
+-- config-mcp2a.lua @ 2109022325 (LINDA 4.0.5.173) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -49,7 +49,7 @@ NDM1 = {
 ["A ++"]    = A32nx_MFD_NAV_MODE_1_inc  ,
 ["A  -"]    = A32nx_MFD_NAV_MODE_1_dec  ,
 ["A --"]    = A32nx_MFD_NAV_MODE_1_dec  ,
-["PRESS"]   = empty  ,
+["PRESS"]   = A32nx_MasterWarning_push  ,
 ["B SHOW"]  = Do_nothing  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
@@ -64,7 +64,7 @@ NDR1 = {
 ["A ++"]    = A32nx_MFD_RANGE_1_inc  ,
 ["A  -"]    = A32nx_MFD_RANGE_1_dec  ,
 ["A --"]    = A32nx_MFD_RANGE_1_dec  ,
-["PRESS"]   = empty  ,
+["PRESS"]   = A32nx_MasterCaution_push  ,
 ["B SHOW"]  = empty  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
@@ -253,8 +253,8 @@ HDG1 = {
 ["A ++"]    	= MSFS_HDG_inc  ,
 ["A  -"]    	= MSFS_HDG_dec  ,
 ["A --"]    	= MSFS_HDG_dec  ,
-["PRESS"]   	= Do_nothing  ,
-["PULL"]    	= Do_nothing  ,
+["PRESS"]   	= Autopilot_NAV_hold  ,
+["PULL"]    	= Autopilot_HDG_hold  ,
 }
 
 -- AFCU ALT knob
@@ -422,7 +422,7 @@ USER1 = {
 ["BTN4."]   = A32nx_AUTOBRAKE_low_toggle  ,
 ["BTN5."]   = A32nx_AUTOBRAKE_mid_toggle  ,
 ["BTN6."]   = A32nx_AUTOBRAKE_max_toggle  ,
-["BTN7."]   = MSFS_ParkingBrake_toggle  ,
+["BTN7."]   = Brakes_PARKING  ,
 ["BTN8."]   = VVS_show  ,
 ["USR1."]   = A32nx_EICAS_2_ECAM_PAGE_cycle  ,
 ["USR2."]   = A32nx_OVHD_calls_ALL  ,
