@@ -1,3 +1,4 @@
+
 mfd1MODE = 0
 mfd1Range = 0
 eicasEcam2Page = 1
@@ -8,12 +9,16 @@ autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
 tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
 chronoLState = 0
 
+function round(num, numDecimalPlaces)
+  local mult = 10^(numDecimalPlaces or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
 -- ## Overhead CALLS #####################################
 -- io
 function A32nx_OVHD_CALLS_all()
     ipc.writeLvar("L:PUSH_OVHD_CALLS_ALL", 1)
 end
-
 
 -- ## Overhead Fuel ######################################
 function A32nx_Fuel_Left_Tanks_1_on()
@@ -300,10 +305,10 @@ end
 
 -- $$ Signs
 function A32nx_Seatbelt_on()
-    ipc.writeLvar("XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 1)
+    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 1)
 end
 function A32nx_Seatbelt_off()
-    ipc.writeLvar("XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 0)
+    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 0)
 end
 
 function A32nx_NoSmoking_Pos(pos)
@@ -418,7 +423,7 @@ function A32nx_PFD_BTN_LS_1()
     ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_1")
 end
 
--- SPEED -----------------
+-- $$ SPEED -----------------
 function A32nx_FCU_SPD_inc()
     ipc.activateHvar("H:A320_Neo_FCU_SPEED_INC")
 end
@@ -437,13 +442,13 @@ function A32nx_FCU_SPD_MODE_selected ()
     SyncBackSPD (0, ipc.readUW(0x07E2), true)
 end
 
-function A32nx_SPD_MODE_managed ()
+function A32nx_FCU_SPD_MODE_managed ()
     ipc.activateHvar("H:A320_Neo_FCU_SPEED_PUSH")
     DspShow ("SPD", "mngd")
    	SyncBackSPD (0, ipc.readUW(0x07E2), true)
 end
--- HEADING -----------------
 
+-- $$ HEADING -----------------
 function A32nx_HDG_MODE_selected ()
     ipc.activateHvar("H:A320_Neo_FCU_HDG_PULL")
     DspShow ("HDG", "set")
@@ -480,45 +485,59 @@ function A32nx_HDG_decfast()
     SyncBackHDG (0, ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA"), true)
 end
 
--- ALTITUDE -----------------
+-- $$ ALTITUDE -----------------
+function getSelectedAlt (value)
+    if value ~= sync_alt then
+        sync_alt = value/65536*3.28084/100
+        return (value/65536*3.28084/100)
+    end
+end
+
+
 function A32nx_ALT_MODE_selected ()
     ipc.activateHvar("H:A320_Neo_FCU_ALT_PULL")
-     DspShow ("ALT", "set")
-     SyncBackALT (0, ipc.readUD(0x07D4), true)
+    DspShow ("ALT", "set")
+    SyncBackALT (0, ipc.readUD(0x07D4), true)
 end
 
 function A32nx_ALT_MODE_managed ()
     ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
-     DspShow ("ALT", "mngd")
-     SyncBackALT (0, ipc.readUD(0x07D4), true)
+    DspShow ("ALT", "mngd")
+    SyncBackALT (0, ipc.readUD(0x07D4), true)
 end
 
 function A32nx_ALT_inc()
-     ipc.writeLvar("L:XMLVAR_Autopilot_Altitude_Increment", 100)
-    FCU_ALT_INC()
+    -- ipc.writeLvar("L:XMLVAR_Autopilot_Altitude_Increment", 1000)
+    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
+    ipc.control(66124, (ipc.readUD(0x07D4)/65536*3.28084)+100)
+    DspALT (ipc.readUD(0x07D4)/65536*3.28084/100)
 end
 
 function A32nx_ALT_incfast()
-    ipc.control(33538,0)
-    DspALT (ipc.readUD(0x07D4))
+    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
+    ipc.control(66124, (ipc.readUD(0x07D4)/65536*3.28084)+1000)
+    DspALT (ipc.readUD(0x07D4)/65536*3.28084/100)
 end
 
 function A32nx_ALT_dec()
-    ipc.writeLvar("L:XMLVAR_Autopilot_Altitude_Increment", 1000)
-    FCU_ALT_DEC()
-    DspALT (ipc.readUD(0x07D4))
+    -- ipc.writeLvar("L:XMLVAR_Autopilot_Altitude_Increment", 1000)
+    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
+    ipc.control(66124, (ipc.readUD(0x07D4)/65536*3.28084)-100)
+    DspALT (ipc.readUD(0x07D4)/65536*3.28084/100)
 end
 
 function A32nx_ALT_decfast()
-    ipc.control(33537,0)
-    DspALT (ipc.readUD(0x07D4))
+    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
+    ipc.control(66124, (ipc.readUD(0x07D4)/65536*3.28084)-1000)
+    DspALT (ipc.readUD(0x07D4)/65536*3.28084/100)
 end
 
 function A32nx_FCU_ALT_show()
 	local altSelected = round(ipc.readUD(0x07CC)/65536*3.28084/100)
     DspALT (altSelected)
 end
--- VERTICAL SPEED -----------------
+
+-- $$ VERTICAL SPEED -----------------
 function A32nx_AP_VS_VAR_inc()
     ipc.activateHvar("H:AP_VS_VAR_INC")
 end
@@ -539,6 +558,13 @@ function A32nx_VS_MODE_managed ()
      SyncBackVVS (0, ipc.readUW(0x07F2), true)
 end
 
+function A32nx_VS_MODE_level_off ()
+    ipc.activateHvar("H:A320_Neo_FCU_VS_PUSH")
+     DspShow ("VS", "mngd")
+     SyncBackVVS (0, ipc.readUW(0x07F2), true)
+end
+
+-- $$ AP other
 function A32nx_AP_on()
      ipc.control(65792,1)
 end
@@ -589,34 +615,7 @@ function A32nx_FCU_VVS_show()
 end
 
 -- ## GlareShield #####################################
-function A32nx_chrono_L_set(chronoLState)
-    ipc.writeLvar("L:PUSH_AUTOPILOT_CHRONO_L", chronoLState)
-    ipc.display("Chrono Left: ".. chronoLState)
-end
-
-function A32nx_chrono_L_start()
-    A32nx_chrono_L_set(1)
-end
-
-function A32nx_chrono_L_stop()
-    A32nx_chrono_L_set(0)
-end
-
-function A32nx_chrono_L_reset()
-    A32nx_chrono_L_set(2)
-end
-
-function A32nx_chrono_L_cycle()
-    if chronoLState == 0 then
-        chronoLState = 1
-    elseif chronoLState == 1 then
-        chronoLState = 0
-    elseif chronoLState == 2 then
-        chronoLState = 0
-    end
-    A32nx_chrono_L_set(chronoLState)
-end
-
+-- $$ Autobrake ---------------------------------
 function A32nx_AUTOBRAKE_off()
      A32nx_AUTOBRAKE_set(0)
 end
@@ -673,6 +672,50 @@ function A32nx_MFD_BTN_TERRONND_1_toggle()
     ipc.activateHvar("H:A320_Neo_MFD_BTN_TERRONND_1")
 end
 
+-- $$ Standby Chrono elapsed timer ##
+
+function A32nx_STBY_CHRONO_elapsed_time_run ()
+         ipc.writeLvar("L:A32NX_CHRONO_ET_SWITCH_POS", 0)
+end
+
+function A32nx_STBY_CHRONO_elapsed_time_stop ()
+         ipc.writeLvar("L:A32NX_CHRONO_ET_SWITCH_POS", 1)
+end
+
+function A32nx_STBY_CHRONO_elapsed_time_reset ()
+         ipc.writeLvar("L:A32NX_CHRONO_ET_SWITCH_POS", 2)
+end
+
+function A32nx_STBY_CHRONO_elapsed_time_up ()
+local pos = ipc.readLvar("L:A32NX_CHRONO_ET_SWITCH_POS")
+         if pos == 2 then
+         A32nx_STBY_CHRONO_elapsed_time_stop ()
+         else
+            if pos == 1 then
+            A32nx_STBY_CHRONO_elapsed_time_run ()
+            end
+         end
+end
+
+function A32nx_STBY_CHRONO_elapsed_time_down ()
+local pos = ipc.readLvar("L:A32NX_CHRONO_ET_SWITCH_POS")
+         if pos == 0 then
+         A32nx_STBY_CHRONO_elapsed_time_stop ()
+         else
+            if pos == 1 then
+            A32nx_STBY_CHRONO_elapsed_time_reset ()
+            end
+         end
+end
+
+function A32nx_STBY_CHRONO_elapsed_time_cycle ()
+local pos = ipc.readLvar("L:A32NX_CHRONO_ET_SWITCH_POS")
+          if pos == 0 then
+          A32nx_STBY_CHRONO_elapsed_time_reset ()
+          else
+          A32nx_STBY_CHRONO_elapsed_time_up ()
+          end
+end
 -- # Flight controls #####################################
 function A32nx_Spoiler_Arm_on ()
     ipc.control(66068, 1)
@@ -684,7 +727,7 @@ end
 
 
 -- ## MFD 1 controls #####################################
--- MFD MODE --------------------------------------
+-- $$ MFD MODE --------------------------------------
 function A32nx_MFD_BTN_CSTR_1()
     ipc.activateHvar("H:A320_Neo_MFD_BTN_CSTR_1")
 end
@@ -706,85 +749,87 @@ function A32nx_MFD_BTN_ARPT_1()
 end
 
 function A32nx_MFD_NAV_MODE_1_ls()
-     ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", 0)
-     mfd1MODE = ipc.readLvar("A320_Neo_MFD_NAV_MODE_1")
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 0)
+     mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
 end
 
 function A32nx_MFD_NAV_MODE_1_vor()
-     ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", 1)
-     mfd1MODE = ipc.readLvar("A320_Neo_MFD_NAV_MODE_1")
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 1)
+     mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
 end
 
 function A32nx_MFD_NAV_MODE_1_nav()
-     ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", 2)
-     mfd1MODE = ipc.readLvar("A320_Neo_MFD_NAV_MODE_1")
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 2)
+     mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
 end
 
 function A32nx_MFD_NAV_MODE_1_arc()
-     ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", 3)
-     mfd1MODE = ipc.readLvar("L:A320_Neo_MFD_NAV_MODE_1")
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 3)
+     mfd1MODE = ipc.readLvar("L:A32NX_EFIS_L_ND_MODE")
 end
 
 function A32nx_MFD_NAV_MODE_1_plan()
-     ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", 4)
-     mfd1MODE = ipc.readLvar("A320_Neo_MFD_NAV_MODE_1")
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 4)
+     mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
      DspShow ("MFDr", mfd1MODE)
 end
 
 function A32nx_MFD_NAV_MODE_1_inc()
-     mfd1MODE = ipc.readLvar("L:A320_Neo_MFD_NAV_MODE_1")
+     mfd1MODE = ipc.readLvar("L:A32NX_EFIS_L_ND_MODE")
      if mfd1MODE >= 5 then mfd1MODE = 5 else mfd1MODE = mfd1MODE + 1 end
-     ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", mfd1MODE)
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", mfd1MODE)
 end
 
 function A32nx_MFD_NAV_MODE_1_dec()
-     mfd1MODE = ipc.readLvar("L:A320_Neo_MFD_NAV_MODE_1")
+     mfd1MODE = ipc.readLvar("L:A32NX_EFIS_L_ND_MODE")
      if mfd1MODE <= 0 then mfd1MODE = 0 else mfd1MODE = mfd1MODE - 1 end
-     ipc.writeLvar("L:A320_Neo_MFD_NAV_MODE_1", mfd1MODE)
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", mfd1MODE)
 end
 
--- MFD Range --------------------------------------
+-- $$ MFD Range --------------------------------------
 function A32nx_MFD_RANGE_1_10()
-     ipc.writeLvar("L:A320_Neo_MFD_Range_1", 0)
-     mfd1Range = ipc.readLvar("A320_Neo_MFD_Range_1")
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 0)
+     mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
 end
 
 function A32nx_MFD_RANGE_1_20()
-     ipc.writeLvar("L:A320_Neo_MFD_Range_1", 1)
-     mfd1Range = ipc.readLvar("A320_Neo_MFD_Range_1")
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 1)
+     mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
 end
 
 function A32nx_MFD_RANGE_1_40()
-     ipc.writeLvar("L:A320_Neo_MFD_Range_1", 2)
-     mfd1Range = ipc.readLvar("A320_Neo_MFD_Range_1")
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 2)
+     mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
 end
 
 function A32nx_MFD_RANGE_1_80()
-     ipc.writeLvar("L:A320_Neo_MFD_Range_1", 3)
-     mfd1Range = ipc.readLvar("L:A320_Neo_MFD_Range_1")
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 3)
+     mfd1Range = ipc.readLvar("L:A32NX_EFIS_L_ND_RANGE")
 end
 
 function A32nx_MFD_RANGE_1_160()
-     ipc.writeLvar("L:A320_Neo_MFD_Range_1", 4)
-     mfd1Range = ipc.readLvar("A320_Neo_MFD_Range_1")
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 4)
+     mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
 end
 
 function A32nx_MFD_RANGE_1_320()
-     ipc.writeLvar("L:A320_Neo_MFD_Range_1", 5)
-     mfd1Range = ipc.readLvar("L:A320_Neo_MFD_Range_1")
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 5)
+     mfd1Range = ipc.readLvar("L:A32NX_EFIS_L_ND_RANGE")
 end
 
 function A32nx_MFD_RANGE_1_inc()
-     mfd1Range = ipc.readLvar("L:A320_Neo_MFD_Range_1")
+     mfd1Range = ipc.readLvar("L:A32NX_EFIS_L_ND_RANGE")
      if mfd1Range >= 5 then mfd1Range = 5 else mfd1Range = mfd1Range + 1 end
-     ipc.writeLvar("L:A320_Neo_MFD_Range_1", mfd1Range)
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", mfd1Range)
 end
 
 function A32nx_MFD_RANGE_1_dec()
-     mfd1Range = ipc.readLvar("L:A320_Neo_MFD_Range_1")
+     mfd1Range = ipc.readLvar("L:A32NX_EFIS_L_ND_RANGE")
      if mfd1Range <= 0 then mfd1Range = 0 else mfd1Range = mfd1Range - 1 end
-     ipc.writeLvar("L:A320_Neo_MFD_Range_1", mfd1Range)
+     ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", mfd1Range)
 end
+
+
 
 -- ## EICAS ECAM Buttons #####################################
 
@@ -851,7 +896,14 @@ end
 function A32nx_EICAS_2_ECAM_ALL_press()
     ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 1)
 end
+
 function A32nx_EICAS_2_ECAM_ALL_release()
+    ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 0)
+end
+
+function A32nx_EICAS_2_ECAM_PAGE_next()
+    ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 1)
+    ipc.sleep(250)
     ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 0)
 end
 
@@ -1157,13 +1209,13 @@ end
 function A32nx_ENGINE_1_on()
     ipc.control(67198, 1)
     ipc.control(66300, 0)
-    DspShow ("Gen1", ipc.readUW(0x02C0) )
+    -- DspShow ("Gen1", ipc.readUW(0x02C0) )
 end
 
 function A32nx_ENGINE_1_off()
     ipc.control(67197, 1)
     ipc.control(66300, 0)
-    DspShow ("Gen1", ipc.readUW(0x02C0) )
+    -- DspShow ("Gen1", ipc.readUW(0x02C0) )
 end
 
 function A32nx_ENGINE_2_on()

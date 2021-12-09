@@ -2,11 +2,18 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.8.1
-     Date: 2021-09-02
+  Version: 0.8.2
+     Date: 2021-12-09
    Author: Joe Herwig
            Neil Clements (0.4.4 / 0.6.1)
+           Falk Scherber (0.8.2)
 ------------------------------------------------------------------------
+0.8.2
+• added / renamed A32nx_VS_MODE_level_off instead of A32nx_VS_MODE_level_managed
+- no more working AP Chrono Timer in PFD (was L:PUSH_AUTOPILOT_CHRONO_L)
++ Standby chrono elapsed timer (ET) Thanks to Falk Scherber!
++ A32nx_EICAS_2_ECAM_PAGE_next for those which want to use the ECAM ALL function with VRInsight panels
+
 0.8.1
 + A32nx_EmerExit (off, arm, on)
 • Master Warning (push) renamed!
