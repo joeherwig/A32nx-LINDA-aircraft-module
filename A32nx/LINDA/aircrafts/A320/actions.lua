@@ -422,6 +422,71 @@ end
 function A32nx_PFD_BTN_LS_1()
     ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_1")
 end
+-- $$ BARO Mode
+
+function A32nx_BARO_Mode_HPa()
+    ipc.writeLvar("L:XMLVAR_Baro_Selector_HPA_1", 1)
+    DspShow('BARO','HPa')
+end
+
+function A32nx_BARO_Mode_InHg()
+    ipc.writeLvar("L:XMLVAR_Baro_Selector_HPA_1", 0)
+    DspShow('BARO','InHg')
+end
+
+function A32nx_BARO_Mode_toggle()
+    if ipc.readLvar("L:XMLVAR_Baro_Selector_HPA_1") == 0 then
+        A32nx_BARO_Mode_HPa()
+    else
+        A32nx_BARO_Mode_InHg()
+    end
+end
+
+function A32nx_BARO_qfe()
+    ipc.writeLvar("L:XMLVAR_Baro1_Mode",0)
+    BaroRef = 0
+    DspShow('BARO', 'qfe')
+end
+
+function A32nx_BARO_qnh()
+    ipc.writeLvar("L:XMLVAR_Baro1_Mode",1)
+    BaroRef = 1
+    DspShow('BARO', 'qnh')
+end
+
+function A32nx_BARO_std()
+    ipc.writeLvar("L:XMLVAR_Baro1_Mode",2)
+    DspShow('BARO', 'std')
+end
+
+function A32nx_BARO_pull()
+    A32nx_BARO_std()
+end
+
+function A32nx_BARO_push()
+    Lval = ipc.readLvar("L:XMLVAR_Baro1_Mode")
+    _log('v=' .. tostring(Lval) .. ' m=' .. tostring(BaroRef))
+    if Lval == 0 then
+        A32nx_BARO_qnh()
+    elseif Lval == 1 then
+        A32nx_BARO_qfe()
+    elseif BaroRef > 0 then
+        A32nx_BARO_qnh()
+    else
+        A32nx_BARO_qfe()
+    end
+end
+
+function A32nx_BARO_toggle()
+    Lval = ipc.readLvar("L:XMLVAR_Baro1_Mode")
+    if Lval > 1 then
+        A32nx_BARO_push()
+    else
+        A32nx_BARO_pull()
+    end
+end
+
+BaroRef = 1
 
 -- $$ SPEED -----------------
 function A32nx_FCU_SPD_inc()
