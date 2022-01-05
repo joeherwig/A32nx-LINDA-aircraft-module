@@ -382,17 +382,17 @@ function A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
     ipc.writeLvar("L:A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON", apuPneyBleed)
 end
 
-function  A32nx_OVHD_PNEU_APU_BLEED_on()
+function A32nx_OVHD_PNEU_APU_BLEED_on()
      apuPneyBleed = 1
 	 A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
 end
 
-function  A32nx_OVHD_PNEU_APU_BLEED_off()
+function A32nx_OVHD_PNEU_APU_BLEED_off()
      apuPneyBleed = 0
 	 A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
 end
 
-function  A32nx_OVHD_PNEU_APU_BLEED_toggle()
+function A32nx_OVHD_PNEU_APU_BLEED_toggle()
      apuPneyBleed = ipc.readLvar("L:A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON")
      if apuPneyBleed >= 1 then apuPneyBleed = 0 else apuPneyBleed = 1 end
 	 A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
