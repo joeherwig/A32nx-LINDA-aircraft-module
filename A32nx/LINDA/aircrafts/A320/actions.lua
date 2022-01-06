@@ -153,17 +153,12 @@ function A32nx_WINDSHIELD_DEICE_toggle()
 	end
 end
 
--- ## Overhead Electics #####################################
--- $$ Ext Power
-function A32nx_External_Power_on()
-    ipc.writeLvar("L:A32NX_OVHD_ELEC_EXT_PWR_PB_IS_ON", 1)
-    DspSPD ("ExtPwr","on    ")
+-- ## Overhead Electrics #####################################
+-- $$ External Power
+function A32nx_External_Power_toggle()
+    ipc.control(67090, 0)
 end
 
-function A32nx_External_Power_off()
-    ipc.writeLvar("L:A32NX_OVHD_ELEC_EXT_PWR_PB_IS_ON", 0)
-    DspSPD ("ExtPwr","off   ")
-end
 
 -- $$ Batteries
 function A32nx_Bat1_set(bat1Status)
