@@ -1,13 +1,24 @@
 
-mfd1MODE = 0
-mfd1Range = 0
-eicasEcam2Page = 1
-bat1Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO")
-bat2Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_2_PB_IS_AUTO")
-eicasEcam2Functions = {"A32nx_EICAS_2_ECAM_PAGE_ENG","A32nx_EICAS_2_ECAM_PAGE_BLEED","A32nx_EICAS_2_ECAM_PAGE_PRESS","A32nx_EICAS_2_ECAM_PAGE_ELEC","A32nx_EICAS_2_ECAM_PAGE_HYD","A32nx_EICAS_2_ECAM_PAGE_FUEL","A32nx_EICAS_2_ECAM_PAGE_APU","A32nx_EICAS_2_ECAM_PAGE_COND","A32nx_EICAS_2_ECAM_PAGE_DOOR","A32nx_EICAS_2_ECAM_PAGE_WHEEL","A32nx_EICAS_2_ECAM_PAGE_FTCL","A32nx_EICAS_2_ECAM_PAGE_STS","A32nx_EICAS_2_ECAM_PAGE_cycle"}
-autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
-tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
-chronoLState = 0
+-- ## Initial Variables
+
+function InitVars()
+
+    BaroRef = 1
+    BaroMode = 1
+
+    A32nx_BARO_Mode_HPa()
+    A32nx_BARO_qnh()
+
+    mfd1MODE = 0
+    mfd1Range = 0
+    eicasEcam2Page = 1
+    bat1Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO")
+    bat2Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_2_PB_IS_AUTO")
+    eicasEcam2Functions = {"A32nx_EICAS_2_ECAM_PAGE_ENG","A32nx_EICAS_2_ECAM_PAGE_BLEED","A32nx_EICAS_2_ECAM_PAGE_PRESS","A32nx_EICAS_2_ECAM_PAGE_ELEC","A32nx_EICAS_2_ECAM_PAGE_HYD","A32nx_EICAS_2_ECAM_PAGE_FUEL","A32nx_EICAS_2_ECAM_PAGE_APU","A32nx_EICAS_2_ECAM_PAGE_COND","A32nx_EICAS_2_ECAM_PAGE_DOOR","A32nx_EICAS_2_ECAM_PAGE_WHEEL","A32nx_EICAS_2_ECAM_PAGE_FTCL","A32nx_EICAS_2_ECAM_PAGE_STS","A32nx_EICAS_2_ECAM_PAGE_cycle"}
+    autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
+    tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
+    chronoLState = 0
+end
 
 function round(num, numDecimalPlaces)
   local mult = 10^(numDecimalPlaces or 0)
@@ -402,6 +413,87 @@ function A32nx_MasterCaution_push ()
     ipc.writeLvar("L:A32NX_MASTER_CAUTION")
 end
 
+-- $$ BARO Reference
+
+function A32nx_BARO_inc()
+    ipc.control(65883,0)
+    if BaroMode == 1 then
+        ipc.control(65883,0)
+        ipc.control(65883,0)
+    end
+    DspShow('BARO','inc')
+end
+
+function A32nx_BARO_dec()
+    ipc.control(65884,0)
+    if BaroMode == 1 then
+        ipc.control(65884,0)
+        ipc.control(65884,0)
+    end
+    DspShow('BARO','dec')
+end
+function A32nx_BARO_Mode_HPa()
+    ipc.writeLvar("L:XMLVAR_Baro_Selector_HPA_1", 1)
+    BaroMode = 1
+    DspShow('BARO','HPa')
+end
+
+function A32nx_BARO_Mode_InHg()
+    ipc.writeLvar("L:XMLVAR_Baro_Selector_HPA_1", 0)
+    BaroMode = 0
+    DspShow('BARO','InHg')
+end
+
+function A32nx_BARO_Mode_toggle()
+    if ipc.readLvar("L:XMLVAR_Baro_Selector_HPA_1") == 0 then
+        A32nx_BARO_Mode_HPa()
+    else
+        A32nx_BARO_Mode_InHg()
+    end
+end
+
+function A32nx_BARO_qfe()
+    ipc.writeLvar("L:XMLVAR_Baro1_Mode",0)
+    BaroRef = 0
+    DspShow('BARO', 'qfe')
+end
+
+function A32nx_BARO_qnh()
+    ipc.writeLvar("L:XMLVAR_Baro1_Mode",1)
+    BaroRef = 1
+    DspShow('BARO', 'qnh')
+end
+
+function A32nx_BARO_std()
+    ipc.writeLvar("L:XMLVAR_Baro1_Mode",2)
+    DspShow('BARO', 'std')
+end
+
+function A32nx_BARO_pull()
+    A32nx_BARO_std()
+end
+
+function A32nx_BARO_push()
+    Lval = ipc.readLvar("L:XMLVAR_Baro1_Mode")
+    if Lval == 0 then
+        A32nx_BARO_qnh()
+    elseif Lval == 1 then
+        A32nx_BARO_qfe()
+    elseif BaroRef > 0 then
+        A32nx_BARO_qnh()
+    else
+        A32nx_BARO_qfe()
+    end
+end
+
+function A32nx_BARO_toggle()
+    Lval = ipc.readLvar("L:XMLVAR_Baro1_Mode")
+    if Lval > 1 then
+        A32nx_BARO_push()
+    else
+        A32nx_BARO_pull()
+    end
+end
 
 -- ## FCU #####################################
 --	SyncBackHDG (0, ipc.readUW(0x07CC), true)
