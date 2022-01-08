@@ -1,1 +1,1 @@
-simfolder="FlyByWire*A320"
+simfolder="FlyByWire*A32"
