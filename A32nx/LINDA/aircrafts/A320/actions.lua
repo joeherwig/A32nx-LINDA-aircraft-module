@@ -21,9 +21,159 @@ function A32nx_OVHD_CALLS_all()
 end
 
 -- ## Overhead Fuel ######################################
-function A32nx_Fuel_Left_Tanks_1_on()
-    ipc.writeLvar("L:XMLVAR_Momentary_PUSH_OVHD_FUEL_LTKPUMPS1_Pressed", 1)
+
+function A32NX_OVHD_FUEL_PUMP_L1_on()
+    if ipc.readUB(0x0b05) ~= 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('L1')
+    end
 end
+
+function A32NX_OVHD_FUEL_PUMP_L1_off()
+    if ipc.readUB(0x0b05) == 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('L1')
+    end
+end
+
+function A32NX_OVHD_FUEL_PUMP_L1_toggle()
+    A32NX_OVHD_FUEL_PUMP_toggle('L1')
+end
+
+--
+
+function A32NX_OVHD_FUEL_PUMP_L2_on()
+    if ipc.readUB(0x0b0B) ~= 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('L2')
+    end
+end
+
+function A32NX_OVHD_FUEL_PUMP_L2_off()
+    if ipc.readUB(0x0b0B) == 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('L2')
+    end
+end
+
+function A32NX_OVHD_FUEL_PUMP_L2_toggle()
+    A32NX_OVHD_FUEL_PUMP_toggle('L2')
+end
+
+--
+
+function A32NX_OVHD_FUEL_PUMP_C1_on()
+    if ipc.readUB(0x0b03) ~= 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('C1')
+    end
+end
+
+function A32NX_OVHD_FUEL_PUMP_C1_off()
+    if ipc.readUB(0x0b03) == 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('C1')
+    end
+end
+
+function A32NX_OVHD_FUEL_PUMP_C1_toggle()
+    A32NX_OVHD_FUEL_PUMP_toggle('C1')
+end
+
+--
+
+function A32NX_OVHD_FUEL_PUMP_C2_on()
+    if ipc.readUB(0x0b09) ~= 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('C2')
+    end
+end
+
+function A32NX_OVHD_FUEL_PUMP_C2_off()
+    if ipc.readUB(0x0b09) == 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('C2')
+    end
+end
+
+function A32NX_OVHD_FUEL_PUMP_C2_toggle()
+    A32NX_OVHD_FUEL_PUMP_toggle('C2')
+end
+
+--
+
+function A32NX_OVHD_FUEL_PUMP_R1_on()
+    if ipc.readUB(0x0b07) ~= 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('R1')
+    end
+end
+
+function A32NX_OVHD_FUEL_PUMP_R1_off()
+    if ipc.readUB(0x0b07) == 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('R1')
+    end
+end
+
+function A32NX_OVHD_FUEL_PUMP_R1_toggle()
+    A32NX_OVHD_FUEL_PUMP_toggle('R1')
+end
+
+--
+
+function A32NX_OVHD_FUEL_PUMP_R2_on()
+    if ipc.readUB(0x0b11) ~= 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('R2')
+    end
+end
+
+function A32NX_OVHD_FUEL_PUMP_R2_off()
+    if ipc.readUB(0x0b11) == 1 then
+        A32NX_OVHD_FUEL_PUMP_toggle('R2')
+    end
+end
+
+function A32NX_OVHD_FUEL_PUMP_R2_toggle()
+    A32NX_OVHD_FUEL_PUMP_toggle('R2')
+end
+
+--
+
+function A32NX_OVHD_FUEL_PUMP_toggle(p)
+    if p == nil then return end
+    if p == 'L1' then n = 2
+    elseif p == 'L2' then n = 5
+    elseif p == 'C1' then n = 1
+    elseif p == 'C2' then n = 4
+    elseif p == 'R1' then n = 3
+    elseif p == 'R2' then n = 6
+    else return end
+    ipc.control(67191,n)
+    DspShow('FPMP', p)
+end
+
+--
+
+function A32NX_OVHD_FUEL_PUMP_ALL_toggle()
+    A32NX_OVHD_FUEL_PUMP_L1_toggle()
+    A32NX_OVHD_FUEL_PUMP_L2_toggle()
+    A32NX_OVHD_FUEL_PUMP_C1_toggle()
+    A32NX_OVHD_FUEL_PUMP_C2_toggle()
+    A32NX_OVHD_FUEL_PUMP_R1_toggle()
+    -- pump R2 remains on to prevent eng shutdown
+    --A32NX_OVHD_FUEL_PUMP_R2_toggle()
+end
+
+function A32NX_OVHD_FUEL_PUMP_ALL_on()
+    A32NX_OVHD_FUEL_PUMP_L1_on()
+    A32NX_OVHD_FUEL_PUMP_L2_on()
+    A32NX_OVHD_FUEL_PUMP_C1_on()
+    A32NX_OVHD_FUEL_PUMP_C2_on()
+    A32NX_OVHD_FUEL_PUMP_R1_on()
+    A32NX_OVHD_FUEL_PUMP_R2_on()
+end
+
+function A32NX_OVHD_FUEL_PUMP_ALL_off()
+    A32NX_OVHD_FUEL_PUMP_L1_off()
+    A32NX_OVHD_FUEL_PUMP_L2_off()
+    A32NX_OVHD_FUEL_PUMP_C1_off()
+    A32NX_OVHD_FUEL_PUMP_C2_off()
+    A32NX_OVHD_FUEL_PUMP_R1_off()
+    -- pump R2 remains on to prevent eng shutdown
+    --A32NX_OVHD_FUEL_PUMP_R2_off()
+end
+
 -- ## Overhead ADIRS #####################################
 function A32nx_ADIRS_KNOB_1_off()
      adirs1Knob = 0
