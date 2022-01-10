@@ -1,19 +1,248 @@
--- ## Initial Variables
-function InitVars()
-    BaroRef = 1
-    BaroMode = 1
-    A32nx_BARO_Mode_HPa()
-    A32nx_BARO_qnh()
-    mfd1MODE = 0
-    mfd1Range = 0
-    eicasEcam2Page = 1
-    bat1Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO")
-    bat2Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_2_PB_IS_AUTO")
-    eicasEcam2Functions = {"A32nx_EICAS_2_ECAM_PAGE_ENG","A32nx_EICAS_2_ECAM_PAGE_BLEED","A32nx_EICAS_2_ECAM_PAGE_PRESS","A32nx_EICAS_2_ECAM_PAGE_ELEC","A32nx_EICAS_2_ECAM_PAGE_HYD","A32nx_EICAS_2_ECAM_PAGE_FUEL","A32nx_EICAS_2_ECAM_PAGE_APU","A32nx_EICAS_2_ECAM_PAGE_COND","A32nx_EICAS_2_ECAM_PAGE_DOOR","A32nx_EICAS_2_ECAM_PAGE_WHEEL","A32nx_EICAS_2_ECAM_PAGE_FTCL","A32nx_EICAS_2_ECAM_PAGE_STS","A32nx_EICAS_2_ECAM_PAGE_cycle"}
-    autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
-    tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
-    chronoLState = 0
+-- ## FCU
+
+-- $$ Autopilot Buttons
+
+function A32nx_FCU_AP_1_toggle()
+    ipc.control(EvtPtr + 0)
+    DspShow('AP1','tgl')
 end
+
+function A32nx_FCU_AP_2_toggle()
+    ipc.control(EvtPtr + 1)
+    DspShow('AP2','tgl')
+end
+
+function A32nx_FCU_AP_Disconnect()
+    ipc.control(EvtPtr + 2)
+    DspShow('AP','disc')
+end
+
+function A32nx_FCU_ATHR_toggle()
+    ipc.control(EvtPtr + 3)
+    DspShow('ATHR','tgl')
+end
+
+function A32nx_FCU_ATHR_Disconnect()
+    ipc.control(EvtPtr + 4)
+    DspShow('ATHR','disc')
+end
+
+function A32nx_FCU_LOC_toggle()
+    ipc.control(EvtPtr + 29)
+    DspShow('LOC','tgl')
+end
+
+function A32nx_FCU_APPR_toggle()
+    ipc.control(EvtPtr + 30)
+    DspShow('ATHR','tgl')
+end
+
+function A32nx_FCU_EXPED_toggle()
+    ipc.control(EvtPtr + 31)
+    DspShow ("EXPD", "tgl")
+end
+
+
+-- $$ SPEED -----------------
+
+function A32nx_FCU_SPD_inc()
+    --ipc.activateHvar("H:A320_Neo_FCU_SPEED_INC")
+    ipc.control(EvtPtr + 5)
+    A32NX_DspSPD()
+end
+
+function A32nx_FCU_SPD_incfast()
+    for i = 1, 5, 1 do
+        ipc.control(EvtPtr + 5)
+        A32NX_DspSPD()
+    end
+end
+
+function A32nx_FCU_SPD_dec()
+    --ipc.activateHvar("H:A320_Neo_FCU_SPEED_DEC")
+    ipc.control(EvtPtr + 6)
+    A32NX_DspSPD()
+end
+
+function A32nx_FCU_SPD_decfast()
+    for i = 1, 5, 1 do
+        --ipc.activateHvar("H:A320_Neo_FCU_SPEED_DEC")
+        ipc.control(EvtPtr + 6)
+        A32NX_DspSPD()
+    end
+end
+
+function A32nx_FCU_SPD_MODE_selected ()
+    --ipc.control(66094, 0)
+    ipc.control(EvtPtr + 9)
+    DspShow ("SPD", "set")
+    A32NX_DspSPD()
+end
+
+function A32nx_FCU_SPD_MODE_managed ()
+    --ipc.control(66093,0)
+    ipc.control(EvtPtr + 8)
+    DspShow ("SPD", "mngd")
+    A32NX_DspSPD()
+end
+
+-- $$ HEADING -----------------
+
+function A32nx_FCU_HDG_inc()
+    --ipc.control(65879,0)
+    ipc.control(EvtPtr + 11)
+    A32NX_DspHDG()
+end
+
+function A32nx_FCU_HDG_incfast()
+    for i = 1, 5, 1 do
+        --ipc.control(65879,0)
+    ipc.control(EvtPtr + 11)
+        A32NX_DspHDG()
+    end
+end
+
+function A32nx_FCU_HDG_dec()
+    --ipc.control(65880,0)
+    ipc.control(EvtPtr + 12)
+    A32NX_DspHDG()
+end
+
+function A32nx_FCU_HDG_decfast()
+    for i = 1, 5, 1 do
+        --ipc.control(65880,0)
+        ipc.control(EvtPtr + 12)
+        A32NX_DspHDG()
+    end
+end
+
+function A32nx_FCU_HDG_MODE_selected ()
+    --ipc.control(65815, 0)
+    ipc.control(EvtPtr + 15)
+    DspShow ("HDG", "set")
+    ipc.sleep(200)
+    A32NX_DspSPD()
+end
+
+function A32nx_FCU_HDG_MODE_managed ()
+    --ipc.control(65807,0)
+    ipc.control(EvtPtr + 14)
+    DspShow ("HDG", "mngd")
+    ipc.sleep(200)
+    A32NX_DspSPD()
+end
+
+-- $$ ALTITUDE -----------------
+
+function A32nx_FCU_ALT_inc()
+    --ipc.control(65892,1)
+    ipc.control(EvtPtr + 17)
+    local AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
+    local alt = round(getALTValue()/AltStep)*AltStep + AltStep
+    --_loggg('alt=' .. alt)
+    setALTValue(alt)
+    ipc.control(66124, getALTValue())
+    A32NX_DspALT()
+end
+
+function A32nx_FCU_ALT_dec()
+    --ipc.control(65893,1)
+    ipc.control(EvtPtr + 18)
+    local AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
+    local alt = round(getALTValue()/AltStep)*AltStep - AltStep
+    --_loggg('alt=' .. alt)
+    setALTValue(alt)
+    ipc.control(66124, getALTValue())
+    A32NX_DspALT()
+end
+
+function A32nx_FCU_ALT_MODE_selected ()
+    --ipc.control(65816)
+    ipc.control(EvtPtr + 21)
+    DspShow ("ALT", "set")
+    A32NX_DspALT()
+end
+
+function A32nx_FCU_ALT_MODE_managed ()
+    --ipc.control(65808)
+    ipc.control(EvtPtr + 20)
+    DspShow ("ALT", "mngd")
+    A32NX_DspALT()
+end
+
+function A32nx_FCU_ALT_STEP_100()
+    ipc.writeLvar("XMLVAR_Autopilot_Altitude_Increment", 100)
+    DspShow("STEP","100")
+end
+
+function A32nx_FCU_ALT_STEP_1000()
+    ipc.writeLvar("XMLVAR_Autopilot_Altitude_Increment", 1000)
+    DspShow("STEP","1000")
+end
+
+function A32nx_FCU_ALT_STEP_toggle()
+    step = ipc.readLvar("XMLVAR_Autopilot_Altitude_Increment")
+    if step == 100 then
+        A32nx_FCU_ALT_STEP_1000()
+    else
+        A32nx_FCU_ALT_STEP_100()
+    end
+end
+
+-- $$ VS
+
+function A32nx_FCU_VS_inc()
+    --ipc.control(65894)
+    ipc.control(EvtPtr + 24)
+    A32NX_DspVVS ()
+end
+
+function A32nx_FCU_VS_dec()
+    --ipc.control(65895)
+    ipc.control(EvtPtr + 25)
+    A32NX_DspVVS ()
+end
+
+function A32nx_FCU_VS_MODE_push ()
+    ipc.control(EvtPtr + 27)
+    DspShow ("VS", "push")
+    A32NX_DspVVS ()
+end
+
+function A32nx_FCU_VS_MODE_pull ()
+    ipc.control(EvtPtr + 28)
+    DspShow ("VS", "pull")
+    A32NX_DspVVS ()
+end
+
+function A32nx_FCU_VS_MODE_selected ()
+    --ipc.control(66101)
+    ipc.control(EvtPtr + 28)
+    DspShow ("VS", "set")
+    A32NX_DspVVS ()
+end
+
+function A32nx_FCU_VS_MODE_managed ()
+    --ipc.control(66100)
+    ipc.control(EvtPtr + 27)
+    DspShow ("VS", "mngd")
+    A32NX_DspVVS ()
+end
+
+function A32nx_FCU_VS_MODE_level_off ()
+    ipc.control(EvtPtr + 26,0) -- zero rate of climb
+    DspShow ("VS", "mngd")
+    A32NX_DspVVS ()
+end
+
+function A32nx_FCU_FPA_MODE_toggle ()
+    ipc.control(66099)
+    DspShow ("FPA", "tog")
+    A32NX_DspVVS (1)
+    A32NX_DspHDGtxt()
+end
+
+-------------------------------------------------------
 
 function round(num, numDecimalPlaces)
   local mult = 10^(numDecimalPlaces or 0)
@@ -663,212 +892,6 @@ function A32nx_BARO_toggle()
     else
         A32nx_BARO_pull()
     end
-end
-
--- ## FCU #####################################
---	SyncBackHDG (0, ipc.readUW(0x07CC), true)
---	SyncBackALT (0, ipc.readUD(0x07D4), true)
---	SyncBackVVS (0, ipc.readUW(0x07F2), true)
---	SyncBackCRS (0, ipc.readUW(0x0C4E), true)
---	SyncBackCRS2 (0, ipc.readUW(0x0C5E), true)
-
-function A32nx_PFD_BTN_FD_1()
-     ipc.control(66288, 1)
-end
-
-function A32nx_PFD_BTN_LS_1()
-    ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_1")
-end
-
--- $$ SPEED -----------------
-function A32nx_FCU_SPD_inc()
-    ipc.activateHvar("H:A320_Neo_FCU_SPEED_INC")
-end
-
-function A32nx_FCU_SPD_dec()
-    ipc.activateHvar("H:A320_Neo_FCU_SPEED_DEC")
-end
-
-function A32nx_FCU_SPD_MACH_TOGGLE_push()
-    ipc.activateHvar("")
-end
-
-function A32nx_FCU_SPD_MODE_selected ()
-    ipc.activateHvar("H:A320_Neo_FCU_SPEED_PULL")
-    DspShow ("SPD", "set")
-    SyncBackSPD (0, ipc.readUW(0x07E2), true)
-end
-
-function A32nx_FCU_SPD_MODE_managed ()
-    ipc.activateHvar("H:A320_Neo_FCU_SPEED_PUSH")
-    DspShow ("SPD", "mngd")
-   	SyncBackSPD (0, ipc.readUW(0x07E2), true)
-end
-
--- $$ HEADING -----------------
-function A32nx_HDG_MODE_selected ()
-    ipc.activateHvar("H:A320_Neo_FCU_HDG_PULL")
-    DspShow ("HDG", "set")
-    SyncBackHDG (0, ipc.readUW(0x07CC), true)
-end
-
-function A32nx_HDG_MODE_managed ()
-    ipc.activateHvar("H:A320_Neo_FCU_HDG_PUSH")
-    DspShow ("HDG", "mngd")
-    SyncBackHDG (0, ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA"), true)
-end
-
-function A32nx_HDG_inc()
-    ipc.activateHvar("H:A32NX_FCU_HDG_INC")
-    ipc.sleep(20)
-    SyncBackHDG (0, ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA"), true)
-end
-
-function A32nx_HDG_incfast()
-    ipc.activateHvar("H:A320_Neo_FCU_HDG_INC")
-    ipc.sleep(20)
-    SyncBackHDG (0, ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA"), true)
-end
-
-function A32nx_HDG_dec()
-    ipc.activateHvar("H:A320_Neo_FCU_HDG_DEC")
-    ipc.sleep(20)
-    SyncBackHDG (0, ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA"), true)
-end
-
-function A32nx_HDG_decfast()
-    ipc.activateHvar("H:A320_Neo_FCU_HDG_DEC")
-    ipc.sleep(20)
-    SyncBackHDG (0, ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA"), true)
-end
-
--- $$ ALTITUDE -----------------
-function getSelectedAlt (value)
-    if value ~= sync_alt then
-        sync_alt = value/65536*3.28084/100
-        return (value/65536*3.28084/100)
-    end
-end
-
-
-function A32nx_ALT_MODE_selected ()
-    ipc.activateHvar("H:A320_Neo_FCU_ALT_PULL")
-    DspShow ("ALT", "set")
-    SyncBackALT (0, ipc.readUD(0x07D4), true)
-end
-
-function A32nx_ALT_MODE_managed ()
-    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
-    DspShow ("ALT", "mngd")
-    SyncBackALT (0, ipc.readUD(0x07D4), true)
-end
-
-function A32nx_ALT_inc()
-    -- ipc.writeLvar("L:XMLVAR_Autopilot_Altitude_Increment", 1000)
-    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
-    ipc.control(66124, (ipc.readUD(0x07D4)/65536*3.28084)+100)
-    DspALT (ipc.readUD(0x07D4)/65536*3.28084/100)
-end
-
-function A32nx_ALT_incfast()
-    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
-    ipc.control(66124, (ipc.readUD(0x07D4)/65536*3.28084)+1000)
-    DspALT (ipc.readUD(0x07D4)/65536*3.28084/100)
-end
-
-function A32nx_ALT_dec()
-    -- ipc.writeLvar("L:XMLVAR_Autopilot_Altitude_Increment", 1000)
-    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
-    ipc.control(66124, (ipc.readUD(0x07D4)/65536*3.28084)-100)
-    DspALT (ipc.readUD(0x07D4)/65536*3.28084/100)
-end
-
-function A32nx_ALT_decfast()
-    ipc.activateHvar("H:A320_Neo_FCU_ALT_PUSH")
-    ipc.control(66124, (ipc.readUD(0x07D4)/65536*3.28084)-1000)
-    DspALT (ipc.readUD(0x07D4)/65536*3.28084/100)
-end
-
-function A32nx_FCU_ALT_show()
-	local altSelected = round(ipc.readUD(0x07CC)/65536*3.28084/100)
-    DspALT (altSelected)
-end
-
--- $$ VERTICAL SPEED -----------------
-function A32nx_AP_VS_VAR_inc()
-    ipc.activateHvar("H:AP_VS_VAR_INC")
-end
-
-function A32nx_AP_VS_VAR_dec()
-    ipc.activateHvar("H:AP_VS_VAR_DEC")
-end
-
-function A32nx_VS_MODE_selected ()
-    ipc.activateHvar("H:A320_Neo_FCU_VS_PULL")
-    DspShow ("VS", "set")
-    SyncBackVVS (0, ipc.readUW(0x07F2), true)
-end
-
-function A32nx_VS_MODE_managed ()
-    ipc.activateHvar("H:A320_Neo_FCU_VS_PUSH")
-     DspShow ("VS", "mngd")
-     SyncBackVVS (0, ipc.readUW(0x07F2), true)
-end
-
-function A32nx_VS_MODE_level_off ()
-    ipc.activateHvar("H:A320_Neo_FCU_VS_PUSH")
-     DspShow ("VS", "mngd")
-     SyncBackVVS (0, ipc.readUW(0x07F2), true)
-end
-
--- $$ AP other
-function A32nx_AP_on()
-     ipc.control(65792,1)
-end
-
-function A32nx_AP_off()
-     ipc.control(65791,1)
-end
-
-function A32nx_AP_1_push()
-    ipc.activateHvar("H:FCU_AP_1_PUSH")
-end
-
-function A32nx_AP_2_push()
-    ipc.activateHvar("H:FCU_AP_2_PUSH")
-end
-
-function A32nx_FCU_AP_DISCONNECT_push()
-    ipc.activateHvar("H:FCU_AP_DISCONNECT_PUSH")
-end
-
-function A32nx_AP_LOC_toggle()
-     ipc.control(65723, 0)
-end
-
-function A32nx_AP_APR_toggle()
-     ipc.control(65724, 0)
-end
-
-function A32nx_AUTO_THROTTLE_toggle()
-     ipc.control(65860, 0)
-end
-
-function A32nx_FCU_APPR_MODE_toggle()
-    --ipc.control(65724)
-    ipc.activateHvar("H:FCU_APPR_PUSH")
-    DspShow ("APPR", "tgl")
-end
-
-function A32nx_FCU_EXPED_push()
-    ipc.activateHvar("H:FCU_EXPED_PUSH")
-    DspShow ("EXPED", "tgl")
-end
-
-function A32nx_FCU_VVS_show()
-	local vsSelected = ipc.readLvar("L:A32NX_AUTOPILOT_VS_SELECTED")
-    ipc.display(vsSelected)
-    DspVVSs(vsSelected)
 end
 
 -- ## MAIN PANEL #####################################
@@ -1576,6 +1599,604 @@ function A32nx_PARK_BRAKE_toggle()
         A32nx_PARK_BRAKE_on()
     end
 end
+
+-- ## System functions   ##
+
+-- Initial info on MCP display
+
+function InitDsp ()
+    if _MCP1() or _MCP2() then
+        DspSPD(ipc.readLvar("A32NX_AUTOPILOT_SPEED_SELECTED"))
+        DspHDG(ipc.readLvar("A32NX_AUTOPILOT_HEADING_SELECTED"))
+        DspALT(getALTValue() / 100)
+        DspVVS(ipc.readLvar("A32NX_AUTOPILOT_VS_SELECTED"))
+    else -- MCP2a
+        A32NX_DspSPDtxt()
+        A32NX_DspHDGtxt()
+        A32NX_DspALTtxt()
+        A32NX_DspSPD()
+        A32NX_DspHDG()
+        A32NX_DspALT()
+        A32NX_DspVVS()
+    end
+end
+
+-- Initial variables
+function InitVars ()
+    -- further work required with new GUI
+    EvtFile = "A32NX.EVT"
+    EvtIdx = 0 -- defined in [EVENTS] block in FSUIPC7.INI
+    EvtPtr = 32768 + EvtIdx -- start address for A32NX.EVT custom events
+
+    Airbus = true -- set flag for Airbus MCP2a panels
+    P3D = 1 -- flag for imperial altitude conversion
+
+    BaroRef = 1
+    BaroMode = 1
+
+    A32nx_BARO_Mode_HPa()
+    A32nx_BARO_qnh()
+
+    mfd1MODE = 0
+    mfd1Range = 0
+    eicasEcam2Page = 1
+    bat1Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO")
+    bat2Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_2_PB_IS_AUTO")
+    eicasEcam2Functions = {"A32nx_EICAS_2_ECAM_PAGE_ENG","A32nx_EICAS_2_ECAM_PAGE_BLEED","A32nx_EICAS_2_ECAM_PAGE_PRESS","A32nx_EICAS_2_ECAM_PAGE_ELEC","A32nx_EICAS_2_ECAM_PAGE_HYD","A32nx_EICAS_2_ECAM_PAGE_FUEL","A32nx_EICAS_2_ECAM_PAGE_APU","A32nx_EICAS_2_ECAM_PAGE_COND","A32nx_EICAS_2_ECAM_PAGE_DOOR","A32nx_EICAS_2_ECAM_PAGE_WHEEL","A32nx_EICAS_2_ECAM_PAGE_FTCL","A32nx_EICAS_2_ECAM_PAGE_STS","A32nx_EICAS_2_ECAM_PAGE_cycle"}
+    autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
+    tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
+    chronoLState = 0
+
+    _loggg('[A3nx] A320nx Variables initialised')
+
+	nd_mode = 1 -- default ND mode
+	baro_mode = 1  -- default BARO mode is hPa
+	auto_brk = 0
+    AutoDisplay = false -- override automatic display updates (SPD/HDG/ALT/VVS_
+    DSP_MODE_one ()
+    EcamTxt = 1
+    OnVar = 16 -- change this for initial brightness of displays. 0 to 20
+    --TestCnt = 0
+    TestVar = ""
+    TestLast = ""
+    -- variables to prevent constant LCD display updating
+    A32NX_MODE = false
+    -- MCDU keyboard timeout
+    A32NX_PED_MCDU_Key_Timer = 60000
+    A32NX_PED_MCDU_Key_Flag = false
+    ipc.set("MCDU", 0)
+    -- ALT/VVS DspE Flash Protection
+    A32NX_ALT_Dot = ' '
+    A32NX_VVS_Sign = '-'
+    A32NX_ALT_Zero = '0'
+    A32NX_Dot = string.char(7)
+    A32NX_NoDot = ' '
+end
+
+function Timer ()
+    -- check AP2 status
+    if ipc.readLvar('A32NX_AP_LOC2') == 0 and
+        ipc.readLvar('A32NX_AP_AP2') == 1 and
+        ipc.readLvar('A32NX_AP_AP1') == 1 then
+        ipc.writeLvar(A32NX_AP_AP2, 0)
+    end
+    -- set display information
+    if _MCP2() then
+        if ipc.get("DSPmode") == 1 then
+            -- show autopilot info
+            A32NX_AP_INFO ()
+        else
+            -- show flaps/gears info
+            A32NX_FLIGHT_INFO ()
+        end
+    elseif _MCP2a() then
+        if ipc.get("DSPmode") == 1 then
+            -- keep flag until all MODEs reset
+            local info = Modes()
+            if info ~= "M111" then
+                A32NX_MODE = true
+            else
+                A32NX_MODE = false
+            end
+            -- show autopilot info
+            A32NX_AP_INFO ()
+        else
+            -- show flaps/gears info
+            A32NX_FLIGHT_INFO ()
+        end
+    else  -- Display for MCP1 Users
+        -- Display Autopilot
+        A32NX_DispA32NX_AP_MCP1 ()
+        -- Display Gearstatus
+        A32NX_DispGear_MCP1 ()
+        -- Display Flapstatus
+        A32NX_DispFlaps_MCP1 ()
+    end
+
+    -- set timer for MCDU Key Input Reversion
+    if ipc.readLvar("MCDU_KBD") == 1 and A32NX_PED_MCDU_Key_Flag == false then
+        A32NX_PED_MCDU_KEYB_on()
+        Sounds("modechange")
+    else
+        A32NX_PED_MCDU_Key_Flag = false
+    end
+
+    -- handle timer for MCDU Key Input Reversion
+    if ipc.elapsedtime() - ipc.get("MCDU") > A32NX_PED_MCDU_Key_Timer
+        and A32NX_PED_MCDU_Key_Flag then
+        A32NX_PED_MCDU_KEYB_off()
+        Sounds("modechange")
+    end
+end
+
+----------------------------------------------------------
+
+-- display AP mode information
+function A32NX_AP_INFO ()
+    if _MCP2() then
+        -- FD
+        if ipc.readLvar('A32NX_MPL_FD') == 0 then
+            DspFD(0)
+        else
+            DspFD(1)
+        end
+        -- ATHR
+        if ipc.readLvar('A32NX_AUTOTHRUST_STATUS') == 0 then
+            DspAT(0)
+        else
+            DspAT(1)
+        end
+        -- LNAV
+        if ipc.readLvar('A32NX_AP_HDGmode_setDisp') == 1 then
+            DspLNAV_on ()
+        else
+            DspLNAV_off ()
+            A32NX_DspHDGmode(A32NX_HDGmode_Dot())
+        end
+        -- VNAV
+        if ipc.readLvar('AP_AP_ALT_Mode') == 1 then
+            DspVNAV_on ()
+            A32NX_DspALTmode(true)
+        else
+            DspVNAV_off ()
+            A32NX_DspALTmode(false)
+        end
+        local Var, str1, str2
+        -- A/THR
+        Var = ipc.readLvar('A32NX_AP_ATHR')
+        DspAT(Var)
+        -- AP1
+        Var = ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE')
+        if Var == 1 then
+            str1 = ' 1AP'
+        else
+            str1 = ' -AP'
+        end
+        -- AP2
+        Var = ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE')
+        if Var == 1 then
+            str1 = str1 .. '2 '
+        else
+            str1 = str1 .. '- '
+        end
+        -- ILS
+        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
+        if Var == 1 then
+            str2 = ' ILS '
+        else
+            str2 = '     '
+        end
+        -- LOC or APPR
+        if (ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE') == 1) then
+            str2 = str2 .. 'LOC'
+        elseif (ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE') == 1) then
+            str2 = str2 .. 'APR'
+        end
+        FLIGHT_INFO1 = str1
+        FLIGHT_INFO2 = str2
+    elseif _MCP2a() then -- Airbus FCU
+        local Var
+        -- ILS
+        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
+        DspILS(Var)
+        -- APs 1 & 2
+        DspAPs(ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE'),
+            ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE'))
+        -- A/THR
+        Var = ipc.readLvar('A32NX_AUTOTHRUST_STATUS')
+        DspAT(Var)
+        -- LOC
+        Var = ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE')
+        DspLOC(Var)
+        -- APPR
+        Var = ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE')
+        if not A32NX_MODE then
+            DspAPPR(Var)
+        end
+        -- reset flight information for Airbus MCP2a display
+        FLIGHT_INFO1 = ""
+        FLIGHT_INFO2 = ""
+    end
+    -- SPD/MACH labels
+    A32NX_DspSPDtxt(ipc.readLvar('AUTOPILOT_MANAGED_SPEED_IN_MACH'))
+    -- HDG/TRK labels
+    A32NX_DspHDGtxt(ipc.readLvar("A32NX_TRK_FPA_MODE_ACTIVE"))
+    -- ALT labels
+    A32NX_DspALTtxt()
+    -- ALT/VVS DspE to avoid cursor flicker
+    A32NX_DspE()
+    -- AP VALUES --
+    A32NX_DspSPD ()
+    A32NX_DspHDG ()
+    A32NX_DspALT ()
+    A32NX_DspVVS ()
+end
+
+-----------------------------------------------------------
+
+-- Display Flight Information
+function A32NX_FLIGHT_INFO ()
+        FLIGHT_INFO1 = ""
+        FLIGHT_INFO2 = ""
+   -- end
+end
+
+-----------------------------------------------------------
+
+-- $$ Display Functions
+
+function A32NX_DspSPD()
+    A32NX_spd = ipc.readLvar("A32NX_AUTOPILOT_SPEED_SELECTED")
+    A32NX_spd_dashes = ipc.readLvar("A32NX_FCU_SPD_MANAGED_DASHES")
+    A32NX_spd_dot = ipc.readLvar('A32NX_FCU_SPD_MANAGED_DOT')
+    A32NX_mach = ipc.readUD(0x07E4)
+
+    if A32NX_spd == nil then return end
+
+    local strVal = A32NX_spd
+
+    if A32NX_spd ~= -1 then
+        if (tonumber(strVal) < 100) then
+            A32NX_mach = 1
+        else
+            A32NX_mach = 0
+        end
+    end
+
+    if A32NX_spd_dashes == 1 then
+        strVal = '---'
+    end
+
+    if A32NX_spd_dot == 1 then
+        if _MCP2a() then
+            strVal = strVal .. string.char(7)
+        else
+            strVal = strVal .. '*'
+        end
+    end
+
+    if not _MCP1() then
+        DspSPDs(strVal, true)
+        A32NX_DspSPDtxt(A32NX_mach)
+    end
+end
+
+-----------------------------------------------------------
+
+function A32NX_DspHDG ()
+    A32NX_hdg = ipc.readLvar("A32NX_AUTOPILOT_HEADING_SELECTED")
+    A32NX_hdg_dashes = ipc.readLvar("A32NX_FCU_HDG_MANAGED_DASHES")
+    A32NX_hdg_dot = ipc.readLvar('A32NX_FCU_HDG_MANAGED_DOT')
+
+    if A32NX_hdg == nil then return end
+
+    --_loggg('h=' .. A32NX_hdg)
+
+    local strVal = string.format("%03d", A32NX_hdg)
+
+    --_loggg('hdg=' .. strVal)
+
+    if A32NX_hdg_dashes == 1 then
+        strVal = '---'
+    end
+
+    if A32NX_hdg_dot == 1 then
+        if _MCP2a() then
+            strVal = strVal .. string.char(7)
+        else
+            strVal = strVal .. '*'
+        end
+    end
+
+    if not _MCP1() then
+        DspHDGs(strVal, true)
+    end
+end
+
+-----------------------------------------------------------
+
+function A32NX_DspALT ()
+    A32NX_alt = getALTValue()
+    _logggg('alt=' .. tostring(A32NX_alt))
+    if A32NX_alt == nil then return end
+    if _MCP1() then return end
+    DspALT(A32NX_alt/100)
+    A32NX_DspALTmode()
+end
+
+-----------------------------------------------------------
+
+function A32NX_DspVVS (force)
+    if force == nil then
+        force = 0
+    end
+
+    local VS_val = ipc.readLvar("A32NX_AUTOPILOT_VS_SELECTED")
+    local VS_mode = ipc.readLvar("A32NX_FCU_VS_MANAGED")
+    local FPA_val = ipc.readLvar("A32NX_AUTOPILOT_FPA_SELECTED")
+    local FPA_mode = ipc.readLvar("A32NX_TRK_FPA_MODE_ACTIVE")
+
+    A32NX_DspHDGtxt(FPA_mode, force)
+
+    _logggg('VS=' .. VS_val .. ' ' .. tostring(VS_mode) .. ' FPA='
+        .. tostring(FPA_val) .. ' ' .. tostring(FPA_mode))
+
+    if VS_mode == 1 then
+        if _MCP2a() then
+            DspVVSs("----")
+            A32NX_VVS_Sign = '-'
+        else
+            DspVVS_AP_on()
+            DspVVSs("----", true)
+        end
+    else
+        DspVVS_AP_off()
+        if FPA_mode == 0 then
+            VS_alt = VS_val / 100
+            DspVVS((VS_alt) * 1.0, 1)
+            if VS_alt >= 0 then
+                A32NX_VVS_Sign = '+'
+            else
+                A32NX_VVS_Sign = '-'
+            end
+        else  -- display FPA
+            VS_alt = FPA_val
+            _loggg('FPA=' .. VS_alt)
+            DspFPA((VS_alt) * 1.0, 1)
+            A32NX_VVS_Sign = ' '
+        end
+    end
+end
+
+-----------------------------------------------------------
+
+-- function to stop DspE field flashing
+function A32NX_DspE(val)
+    if _MCP1() or _MCP2() then return end
+    if val == nil then
+        val = "0" .. A32NX_ALT_Dot .. "\\" .. A32NX_VVS_Sign
+    end
+    DspE(val, false)
+end
+
+-- AP mode dots
+function A32NX_SPDmode_Dot ()
+    SPD_mode_set = ipc.readLvar('A32nx_FCU_SPD_MANAGED_DOT')
+    if SPD_mode_set == 1 then
+        return true
+    else
+        return false
+    end
+end
+
+function A32NX_HDGmode_Dot ()
+    HDG_mode_set = ipc.readLvar('A32nx_FCU_HDG_MANAGED_DOT')
+    if HDG_mode_set == 1 then
+        return true
+    else
+        return false
+    end
+end
+
+function A32NX_ALTmode_Dot ()
+    ALT_mode = ipc.readLvar('L:AP_AP_ALT_Mode')
+    if ALT_mode == 1 then
+        return true
+    else
+        return false
+    end
+end
+
+function A32NX_DspAP1_on()
+    DspAP1(true)
+end
+
+function A32NX_DspAP1_off()
+    DspAP1(false)
+end
+
+function A32NX_DspAP2_on()
+    DspAP2(true)
+end
+
+function A32NX_DspAP2_off()
+    DspAP2(false)
+end
+
+function A32NX_DspILS_on()
+    DspILS(true)
+end
+
+function A32NX_DspILS_off()
+    DspILS(false)
+end
+
+function A32NX_DspSPDtxt(i)
+    if _MCP1() then return end
+    -- SPD/MACH
+    if _MCP2a() then
+        if i == 1  then
+            Dsp0('MACH')
+        else
+            Dsp0('SPD ')
+        end
+    else  -- MCP2
+        if i == 1  then
+            Dsp0('\\\\\\M')
+            Dsp1('ACH\\')
+        else
+            Dsp0('\\\\\\S')
+            Dsp1('PD \\')
+        end
+    end
+end
+
+function A32NX_DspHDGtxt(i)
+    if _MCP1() or _MCP2() then return end
+    if i == nil then
+        i = ipc.readLvar("A32NX_TRK_FPA_MODE_ACTIVE")
+    end
+    -- HDG/TRK
+    if i == 1 then
+        Dsp2('TRK ')
+        DspB(' TRK')
+        DspC('FPA ')
+        Dsp7(' FPA')
+    else
+        Dsp2('HDG ')
+        DspB(' HDG')
+        DspC('V/S ')
+        Dsp7(' V/S')
+    end
+end
+
+function A32NX_DspALTtxt()
+    if _MCP1() or _MCP2() then return end
+    -- ALT mode
+    Dsp5('ALT ')
+    DspD('\\\\\\0')
+    --DspE('0\\\\\\')
+end
+
+function A32NX_DspInfoClear()
+    if _MCP1() or _MCP2() then return end
+    DspILS(false)
+    DspLOC(false)
+    DspAT(false)
+    DspAPPR(false)
+    Dsp1('    ', true) -- blank ILS
+    Dsp9('    ', true) -- blank LOC
+    Dsp3('    ', true) -- blank APs
+    Dsp4('    ', true) -- blank AT
+    DspB('    ', true) -- blank HDG
+    DspC('    ', true) -- blank V/S
+    Dsp6('    ', true) -- blank APPR
+end
+
+function A32NX_DspSPDmode (i)
+	if dev == 0 then return end
+    if _MCP1() then return end
+    local val
+    if _MCP2a() then
+        if i == true then
+   	        val = "\\\\\\" .. string.char(7)
+        else
+            val = "\\\\\\ "
+        end
+        Dsp8(val)
+    else
+        if i then
+            A32NX_DspSPD_AP_on()
+        else
+            A32NX_DspSPD_AP_off()
+        end
+    end
+end
+
+function A32NX_DspMACHmode (i)
+	if dev == 0 then return end
+    if not _MCP2a() then return end
+    local val
+    if i == true then
+   	    val = string.char(7) .. "\\\\\\"
+    else
+        val = " \\\\\\"
+    end
+    Dsp9(val)
+end
+
+function A32NX_DspHDGmode (i)
+	if dev == 0 then return end
+    if _MCP1() then return end
+    local val
+    if _MCP2a() then
+        if i then
+            val = "\\\\\\" .. string.char(7)
+        else
+   	        val = "\\\\\\ "
+        end
+        DspA(val)
+    else -- MCP2
+        if i then
+            val = "\\\\\\*"
+        else
+            val = "\\\\\\ "
+        end
+        DspC(val)
+    end
+end
+
+function A32NX_DspALTmode ()
+	if dev == 0 then return end
+    if _MCP1() then return end
+    local Dot
+    local val
+    Dot = ipc.readLvar('A32NX_FCU_ALT_MANAGED')
+    if Dot == 1 then
+        if _MCP2a() then
+            A32NX_ALT_Dot = A32NX_Dot
+            A32NX_DspE()
+        else
+            val = "\\*\\\\"
+            Dsp6(val)
+        end
+    else
+        if _MCP2a() then
+            A32NX_ALT_Dot = ' '
+            A32NX_DspE()
+        else
+            val = "\\ \\\\"
+            Dsp6(val)
+        end
+    end
+end
+
+function A32NX_DspSPD_AP_on ()
+	if dev == 0 then return end
+    if not _MCP2() then return end
+    if ipc.readLvar("A32NX_AP_MACH_Select") == 0 then
+   	    _sleep(20)
+        com.write(dev, "DSP1\\\\*\\", 8)
+    end
+ end
+
+function A32NX_DspSPD_AP_off ()
+	if dev == 0 then return end
+    if not _MCP2() then return end
+    if ipc.readLvar("A32NX_AP_MACH_Select") == 0 then
+   	    _sleep(20)
+        com.write(dev, "DSP1\\\\ \\", 8)
+    end
+end
+
+function A32NX_DspMode_Toggle()
+    if ipc.get("DSPmode") == 1 then
+        A32NX_DspInfoClear()
+        A32NX_APPR = false
+    end
+    DSP_MODE_toggle()
+end
+-----------------------------------------------------------
 
 -- ## Test stuff ################
 -- $$ Test
