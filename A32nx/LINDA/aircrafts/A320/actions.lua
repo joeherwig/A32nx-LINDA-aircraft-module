@@ -721,8 +721,10 @@ function A32nx_FCU_VVS_show()
     DspVVSs(vsSelected)
 end
 
--- ## GlareShield #####################################
+-- ## MAIN PANEL #####################################
+
 -- $$ Autobrake ---------------------------------
+
 function A32nx_AUTOBRAKE_off()
      A32nx_AUTOBRAKE_set(0)
 end
@@ -774,6 +776,28 @@ function A32nx_AUTOBRAKE_cycle()
      if autoBrakeLevel >= 3 then autoBrakeLevel = 0 else autoBrakeLevel = autoBrakeLevel + 1 end
 	A32nx_AUTOBRAKE_set(autoBrakeLevel)
 end
+
+-- $$ Landing Gear Handle
+
+function A32nx_MAIN_LANDING_GEAR_up()
+    ipc.writeUD(0x0BE8, 0)
+    DspShow('GEAR','up')
+end
+
+function A32nx_MAIN_LANDING_GEAR_down()
+    ipc.writeUD(0x0BE8, 16383)
+    DspShow('GEAR','down')
+end
+
+function A32nx_MAIN_LANDING_GEAR_toggle()
+    if ipc.readUD(0x0BE8) > 0 then
+        A32nx_MAIN_LANDING_GEAR_up()
+    else
+        A32nx_MAIN_LANDING_GEAR_down()
+    end
+end
+
+-- $$ Terronnd
 
 function A32nx_MFD_BTN_TERRONND_1_toggle()
     ipc.activateHvar("H:A320_Neo_MFD_BTN_TERRONND_1")
