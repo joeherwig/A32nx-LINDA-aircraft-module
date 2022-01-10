@@ -2,12 +2,19 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.8.3
-     Date: 2022-01-07
+  Version: 0.9.0
+     Date: 2022-01-10
    Author: Joe Herwig
-           Neil Clements (0.4.4 / 0.6.1)
+           Andrew Gransden / ScotFlieger (0.9.0)
            Falk Scherber (0.8.2)
+           Neil Clements (0.4.4 / 0.6.1)
+
 ------------------------------------------------------------------------
+0.9.0
+• Fixed multiple issues for instance with the APU not working due to obsolete blank (Andrew Gransden)
++ Barometer reference settings (Andrew Gransden)
++ Overhead lights updated to ExecuteCalculatorCode
+
 0.8.3
 + External Power (toggle)
 - External Power (on, off) as not available in current DEV version anymore

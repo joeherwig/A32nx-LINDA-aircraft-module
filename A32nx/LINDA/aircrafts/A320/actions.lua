@@ -1,14 +1,9 @@
-
 -- ## Initial Variables
-
 function InitVars()
-
     BaroRef = 1
     BaroMode = 1
-
     A32nx_BARO_Mode_HPa()
     A32nx_BARO_qnh()
-
     mfd1MODE = 0
     mfd1Range = 0
     eicasEcam2Page = 1
@@ -252,7 +247,31 @@ end
 
 -- ## Overhead Lights & Signs #####################################
 
--- && Lights
+-- $$ Lights
+function A32nx_StrobeLts_on()
+    ipc.execCalcCode("1 (>L:LIGHTING_STROBE_0) 1 (>L:STROBE_0_Auto) 1 0 r (>K:2:STROBES_SET)")
+end
+function A32nx_StrobeLts_auto()
+    ipc.execCalcCode("0 (>L:LIGHTING_STROBE_0) 0 (>L:STROBE_0_Auto) 1 0 r (>K:2:STROBES_SET)")
+end
+function A32nx_StrobeLts_off()
+    ipc.execCalcCode("2 (>L:LIGHTING_STROBE_0) 0 (>L:STROBE_0_Auto) 0 0 r (>K:2:STROBES_SET)")
+end
+
+function A32nx_BeaconLts_on()
+    ipc.execCalcCode("0 1 (>K:2:BEACON_LIGHTS_SET)")
+end
+function A32nx_BeaconLts_off()
+    ipc.execCalcCode("0 0 (>K:2:BEACON_LIGHTS_SET)")
+end
+
+function A32nx_RwyTurnLts_on()
+    ipc.execCalcCode("1 s0 (>L:LIGHTING_TAXI_2) 2 l0 (>K:2:TAXI_LIGHTS_SET) 3 l0 (>K:2:TAXI_LIGHTS_SET)")
+end
+function A32nx_RwyTurnLts_off()
+    ipc.execCalcCode("0 s0 (>L:LIGHTING_TAXI_2) 2 l0 (>K:2:TAXI_LIGHTS_SET) 3 l0 (>K:2:TAXI_LIGHTS_SET)")
+end
+
 function A32nx_LandingLts_L_Pos(pos)
     ipc.writeLvar("L:LIGHTING_LANDING_2", pos)
 end
@@ -276,7 +295,7 @@ function A32nx_LandingLts_R_off()
      A32nx_LandingLts_R_Pos(1)
 end
 function A32nx_LandingLts_R_on()
-     A32nx_LandingLts_R_Pos(0)
+    A32nx_LandingLts_R_Pos(0)
 end
 
 function A32nx_LandingLts_Both_Pos(pos)
@@ -296,17 +315,28 @@ function A32nx_LandingLts_Both_on()
      A32nx_LandingLts_R_Pos(0)
 end
 
-function A32nx_EmerExit_Pos(pos)
+function A32nx_NoseLts_TO()
+    ipc.execCalcCode("0 (>L:LIGHTING_LANDING_1) 1 1 r (>K:2:LANDING_LIGHTS_SET) 0 1 r (>K:2:TAXI_LIGHTS_SET)")
+end
+function A32nx_NoseLts_taxi()
+    ipc.execCalcCode("1 (>L:LIGHTING_LANDING_1) 0 1 r (>K:2:LANDING_LIGHTS_SET) 1 1 r (>K:2:TAXI_LIGHTS_SET)")
+end
+function A32nx_NoseLts_off()
+    ipc.execCalcCode("2 (>L:LIGHTING_LANDING_1) 0 1 r (>K:2:LANDING_LIGHTS_SET) 0 1 r (>K:2:TAXI_LIGHTS_SET)")
+end
+-- $$ internal
+
+function A32nx_EmerExitLts_Pos(pos)
     ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position", pos)
 end
-function A32nx_EmerExit_off()
-     A32nx_EmerExit_Pos(2)
+function A32nx_EmerExitLts_off()
+     A32nx_EmerExitLts_Pos(2)
 end
-function A32nx_EmerExit_arm()
-     A32nx_EmerExit_Pos(1)
+function A32nx_EmerExitLts_arm()
+     A32nx_EmerExitLts_Pos(1)
 end
-function A32nx_EmerExit_on()
-     A32nx_EmerExit_Pos(0)
+function A32nx_EmerExitLts_on()
+     A32nx_EmerExitLts_Pos(0)
 end
 
 -- $$ Signs
@@ -330,7 +360,7 @@ function A32nx_NoSmoking_auto()
 end
 
 function A32nx_NoSmoking_on()
-     A32nx_NoSmoking_Pos(0)
+    A32nx_NoSmoking_Pos(0)
 end
 
 -- $$ APU
@@ -339,18 +369,18 @@ function A32nx_APU_MASTER_set(apuMaster)
 end
 
 function A32nx_APU_MASTER_on()
-     APU_MASTERStatus = 1
+    APU_MASTERStatus = 1
 	A32nx_APU_MASTER_set(APU_MASTERStatus)
 end
 
 function A32nx_APU_MASTER_off()
-     APU_MASTERStatus = 0
+    APU_MASTERStatus = 0
 	A32nx_APU_MASTER_set(APU_MASTERStatus)
 end
 
 function A32nx_APU_MASTER_toggle()
-     APU_MASTERStatus = ipc.readLvar("L:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON")
-     if APU_MASTERStatus >= 1 then APU_MASTERStatus = 0 else APU_MASTERStatus = 1 end
+    APU_MASTERStatus = ipc.readLvar("L:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON")
+    if APU_MASTERStatus >= 1 then APU_MASTERStatus = 0 else APU_MASTERStatus = 1 end
 	A32nx_APU_MASTER_set(APU_MASTERStatus)
 end
 
@@ -359,18 +389,18 @@ function A32nx_APU_START_set(apuSTART)
 end
 
 function A32nx_APU_START_on()
-     APU_STARTStatus = 1
+    APU_STARTStatus = 1
 	A32nx_APU_START_set(APU_STARTStatus)
 end
 
 function A32nx_APU_START_off()
-     APU_STARTStatus = 0
+    APU_STARTStatus = 0
 	A32nx_APU_START_set(APU_STARTStatus)
 end
 
 function A32nx_APU_START_toggle()
-     APU_STARTStatus = ipc.readLvar("L:A32NX_OVHD_APU_START_PB_IS_ON")
-     if APU_STARTStatus >= 1 then APU_STARTStatus = 0 else APU_STARTStatus = 1 end
+    APU_STARTStatus = ipc.readLvar("L:A32NX_OVHD_APU_START_PB_IS_ON")
+    if APU_STARTStatus >= 1 then APU_STARTStatus = 0 else APU_STARTStatus = 1 end
 	A32nx_APU_START_set(APU_STARTStatus)
 end
 
@@ -388,17 +418,17 @@ function A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
     ipc.writeLvar("L:A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON", apuPneyBleed)
 end
 
-function A32nx_OVHD_PNEU_APU_BLEED_on()
+function  A32nx_OVHD_PNEU_APU_BLEED_on()
      apuPneyBleed = 1
 	 A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
 end
 
-function A32nx_OVHD_PNEU_APU_BLEED_off()
+function  A32nx_OVHD_PNEU_APU_BLEED_off()
      apuPneyBleed = 0
 	 A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
 end
 
-function A32nx_OVHD_PNEU_APU_BLEED_toggle()
+function  A32nx_OVHD_PNEU_APU_BLEED_toggle()
      apuPneyBleed = ipc.readLvar("L:A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON")
      if apuPneyBleed >= 1 then apuPneyBleed = 0 else apuPneyBleed = 1 end
 	 A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
@@ -414,7 +444,6 @@ function A32nx_MasterCaution_push ()
 end
 
 -- $$ BARO Reference
-
 function A32nx_BARO_inc()
     ipc.control(65883,0)
     if BaroMode == 1 then
@@ -423,7 +452,6 @@ function A32nx_BARO_inc()
     end
     DspShow('BARO','inc')
 end
-
 function A32nx_BARO_dec()
     ipc.control(65884,0)
     if BaroMode == 1 then
@@ -437,13 +465,11 @@ function A32nx_BARO_Mode_HPa()
     BaroMode = 1
     DspShow('BARO','HPa')
 end
-
 function A32nx_BARO_Mode_InHg()
     ipc.writeLvar("L:XMLVAR_Baro_Selector_HPA_1", 0)
     BaroMode = 0
     DspShow('BARO','InHg')
 end
-
 function A32nx_BARO_Mode_toggle()
     if ipc.readLvar("L:XMLVAR_Baro_Selector_HPA_1") == 0 then
         A32nx_BARO_Mode_HPa()
@@ -451,28 +477,23 @@ function A32nx_BARO_Mode_toggle()
         A32nx_BARO_Mode_InHg()
     end
 end
-
 function A32nx_BARO_qfe()
     ipc.writeLvar("L:XMLVAR_Baro1_Mode",0)
     BaroRef = 0
     DspShow('BARO', 'qfe')
 end
-
 function A32nx_BARO_qnh()
     ipc.writeLvar("L:XMLVAR_Baro1_Mode",1)
     BaroRef = 1
     DspShow('BARO', 'qnh')
 end
-
 function A32nx_BARO_std()
     ipc.writeLvar("L:XMLVAR_Baro1_Mode",2)
     DspShow('BARO', 'std')
 end
-
 function A32nx_BARO_pull()
     A32nx_BARO_std()
 end
-
 function A32nx_BARO_push()
     Lval = ipc.readLvar("L:XMLVAR_Baro1_Mode")
     if Lval == 0 then
@@ -485,7 +506,6 @@ function A32nx_BARO_push()
         A32nx_BARO_qfe()
     end
 end
-
 function A32nx_BARO_toggle()
     Lval = ipc.readLvar("L:XMLVAR_Baro1_Mode")
     if Lval > 1 then
