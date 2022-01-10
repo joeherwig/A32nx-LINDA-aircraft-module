@@ -12,7 +12,9 @@
 ------------------------------------------------------------------------
 0.9.0
 • Fixed multiple issues for instance with the APU not working due to obsolete blank (Andrew Gransden)
-+ Barometer reference settings (Andrew Gransden)
++ Barometer reference settings (by Andrew Gransden)
++ Landing gear lever (by Andrew Gransden)
++ Fuel Pumps (on, off, toggle) (by Andrew Gransden)
 + Overhead lights updated to ExecuteCalculatorCode
 
 0.8.3

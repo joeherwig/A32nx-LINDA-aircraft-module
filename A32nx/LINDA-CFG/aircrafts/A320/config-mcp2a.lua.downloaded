@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2201101719 (LINDA 4.0.7.180) --
+-- config-mcp2a.lua @ 2201101735 (LINDA 4.0.7.180) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -49,7 +49,7 @@ NDM1 = {
 ["A ++"]    = A32nx_MFD_NAV_MODE_1_inc  ,
 ["A  -"]    = A32nx_MFD_NAV_MODE_1_dec  ,
 ["A --"]    = A32nx_MFD_NAV_MODE_1_dec  ,
-["PRESS"]   = A32nx_MasterCaution_push  ,
+["PRESS"]   = A32nx_MasterWarning_push  ,
 ["B SHOW"]  = Do_nothing  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
@@ -64,7 +64,7 @@ NDR1 = {
 ["A ++"]    = A32nx_MFD_RANGE_1_inc  ,
 ["A  -"]    = A32nx_MFD_RANGE_1_dec  ,
 ["A --"]    = A32nx_MFD_RANGE_1_dec  ,
-["PRESS"]   = A32nx_MasterWarning_push  ,
+["PRESS"]   = A32nx_MasterCaution_push  ,
 ["B SHOW"]  = empty  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
@@ -238,8 +238,8 @@ MCP1 = {
 -- AFCU SPD knob
 SPD1 = {
 ["A SHOW"]  	= SPD_show  ,
-["A  +"]    	= MSFS_SPD_inc  ,
-["A ++"]    	= MSFS_SPD_inc  ,
+["A  +"]    	= A32nx_FCU_SPD_inc  ,
+["A ++"]    	= A32nx_FCU_SPD_inc  ,
 ["A  -"]    	= MSFS_SPD_dec  ,
 ["A --"]    	= MSFS_SPD_dec  ,
 ["PRESS"]   	= A32nx_SPD_MODE_managed  ,
@@ -253,19 +253,19 @@ HDG1 = {
 ["A ++"]    	= MSFS_HDG_inc  ,
 ["A  -"]    	= MSFS_HDG_dec  ,
 ["A --"]    	= MSFS_HDG_dec  ,
-["PRESS"]   	= Do_nothing  ,
-["PULL"]    	= Do_nothing  ,
+["PRESS"]   	= Autopilot_NAV_hold  ,
+["PULL"]    	= Autopilot_HDG_hold  ,
 }
 
 -- AFCU ALT knob
 ALT1 = {
 ["A SHOW"]  	= ALT_show  ,
 ["A  +"]    	= A32nx_ALT_inc  ,
-["A ++"]    	= MSFS_ALT_inc  ,
+["A ++"]    	= A32nx_ALT_incfast  ,
 ["A  -"]    	= A32nx_ALT_dec  ,
-["A --"]    	= MSFS_ALT_dec  ,
-["PRESS"]   	= A32nx_HDG_MODE_managed  ,
-["PULL"]    	= MSFS_ALT_hold_toggle  ,
+["A --"]    	= A32nx_ALT_decfast  ,
+["PRESS"]   	= A32nx_ALT_MODE_managed  ,
+["PULL"]    	= A32nx_ALT_MODE_selected  ,
 }
 
 -- AFCU VVS knob
@@ -422,9 +422,9 @@ USER1 = {
 ["BTN4."]   = A32nx_AUTOBRAKE_low_toggle  ,
 ["BTN5."]   = A32nx_AUTOBRAKE_mid_toggle  ,
 ["BTN6."]   = A32nx_AUTOBRAKE_max_toggle  ,
-["BTN7."]   = MSFS_ParkingBrake_toggle  ,
+["BTN7."]   = Brakes_PARKING  ,
 ["BTN8."]   = VVS_show  ,
-["USR1."]   = A32nx_EICAS_2_ECAM_PAGE_cycle  ,
+["USR1."]   = A32nx_STBY_CHRONO_elapsed_time_cycle  ,
 ["USR2."]   = A32nx_OVHD_calls_ALL  ,
 ["USR3."]   = empty  ,
 ["USR4."]   = empty  ,
