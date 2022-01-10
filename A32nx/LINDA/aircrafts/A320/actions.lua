@@ -1319,7 +1319,11 @@ end
 function A32nx_CDU_1_BTN_clr()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_CLR")
 end
--- ## ENGINES #####################################
+
+-- ## PEDESTAL
+
+-- $$ ENGINES #####################################
+
 function A32nx_ENGINE_MODE_set(engMode)
     ipc.control(67017, engMode)
     ipc.control(67018, engMode)
@@ -1366,7 +1370,8 @@ function A32nx_ENGINES_MASTER_off()
     ipc.control(66531, 0)
 end
 
--- ## TCAS #####################################
+-- $$ TCAS #####################################
+
 function A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
     ipc.writeLvar("L:A32NX_SWITCH_TCAS_Position", tcasSwitchPos)
     local tcasMODE = {"STBY","TA","TA/RA"}
@@ -1404,6 +1409,26 @@ function A32nx_TCAS_SWITCH_POS_cycle()
     tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
     if tcasSwitchPos >= 2 then tcasSwitchPos = 0 else tcasSwitchPos = tcasSwitchPos + 1 end
 	A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+end
+
+-- $ Park Brake
+
+function A32nx_PARK_BRAKE_on()
+    ipc.writeLvar("L:A32NX_PARK_BRAKE_LEVER_POS", 1)
+    DspShow('PARK','on')
+end
+
+function A32nx_PARK_BRAKE_off()
+    ipc.writeLvar("L:A32NX_PARK_BRAKE_LEVER_POS", 0)
+    DspShow('PARK','off')
+end
+
+function A32nx_PARK_BRAKE_toggle()
+    if ipc.readLvar("L:A32NX_PARK_BRAKE_LEVER_POS") > 0 then
+        A32nx_PARK_BRAKE_off()
+    else
+        A32nx_PARK_BRAKE_on()
+    end
 end
 
 -- ## Test stuff ################
