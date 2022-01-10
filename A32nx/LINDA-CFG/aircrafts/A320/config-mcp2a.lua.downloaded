@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2108102134 (LINDA 4.0.5.173) --
+-- config-mcp2a.lua @ 2201101719 (LINDA 4.0.7.180) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -49,7 +49,7 @@ NDM1 = {
 ["A ++"]    = A32nx_MFD_NAV_MODE_1_inc  ,
 ["A  -"]    = A32nx_MFD_NAV_MODE_1_dec  ,
 ["A --"]    = A32nx_MFD_NAV_MODE_1_dec  ,
-["PRESS"]   = empty  ,
+["PRESS"]   = A32nx_MasterCaution_push  ,
 ["B SHOW"]  = Do_nothing  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
@@ -64,7 +64,7 @@ NDR1 = {
 ["A ++"]    = A32nx_MFD_RANGE_1_inc  ,
 ["A  -"]    = A32nx_MFD_RANGE_1_dec  ,
 ["A --"]    = A32nx_MFD_RANGE_1_dec  ,
-["PRESS"]   = empty  ,
+["PRESS"]   = A32nx_MasterWarning_push  ,
 ["B SHOW"]  = empty  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
