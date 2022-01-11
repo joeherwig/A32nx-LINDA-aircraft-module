@@ -16,12 +16,25 @@ To install that aircraft module, just [download the A32nx_LINDA_aircraft_module.
 
 ![Import screenshot 4](https://raw.githubusercontent.com/wiki/joeherwig/A32nx-LINDA-aircraft-module/img/Import_Module_4.png)
 
-## Assign functions
+- Copy the *.evt files from the unziped folder to your FSUIPC7 installation root folder
+- add the A32nx.evt to the [Events] section in FSUIPC7.ini with index 0.
+eg:
+```
+[EventFiles]
+0=A32nx
+1=A32X-FBW1
+2=A32X-FBW2
+```
 
+Andrew is going to update LINDA so that the order of the event files will get unimportant in future. 
+
+## Assign the functions
 To work with the included libraries and event-files, just follow the instructions in the [Wiki](https://github.com/joeherwig/A32nx-LINDA-aircraft-module/wiki).
 
 - [Assign in Linda](https://github.com/joeherwig/A32nx-LINDA-aircraft-module/wiki/Assign-in-LINDA)
 - [Assign events in FSUIPC](https://github.com/joeherwig/A32nx-LINDA-aircraft-module/wiki/Assign-events-in-FSUIPC)
+
+If you own a VRInsight MCP2a (FCU Airbus style), you can also take a look at my examples within the [config-mcp2a.lua.downloaded](https://github.com/joeherwig/A32nx-LINDA-aircraft-module/blob/main/A32nx/LINDA-CFG/aircrafts/A320/config-mcp2a.lua.downloaded) file.
 
 
 ## Interested to contribute?
