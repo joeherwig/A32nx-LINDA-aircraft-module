@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2201101735 (LINDA 4.0.7.180) --
+-- config-mcp2a.lua @ 2201112357 (LINDA 4.0.8.195) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -49,7 +49,7 @@ NDM1 = {
 ["A ++"]    = A32nx_MFD_NAV_MODE_1_inc  ,
 ["A  -"]    = A32nx_MFD_NAV_MODE_1_dec  ,
 ["A --"]    = A32nx_MFD_NAV_MODE_1_dec  ,
-["PRESS"]   = A32nx_MasterWarning_push  ,
+["PRESS"]   = A32nx_MasterCaution_push  ,
 ["B SHOW"]  = Do_nothing  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
@@ -64,7 +64,7 @@ NDR1 = {
 ["A ++"]    = A32nx_MFD_RANGE_1_inc  ,
 ["A  -"]    = A32nx_MFD_RANGE_1_dec  ,
 ["A --"]    = A32nx_MFD_RANGE_1_dec  ,
-["PRESS"]   = A32nx_MasterCaution_push  ,
+["PRESS"]   = A32nx_MasterWarning_push  ,
 ["B SHOW"]  = empty  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
@@ -225,58 +225,58 @@ MCP1 = {
 ["ENABLED"] 	= true  ,
 ["IDENT"]   	= "MCP1"  ,
 ["MACH."]   	= A32nx_MCDU_MODE_SELECTED_SPEED  ,
-["LOC ."]   	= A32nx_AP_LOC_toggle  ,
+["LOC ."]   	= A32nx_FCU_LOC_toggle  ,
 ["TRK ."]   	= Autopilot_TRK_button  ,
-["AP1 ."]   	= A32nx_AP_on  ,
-["AP2 ."]   	= A32nx_AP_off  ,
-["ATHR."]   	= A32nx_AUTO_THROTTLE_toggle  ,
-["EXPD."]   	= empty  ,
-["MTR ."]   	= Autopilot_MTR_button  ,
-["APPR."]   	= A32nx_FCU_APPR_MODE_toggle  ,
+["AP1 ."]   	= A32nx_FCU_AP_1_toggle  ,
+["AP2 ."]   	= A32nx_FCU_AP_2_toggle  ,
+["ATHR."]   	= A32nx_FCU_ATHR_toggle  ,
+["EXPD."]   	= A32nx_FCU_EXPED_toggle  ,
+["MTR ."]   	= A32nx_FCU_ALT_STEP_toggle  ,
+["APPR."]   	= A32nx_FCU_APPR_toggle  ,
 }
 
 -- AFCU SPD knob
 SPD1 = {
 ["A SHOW"]  	= SPD_show  ,
 ["A  +"]    	= A32nx_FCU_SPD_inc  ,
-["A ++"]    	= A32nx_FCU_SPD_inc  ,
-["A  -"]    	= MSFS_SPD_dec  ,
-["A --"]    	= MSFS_SPD_dec  ,
-["PRESS"]   	= A32nx_SPD_MODE_managed  ,
+["A ++"]    	= A32nx_FCU_SPD_incfast  ,
+["A  -"]    	= A32nx_FCU_SPD_dec  ,
+["A --"]    	= A32nx_FCU_SPD_decfast  ,
+["PRESS"]   	= A32nx_FCU_SPD_MODE_managed  ,
 ["PULL"]    	= A32nx_FCU_SPD_MODE_selected  ,
 }
 
 -- AFCU HDG knob
 HDG1 = {
 ["A SHOW"]  	= HDG_show  ,
-["A  +"]    	= MSFS_HDG_inc  ,
-["A ++"]    	= MSFS_HDG_inc  ,
-["A  -"]    	= MSFS_HDG_dec  ,
-["A --"]    	= MSFS_HDG_dec  ,
-["PRESS"]   	= Autopilot_NAV_hold  ,
-["PULL"]    	= Autopilot_HDG_hold  ,
+["A  +"]    	= A32nx_FCU_HDG_inc  ,
+["A ++"]    	= A32nx_FCU_HDG_incfast  ,
+["A  -"]    	= A32nx_FCU_HDG_dec  ,
+["A --"]    	= A32nx_FCU_HDG_decfast  ,
+["PRESS"]   	= A32nx_FCU_HDG_MODE_managed  ,
+["PULL"]    	= A32nx_FCU_HDG_MODE_selected  ,
 }
 
 -- AFCU ALT knob
 ALT1 = {
 ["A SHOW"]  	= ALT_show  ,
-["A  +"]    	= A32nx_ALT_inc  ,
-["A ++"]    	= A32nx_ALT_incfast  ,
-["A  -"]    	= A32nx_ALT_dec  ,
-["A --"]    	= A32nx_ALT_decfast  ,
-["PRESS"]   	= A32nx_ALT_MODE_managed  ,
-["PULL"]    	= A32nx_ALT_MODE_selected  ,
+["A  +"]    	= A32nx_FCU_ALT_inc  ,
+["A ++"]    	= A32nx_FCU_ALT_inc  ,
+["A  -"]    	= A32nx_FCU_ALT_dec  ,
+["A --"]    	= A32nx_FCU_ALT_dec  ,
+["PRESS"]   	= A32nx_FCU_ALT_MODE_managed  ,
+["PULL"]    	= A32nx_FCU_ALT_MODE_selected  ,
 }
 
 -- AFCU VVS knob
 VVS1 = {
 ["A SHOW"]  	= VVS_show  ,
-["A  +"]    	= MSFS_VS_inc  ,
-["A ++"]    	= MSFS_VS_inc  ,
-["A  -"]    	= MSFS_VS_dec  ,
-["A --"]    	= MSFS_VS_dec  ,
-["PRESS"]   	= MSFS_VS_hold_toggle  ,
-["PULL"]    	= empty  ,
+["A  +"]    	= A32nx_FCU_VS_inc  ,
+["A ++"]    	= A32nx_FCU_VS_inc  ,
+["A  -"]    	= A32nx_FCU_VS_dec  ,
+["A --"]    	= A32nx_FCU_VS_dec  ,
+["PRESS"]   	= A32nx_FCU_VS_MODE_push  ,
+["PULL"]    	= A32nx_FCU_VS_MODE_pull  ,
 }
 
 
@@ -416,7 +416,7 @@ VVS3 = {
 USER1 = {
 ["ENABLED"] = true  ,
 ["IDENT"]   = "Lght"  ,
-["BTN1."]   = Lights_PANEL_toggle  ,
+["BTN1."]   = A32NX_DspMode_Toggle  ,
 ["BTN2."]   = Autobreak_Mid  ,
 ["BTN3."]   = Autobreak_Max  ,
 ["BTN4."]   = A32nx_AUTOBRAKE_low_toggle  ,

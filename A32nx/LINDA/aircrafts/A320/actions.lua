@@ -1,8 +1,8 @@
 -- ## FCU
 
 -- $$ Autopilot Buttons
-
 function A32nx_FCU_AP_1_toggle()
+    DspShow('PARK',EvtPtr)
     ipc.control(EvtPtr + 0)
     DspShow('AP1','tgl')
 end
@@ -42,11 +42,8 @@ function A32nx_FCU_EXPED_toggle()
     DspShow ("EXPD", "tgl")
 end
 
-
 -- $$ SPEED -----------------
-
 function A32nx_FCU_SPD_inc()
-    --ipc.activateHvar("H:A320_Neo_FCU_SPEED_INC")
     ipc.control(EvtPtr + 5)
     A32NX_DspSPD()
 end
@@ -59,28 +56,24 @@ function A32nx_FCU_SPD_incfast()
 end
 
 function A32nx_FCU_SPD_dec()
-    --ipc.activateHvar("H:A320_Neo_FCU_SPEED_DEC")
     ipc.control(EvtPtr + 6)
     A32NX_DspSPD()
 end
 
 function A32nx_FCU_SPD_decfast()
     for i = 1, 5, 1 do
-        --ipc.activateHvar("H:A320_Neo_FCU_SPEED_DEC")
         ipc.control(EvtPtr + 6)
         A32NX_DspSPD()
     end
 end
 
 function A32nx_FCU_SPD_MODE_selected ()
-    --ipc.control(66094, 0)
     ipc.control(EvtPtr + 9)
     DspShow ("SPD", "set")
     A32NX_DspSPD()
 end
 
 function A32nx_FCU_SPD_MODE_managed ()
-    --ipc.control(66093,0)
     ipc.control(EvtPtr + 8)
     DspShow ("SPD", "mngd")
     A32NX_DspSPD()
@@ -1621,113 +1614,6 @@ function InitDsp ()
     end
 end
 
--- Initial variables
-function InitVars ()
-    -- further work required with new GUI
-    EvtFile = "A32NX.EVT"
-    EvtIdx = 0 -- defined in [EVENTS] block in FSUIPC7.INI
-    EvtPtr = 32768 + EvtIdx -- start address for A32NX.EVT custom events
-
-    Airbus = true -- set flag for Airbus MCP2a panels
-    P3D = 1 -- flag for imperial altitude conversion
-
-    BaroRef = 1
-    BaroMode = 1
-
-    A32nx_BARO_Mode_HPa()
-    A32nx_BARO_qnh()
-
-    mfd1MODE = 0
-    mfd1Range = 0
-    eicasEcam2Page = 1
-    bat1Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO")
-    bat2Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_2_PB_IS_AUTO")
-    eicasEcam2Functions = {"A32nx_EICAS_2_ECAM_PAGE_ENG","A32nx_EICAS_2_ECAM_PAGE_BLEED","A32nx_EICAS_2_ECAM_PAGE_PRESS","A32nx_EICAS_2_ECAM_PAGE_ELEC","A32nx_EICAS_2_ECAM_PAGE_HYD","A32nx_EICAS_2_ECAM_PAGE_FUEL","A32nx_EICAS_2_ECAM_PAGE_APU","A32nx_EICAS_2_ECAM_PAGE_COND","A32nx_EICAS_2_ECAM_PAGE_DOOR","A32nx_EICAS_2_ECAM_PAGE_WHEEL","A32nx_EICAS_2_ECAM_PAGE_FTCL","A32nx_EICAS_2_ECAM_PAGE_STS","A32nx_EICAS_2_ECAM_PAGE_cycle"}
-    autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
-    tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
-    chronoLState = 0
-
-    _loggg('[A3nx] A320nx Variables initialised')
-
-	nd_mode = 1 -- default ND mode
-	baro_mode = 1  -- default BARO mode is hPa
-	auto_brk = 0
-    AutoDisplay = false -- override automatic display updates (SPD/HDG/ALT/VVS_
-    DSP_MODE_one ()
-    EcamTxt = 1
-    OnVar = 16 -- change this for initial brightness of displays. 0 to 20
-    --TestCnt = 0
-    TestVar = ""
-    TestLast = ""
-    -- variables to prevent constant LCD display updating
-    A32NX_MODE = false
-    -- MCDU keyboard timeout
-    A32NX_PED_MCDU_Key_Timer = 60000
-    A32NX_PED_MCDU_Key_Flag = false
-    ipc.set("MCDU", 0)
-    -- ALT/VVS DspE Flash Protection
-    A32NX_ALT_Dot = ' '
-    A32NX_VVS_Sign = '-'
-    A32NX_ALT_Zero = '0'
-    A32NX_Dot = string.char(7)
-    A32NX_NoDot = ' '
-end
-
-function Timer ()
-    -- check AP2 status
-    if ipc.readLvar('A32NX_AP_LOC2') == 0 and
-        ipc.readLvar('A32NX_AP_AP2') == 1 and
-        ipc.readLvar('A32NX_AP_AP1') == 1 then
-        ipc.writeLvar(A32NX_AP_AP2, 0)
-    end
-    -- set display information
-    if _MCP2() then
-        if ipc.get("DSPmode") == 1 then
-            -- show autopilot info
-            A32NX_AP_INFO ()
-        else
-            -- show flaps/gears info
-            A32NX_FLIGHT_INFO ()
-        end
-    elseif _MCP2a() then
-        if ipc.get("DSPmode") == 1 then
-            -- keep flag until all MODEs reset
-            local info = Modes()
-            if info ~= "M111" then
-                A32NX_MODE = true
-            else
-                A32NX_MODE = false
-            end
-            -- show autopilot info
-            A32NX_AP_INFO ()
-        else
-            -- show flaps/gears info
-            A32NX_FLIGHT_INFO ()
-        end
-    else  -- Display for MCP1 Users
-        -- Display Autopilot
-        A32NX_DispA32NX_AP_MCP1 ()
-        -- Display Gearstatus
-        A32NX_DispGear_MCP1 ()
-        -- Display Flapstatus
-        A32NX_DispFlaps_MCP1 ()
-    end
-
-    -- set timer for MCDU Key Input Reversion
-    if ipc.readLvar("MCDU_KBD") == 1 and A32NX_PED_MCDU_Key_Flag == false then
-        A32NX_PED_MCDU_KEYB_on()
-        Sounds("modechange")
-    else
-        A32NX_PED_MCDU_Key_Flag = false
-    end
-
-    -- handle timer for MCDU Key Input Reversion
-    if ipc.elapsedtime() - ipc.get("MCDU") > A32NX_PED_MCDU_Key_Timer
-        and A32NX_PED_MCDU_Key_Flag then
-        A32NX_PED_MCDU_KEYB_off()
-        Sounds("modechange")
-    end
-end
 
 ----------------------------------------------------------
 
@@ -1938,8 +1824,7 @@ function A32NX_DspVVS (force)
 
     A32NX_DspHDGtxt(FPA_mode, force)
 
-    _logggg('VS=' .. VS_val .. ' ' .. tostring(VS_mode) .. ' FPA='
-        .. tostring(FPA_val) .. ' ' .. tostring(FPA_mode))
+    _logggg('VS=' .. VS_val .. ' ' .. tostring(VS_mode) .. ' FPA=' .. tostring(FPA_val) .. ' ' .. tostring(FPA_mode))
 
     if VS_mode == 1 then
         if _MCP2a() then
@@ -2195,6 +2080,115 @@ function A32NX_DspMode_Toggle()
         A32NX_APPR = false
     end
     DSP_MODE_toggle()
+end
+
+-----------------------------------------------------------
+-- Initial variables
+function InitVars ()
+    -- further work required with new GUI
+    EvtFile = "A32NX.EVT"
+    EvtIdx = 0 -- defined in [EVENTS] block in FSUIPC7.INI
+    EvtPtr = 32768 + EvtIdx -- start address for A32NX.EVT custom events
+
+    Airbus = true -- set flag for Airbus MCP2a panels
+    P3D = 1 -- flag for imperial altitude conversion
+
+    BaroRef = 1
+    BaroMode = 1
+
+    A32nx_BARO_Mode_HPa()
+    A32nx_BARO_qnh()
+
+    mfd1MODE = 0
+    mfd1Range = 0
+    eicasEcam2Page = 1
+    bat1Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO")
+    bat2Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_2_PB_IS_AUTO")
+    eicasEcam2Functions = {"A32nx_EICAS_2_ECAM_PAGE_ENG","A32nx_EICAS_2_ECAM_PAGE_BLEED","A32nx_EICAS_2_ECAM_PAGE_PRESS","A32nx_EICAS_2_ECAM_PAGE_ELEC","A32nx_EICAS_2_ECAM_PAGE_HYD","A32nx_EICAS_2_ECAM_PAGE_FUEL","A32nx_EICAS_2_ECAM_PAGE_APU","A32nx_EICAS_2_ECAM_PAGE_COND","A32nx_EICAS_2_ECAM_PAGE_DOOR","A32nx_EICAS_2_ECAM_PAGE_WHEEL","A32nx_EICAS_2_ECAM_PAGE_FTCL","A32nx_EICAS_2_ECAM_PAGE_STS","A32nx_EICAS_2_ECAM_PAGE_cycle"}
+    autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
+    tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
+    chronoLState = 0
+
+    _loggg('[A3nx] A320nx Variables initialised')
+
+	nd_mode = 1 -- default ND mode
+	baro_mode = 1  -- default BARO mode is hPa
+	auto_brk = 0
+    AutoDisplay = false -- override automatic display updates (SPD/HDG/ALT/VVS_
+    DSP_MODE_one ()
+    EcamTxt = 1
+    OnVar = 16 -- change this for initial brightness of displays. 0 to 20
+    --TestCnt = 0
+    TestVar = ""
+    TestLast = ""
+    -- variables to prevent constant LCD display updating
+    A32NX_MODE = false
+    -- MCDU keyboard timeout
+    A32NX_PED_MCDU_Key_Timer = 60000
+    A32NX_PED_MCDU_Key_Flag = false
+    ipc.set("MCDU", 0)
+    -- ALT/VVS DspE Flash Protection
+    A32NX_ALT_Dot = ' '
+    A32NX_VVS_Sign = '-'
+    A32NX_ALT_Zero = '0'
+    A32NX_Dot = string.char(7)
+    A32NX_NoDot = ' '
+end
+
+function Timer ()
+    -- check AP2 status
+    if ipc.readLvar('A32NX_AP_LOC2') == 0 and
+        ipc.readLvar('A32NX_AP_AP2') == 1 and
+        ipc.readLvar('A32NX_AP_AP1') == 1 then
+        ipc.writeLvar(A32NX_AP_AP2, 0)
+    end
+    -- set display information
+    if _MCP2() then
+        if ipc.get("DSPmode") == 1 then
+            -- show autopilot info
+            A32NX_AP_INFO ()
+        else
+            -- show flaps/gears info
+            A32NX_FLIGHT_INFO ()
+        end
+    elseif _MCP2a() then
+        if ipc.get("DSPmode") == 1 then
+            -- keep flag until all MODEs reset
+            local info = Modes()
+            if info ~= "M111" then
+                A32NX_MODE = true
+            else
+                A32NX_MODE = false
+            end
+            -- show autopilot info
+            A32NX_AP_INFO ()
+        else
+            -- show flaps/gears info
+            A32NX_FLIGHT_INFO ()
+        end
+    else  -- Display for MCP1 Users
+        -- Display Autopilot
+        A32NX_DispA32NX_AP_MCP1 ()
+        -- Display Gearstatus
+        A32NX_DispGear_MCP1 ()
+        -- Display Flapstatus
+        A32NX_DispFlaps_MCP1 ()
+    end
+
+    -- set timer for MCDU Key Input Reversion
+    if ipc.readLvar("MCDU_KBD") == 1 and A32NX_PED_MCDU_Key_Flag == false then
+        A32NX_PED_MCDU_KEYB_on()
+        Sounds("modechange")
+    else
+        A32NX_PED_MCDU_Key_Flag = false
+    end
+
+    -- handle timer for MCDU Key Input Reversion
+    if ipc.elapsedtime() - ipc.get("MCDU") > A32NX_PED_MCDU_Key_Timer
+        and A32NX_PED_MCDU_Key_Flag then
+        A32NX_PED_MCDU_KEYB_off()
+        Sounds("modechange")
+    end
 end
 -----------------------------------------------------------
 

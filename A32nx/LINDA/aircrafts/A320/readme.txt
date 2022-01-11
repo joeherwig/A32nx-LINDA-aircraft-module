@@ -2,14 +2,20 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.9.0
-     Date: 2022-01-10
+  Version: 0.10.0
+     Date: 2022-01-11
    Author: Joe Herwig
-           Andrew Gransden / ScotFlieger (0.9.0)
+           Andrew Gransden / ScotFlieger (0.9.0 / 0.10.0)
            Falk Scherber (0.8.2)
            Neil Clements (0.4.4 / 0.6.1)
 
 ------------------------------------------------------------------------
+0.10.0
++ Updated to ways better display mode (by Andrew)
+• Fixed the FCU functions. (by Andrew)
+  CAUTION: They require currently the A320nx.evt in the FSUIPC7 root folder and added with index 0 to the [Events] section in FSUIPC7.ini!
+• Updated the assignments in the MCP2a assignments example to the new FCU functions.
+
 0.9.0
 • Fixed multiple issues for instance with the APU not working due to obsolete blank (Andrew Gransden)
 + Barometer reference settings (by Andrew Gransden)
