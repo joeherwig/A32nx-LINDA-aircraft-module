@@ -1,6 +1,12 @@
 -- ## FCU
 
 -- $$ Autopilot Buttons
+
+function A32nx_FCU_SPDMACH_toggle()
+    ipc.control(EvtPtr + 10)
+    DspShow('MACH','tgl')
+end
+
 function A32nx_FCU_AP_1_toggle()
     DspShow('PARK',EvtPtr)
     ipc.control(EvtPtr + 0)
