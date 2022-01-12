@@ -1817,14 +1817,13 @@ function A32NX_DspVVS (force)
         force = 0
     end
 
+	local VS_alt = 0
     local VS_val = ipc.readLvar("A32NX_AUTOPILOT_VS_SELECTED")
     local VS_mode = ipc.readLvar("A32NX_FCU_VS_MANAGED")
     local FPA_val = ipc.readLvar("A32NX_AUTOPILOT_FPA_SELECTED")
     local FPA_mode = ipc.readLvar("A32NX_TRK_FPA_MODE_ACTIVE")
 
     A32NX_DspHDGtxt(FPA_mode, force)
-
-    _logggg('VS=' .. VS_val .. ' ' .. tostring(VS_mode) .. ' FPA=' .. tostring(FPA_val) .. ' ' .. tostring(FPA_mode))
 
     if VS_mode == 1 then
         if _MCP2a() then
