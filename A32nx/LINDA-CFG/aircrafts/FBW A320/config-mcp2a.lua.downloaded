@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2201112357 (LINDA 4.0.8.195) --
+-- config-mcp2a.lua @ 2201120055 (LINDA 4.0.8.195) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -8,8 +8,8 @@
 EFIS1 = {
 ["ENABLED"] = true  ,
 ["IDENT"]   = "Std"  ,
-["InHg."]   = Altimeter_BARO_STD_toggle  ,
-["hPa ."]   = Efis_HPA  ,
+["InHg."]   = A32nx_BARO_Mode_InHg  ,
+["hPa ."]   = A32nx_BARO_Mode_HPa  ,
 ["FD  ."]   = A32nx_PFD_BTN_FD_1  ,
 ["ILS ."]   = A32nx_PFD_BTN_LS_1  ,
 ["CSTR."]   = A32nx_MFD_BTN_CSTR_1  ,
@@ -30,11 +30,11 @@ EFIS1 = {
 -- AEFIS BARO knob
 BARO1 = {
 ["A SHOW"]  = Altimeter_BARO_show  ,
-["A  +"]    = Altimeter_BARO_plus  ,
-["A ++"]    = Altimeter_BARO_plusfast  ,
-["A  -"]    = Altimeter_BARO_minus  ,
-["A --"]    = Altimeter_BARO_minusfast  ,
-["PRESS"]   = Altimeter_BARO_MODE_toggle  ,
+["A  +"]    = A32nx_BARO_inc  ,
+["A ++"]    = A32nx_BARO_inc  ,
+["A  -"]    = A32nx_BARO_dec  ,
+["A --"]    = A32nx_BARO_dec  ,
+["PRESS"]   = A32nx_BARO_toggle  ,
 ["B SHOW"]  = empty  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
