@@ -696,27 +696,62 @@ end
 function A32nx_NoseLts_off()
     ipc.execCalcCode("2 (>L:LIGHTING_LANDING_1) 0 1 r (>K:2:LANDING_LIGHTS_SET) 0 1 r (>K:2:TAXI_LIGHTS_SET)")
 end
+
 -- $$ internal
 
 function A32nx_EmerExitLts_Pos(pos)
     ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position", pos)
 end
+
 function A32nx_EmerExitLts_off()
      A32nx_EmerExitLts_Pos(2)
 end
+
 function A32nx_EmerExitLts_arm()
      A32nx_EmerExitLts_Pos(1)
 end
+
 function A32nx_EmerExitLts_on()
      A32nx_EmerExitLts_Pos(0)
 end
 
+function A32nx_EmerExitLts_toggle()
+    local Lvar = "L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_EmerExitLts_off()
+    else
+        A32nx_EmerExitLts_on()
+    end
+end
+
+function A32nx_EmerExitLts_cycle()
+    local Lvar = "XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 2 then
+        A32nx_EmerExitLts_arm()
+    elseif Lval == 1 then
+        A32nx_EmerExitLts_on()
+    else
+        A32nx_EmerExitLts_off()
+    end
+end
+
 -- $$ Signs
+
 function A32nx_Seatbelt_on()
     ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 1)
 end
 function A32nx_Seatbelt_off()
     ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 0)
+end
+
+function A32nx_Seatbelt_toggle()
+    if ipc.readUB(0x341D) == 0 then
+        A32nx_Seatbelt_on()
+    else
+        A32nx_Seatbelt_off()
+    end
 end
 
 function A32nx_NoSmoking_Pos(pos)
@@ -733,6 +768,122 @@ end
 
 function A32nx_NoSmoking_on()
     A32nx_NoSmoking_Pos(0)
+end
+
+function A32nx_NoSmoking_toggle()
+    local Lvar = "L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval ~= 0 then
+        A32nx_NoSmoking_on()
+    else
+        A32nx_NoSmoking_auto()
+    end
+end
+
+function A32nx_NoSmoking_cycle()
+    local Lvar = "XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_NoSmoking_off()
+    elseif Lval == 1 then
+        A32nx_NoSmoking_on()
+    else
+        A32nx_NoSmoking_auto()
+    end
+end
+
+function A32nx_EmerExit_on()
+    Lvar = "XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position"
+    ipc.writeLvar(Lvar, 0)
+end
+
+function A32nx_EmerExit_arm()
+    Lvar = "XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position"
+    ipc.writeLvar(Lvar, 1)
+end
+
+function A32nx_EmerExit_off()
+    Lvar = "XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position"
+    ipc.writeLvar(Lvar, 2)
+end
+
+function A32nx_EmerExit_toggle()
+    local Lvar = "L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval ~= 0 then
+        A32nx_EmerExit_on()
+    else
+        A32nx_EmerExit_off()
+    end
+end
+
+function A32nx_EmerExit_cycle()
+    local Lvar = "XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_EmerExit_off()
+    elseif Lval == 1 then
+        A32nx_EmerExit_on()
+    else
+        A32nx_EmerExit_arm()
+    end
+end
+
+function A32nx_StbyCompass_on()
+    Lvar = "A32NX_STBY_COMPASS_LIGHT_TOGGLE"
+    ipc.writeLvar(Lvar, 1)
+end
+
+function A32nx_StbyCompass_off()
+    Lvar = "A32NX_STBY_COMPASS_LIGHT_TOGGLE"
+    ipc.writeLvar(Lvar, 0)
+end
+
+function A32nx_StbyCompass_toggle()
+    local Lvar = "L:A32NX_STBY_COMPASS_LIGHT_TOGGLE"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval ~= 0 then
+        A32nx_StbyCompass_off()
+    else
+        A32nx_StbyCompass_on()
+    end
+end
+
+function A32nx_AnnLt_test()
+    Lvar = "A32NX_OVHD_INTLT_ANN"
+    ipc.writeLvar(Lvar, 0)
+end
+
+function A32nx_AnnLt_brt()
+    Lvar = "A32NX_OVHD_INTLT_ANN"
+    ipc.writeLvar(Lvar, 1)
+end
+
+function A32nx_AnnLt_dim()
+    Lvar = "A32NX_OVHD_INTLT_ANN"
+    ipc.writeLvar(Lvar, 2)
+end
+
+function A32nx_AnnLt_toggle()
+    local Lvar = "L:A32NX_OVHD_INTLT_ANN"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval ~= 0 then
+        A32nx_AnnLt_test()
+    else
+        A32nx_AnnLt_brt()
+    end
+end
+
+function A32nx_AnnLt_cycle()
+    local Lvar = "A32NX_OVHD_INTLT_ANN"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_AnnLt_dim()
+    elseif Lval == 1 then
+        A32nx_AnnLt_test()
+    else
+        A32nx_AnnLt_brt()
+    end
 end
 
 -- $$ APU
