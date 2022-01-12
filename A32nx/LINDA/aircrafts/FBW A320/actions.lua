@@ -815,6 +815,140 @@ function A32nx_MasterCaution_push ()
     ipc.writeLvar("L:A32NX_MASTER_CAUTION")
 end
 
+-- ## EFIS
+
+-- $$ EFIS Options
+
+function A32nx_EFIS_L_none()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 0
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('EFIS','none')
+    end
+end
+
+function A32nx_EFIS_L_cstr()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 1
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('EFIS','cstr')
+    else
+        A32nx_EFIS_L_none()
+    end
+end
+
+function A32nx_EFIS_L_wpt()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 3
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('EFIS','wpt')
+    else
+        A32nx_EFIS_L_none()
+    end
+end
+
+function A32nx_EFIS_L_vor()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 2
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('EFIS','vor')
+    else
+        A32nx_EFIS_L_none()
+    end
+end
+
+function A32nx_EFIS_L_ndb()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 4
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('EFIS','ndb')
+    else
+        A32nx_EFIS_L_none()
+    end
+end
+
+function A32nx_EFIS_L_aprt()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 5
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('EFIS','arpt')
+    else
+        A32nx_EFIS_L_none()
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_1_adf()
+    Lvar = "A32NX_EFIS_L_NAVAID_1_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 1
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV1', 'adf')
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_1_off()
+    Lvar = "A32NX_EFIS_L_NAVAID_1_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 0
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV1', 'off')
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_1_vor()
+    Lvar = "A32NX_EFIS_L_NAVAID_1_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 2
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV1', 'vor')
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_2_adf()
+    Lvar = "A32NX_EFIS_L_NAVAID_2_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 1
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV2', 'adf')
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_2_off()
+    Lvar = "A32NX_EFIS_L_NAVAID_2_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 0
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV2', 'off')
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_2_vor()
+    Lvar = "A32NX_EFIS_L_NAVAID_2_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 2
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV2', 'vor')
+    end
+end
+
 -- $$ BARO Reference
 function A32nx_BARO_inc()
     ipc.control(65883,0)
