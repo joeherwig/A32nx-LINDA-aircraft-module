@@ -26,6 +26,12 @@ eg:
 2=A32X-FBW2
 ```
 
+### Important:
+Note that you must
+have the MobiFlight WASM module installed and active to use these events.
+To install it, head over to [MobiFlight Connector](https://www.mobiflight.com/de/download.html)
+See "FSUIPC7 for Advanced Users.pdf" within the documentation which is provided with FSUIPC.
+
 Andrew is going to update LINDA so that the order of the event files will get unimportant in future. 
 
 ## Assign the functions
