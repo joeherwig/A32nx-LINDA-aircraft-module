@@ -1,3 +1,9 @@
+-- FLYBYWIRE A32NX
+-- Module version 0.10.1
+-- Jan 2022
+
+-- Works with FlyByWire A32NX Experimental
+
 -- ## FCU
 
 -- $$ Autopilot Buttons
