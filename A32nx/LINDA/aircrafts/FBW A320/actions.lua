@@ -2133,6 +2133,21 @@ function InitVars ()
     A32NX_ALT_Zero = '0'
     A32NX_Dot = string.char(7)
     A32NX_NoDot = ' '
+	
+    -- define index to custom events in A32NX.EVT
+	EvtFile = "A32NX"
+    EvtCnt = ipc.get("EVTNUM")
+    for i = 0, EvtCnt - 1 do
+        f = ipc.get("EVTFILE" .. tostring(i))
+        if f == EvtFile then
+            EvtIdx = i
+            break
+        end
+    end
+    _loggg('[USER] EvtIdx=' .. tostring(EvtIdx) .. '::' .. f)
+
+    -- defined in [EVENTS] block in FSUIPC7.INI
+    EvtPtr = 32768 + (EvtIdx * 256) -- start address for A32NX.EVT custom events
 end
 
 function Timer ()
