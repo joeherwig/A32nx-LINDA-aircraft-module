@@ -1825,6 +1825,20 @@ function A32NX_DspVVS (force)
 
     A32NX_DspHDGtxt(FPA_mode, force)
 
+	-- ensure valid values to cope with initial start conditions
+	if VS_val == nil then
+		VS_val = 0
+	end
+	if VS_mode == nil then
+		VS_mode = 0
+	end
+	if FPA_val == nil then
+		FPA_val = 0
+	end
+	if FPA_mode == nil then
+		FPA_mode == 0
+	end
+	
     if VS_mode == 1 then
         if _MCP2a() then
             DspVVSs("----")
