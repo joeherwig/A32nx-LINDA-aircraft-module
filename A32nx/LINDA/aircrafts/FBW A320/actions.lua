@@ -889,6 +889,46 @@ end
 
 -- ## MAIN PANEL #####################################
 
+-- $$ Brake Fan
+
+function A32nx_MAIN_BRAKEFAN_on()
+    ipc.writeLvar("A32NX_BRAKE_FAN_BTN_PRESSED", 1)
+    DspShow('BFAN','on')
+end
+
+function A32nx_MAIN_BRAKEFAN_off()
+    ipc.writeLvar("A32NX_BRAKE_FAN_BTN_PRESSED", 0)
+    DspShow('BFAN','off')
+end
+
+function A32nx_MAIN_BRAKEFAN_toggle()
+    if ipc.readLvar("A32NX_BRAKE_FAN_BTN_PRESSED") == 1 then
+        A32nx_MAIN_BRAKEFAN_off()
+    else
+        A32nx_MAIN_BRAKEFAN_on()
+    end
+end
+
+-- $$ Anti Skid
+
+function A32nx_MAIN_ANTISKID_on()
+    ipc.writeUD(0x0BFD, 1)
+    DspShow('SKID','on')
+end
+
+function A32nx_MAIN_ANTISKID_off()
+    ipc.writeUD(0x0BFD, 0)
+    DspShow('SKID','off')
+end
+
+function A32nx_MAIN_ANTISKID_toggle()
+    if ipc.readUD(0x0BFD) > 0 then
+        A32nx_MAIN_ANTISKID_off()
+    else
+        A32nx_MAIN_ANTISKID_on()
+    end
+end
+
 -- $$ Autobrake ---------------------------------
 
 function A32nx_AUTOBRAKE_off()
