@@ -619,30 +619,123 @@ end
 
 -- ## Overhead Lights & Signs #####################################
 
--- $$ Lights
-function A32nx_StrobeLts_on()
+-- $$ Strobe Lights
+
+function A32nx_StrobeLts_auto()
     ipc.execCalcCode("1 (>L:LIGHTING_STROBE_0) 1 (>L:STROBE_0_Auto) 1 0 r (>K:2:STROBES_SET)")
 end
-function A32nx_StrobeLts_auto()
+
+function A32nx_StrobeLts_on()
     ipc.execCalcCode("0 (>L:LIGHTING_STROBE_0) 0 (>L:STROBE_0_Auto) 1 0 r (>K:2:STROBES_SET)")
 end
+
 function A32nx_StrobeLts_off()
     ipc.execCalcCode("2 (>L:LIGHTING_STROBE_0) 0 (>L:STROBE_0_Auto) 0 0 r (>K:2:STROBES_SET)")
 end
 
+function A32nx_StrobeLts_toggle()
+    local Lvar = "L:LIGHTING_STROBE_0"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_StrobeLts_off()
+    else
+        A32nx_StrobeLts_on()
+    end
+end
+
+function A32nx_StrobeLts_cycle()
+    local Lvar = "L:LIGHTING_STROBE_0"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 2 then
+        A32nx_StrobeLts_auto()
+    elseif Lval == 1 then
+        A32nx_StrobeLts_on()
+    else
+        A32nx_StrobeLts_off()
+    end
+end
+
+-- $$ Beacon Lights
+
 function A32nx_BeaconLts_on()
     ipc.execCalcCode("0 1 (>K:2:BEACON_LIGHTS_SET)")
 end
+
 function A32nx_BeaconLts_off()
     ipc.execCalcCode("0 0 (>K:2:BEACON_LIGHTS_SET)")
 end
 
+function A32nx_BeaconLts_toggle()
+    local Lvar = "L:LIGHTING_BEACON_0"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_BeaconLts_on()
+    else
+        A32nx_BeaconLts_off()
+    end
+end
+
+-- $$ Wing Lights
+
+function A32nx_WingLts_on()
+    ipc.execCalcCode("0 1 (>K:2:WING_LIGHTS_SET)")
+end
+
+function A32nx_WingLts_off()
+    ipc.execCalcCode("0 0 (>K:2:WING_LIGHTS_SET)")
+end
+
+function A32nx_WingLts_toggle()
+    local Lvar = "L:LIGHTING_WING_0"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_WingLts_on()
+    else
+        A32nx_WingLts_off()
+    end
+end
+
+-- $$ Navigation Lights
+
+function A32nx_NavLts_on()
+    ipc.execCalcCode("0 1 (>K:2:NAV_LIGHTS_SET)")
+end
+
+function A32nx_NavLts_off()
+    ipc.execCalcCode("0 0 (>K:2:NAV_LIGHTS_SET)")
+end
+
+function A32nx_NavLts_toggle()
+    local Lvar = "L:LIGHTING_NAV_0"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_NavLts_on()
+    else
+        A32nx_NavLts_off()
+    end
+end
+
+-- $$ Runway Turn Off
+
 function A32nx_RwyTurnLts_on()
     ipc.execCalcCode("1 s0 (>L:LIGHTING_TAXI_2) 2 l0 (>K:2:TAXI_LIGHTS_SET) 3 l0 (>K:2:TAXI_LIGHTS_SET)")
 end
+
 function A32nx_RwyTurnLts_off()
     ipc.execCalcCode("0 s0 (>L:LIGHTING_TAXI_2) 2 l0 (>K:2:TAXI_LIGHTS_SET) 3 l0 (>K:2:TAXI_LIGHTS_SET)")
 end
+
+function A32nx_RwyTurnLts_toggle()
+    local Lvar = "L:LIGHTING_TAXI_2"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 1 then
+        A32nx_RwyTurnLts_off()
+    else
+        A32nx_RwyTurnLts_on()
+    end
+end
+
+-- $$ Landing Lights
 
 function A32nx_LandingLts_L_Pos(pos)
     ipc.writeLvar("L:LIGHTING_LANDING_2", pos)
@@ -657,6 +750,26 @@ function A32nx_LandingLts_L_on()
      A32nx_LandingLts_L_Pos(0)
 end
 
+function A32nx_LandingLts_L_toggle()
+    local Lvar = "L:LIGHTING_LANDING_2"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_LandingLts_L_on()
+    else
+        A32nx_LandingLts_L_retract()
+    end
+end
+
+function A32nx_LandingLts_L_cycle()
+    local Lvar = "L:LIGHTING_LANDING_3"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_LandingLts_L_Pos(Lval - 1)
+    else
+        A32nx_LandingLts_L_retract()
+    end
+end
+
 function A32nx_LandingLts_R_Pos(pos)
     ipc.writeLvar("L:LIGHTING_LANDING_3", pos)
 end
@@ -668,6 +781,26 @@ function A32nx_LandingLts_R_off()
 end
 function A32nx_LandingLts_R_on()
     A32nx_LandingLts_R_Pos(0)
+end
+
+function A32nx_LandingLts_R_toggle()
+    local Lvar = "L:LIGHTING_LANDING_3"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_LandingLts_R_on()
+    else
+        A32nx_LandingLts_R_retract()
+    end
+end
+
+function A32nx_LandingLts_R_cycle()
+    local Lvar = "L:LIGHTING_LANDING_3"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_LandingLts_R_Pos(Lval - 1)
+    else
+        A32nx_LandingLts_R_retract()
+    end
 end
 
 function A32nx_LandingLts_Both_Pos(pos)
@@ -687,15 +820,52 @@ function A32nx_LandingLts_Both_on()
      A32nx_LandingLts_R_Pos(0)
 end
 
+function A32nx_LandingLts_Both_toggle()
+     A32nx_LandingLts_L_toggle()
+     A32nx_LandingLts_R_toggle()
+end
+
+function A32nx_LandingLts_Both_cycle()
+     A32nx_LandingLts_L_cycle()
+     A32nx_LandingLts_R_cycle()
+end
+
+-- $$ Nose Lights
+
 function A32nx_NoseLts_TO()
     ipc.execCalcCode("0 (>L:LIGHTING_LANDING_1) 1 1 r (>K:2:LANDING_LIGHTS_SET) 0 1 r (>K:2:TAXI_LIGHTS_SET)")
 end
+
 function A32nx_NoseLts_taxi()
     ipc.execCalcCode("1 (>L:LIGHTING_LANDING_1) 0 1 r (>K:2:LANDING_LIGHTS_SET) 1 1 r (>K:2:TAXI_LIGHTS_SET)")
 end
+
 function A32nx_NoseLts_off()
     ipc.execCalcCode("2 (>L:LIGHTING_LANDING_1) 0 1 r (>K:2:LANDING_LIGHTS_SET) 0 1 r (>K:2:TAXI_LIGHTS_SET)")
 end
+
+function A32nx_NoseLts_toggle()
+    local Lvar = "L:LIGHTING_LANDING_1"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_NoseLts_TO()
+    else
+        A32nx_NoseLts_off()
+    end
+end
+
+function A32nx_NoseLts_cycle()
+    local Lvar = "L:LIGHTING_LANDING_1"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 2 then
+        A32nx_NoseLts_taxi()
+    elseif Lval == 1 then
+        A32nx_NoseLts_TO()
+    else
+        A32nx_NoseLts_off()
+    end
+end
+
 -- $$ internal
 
 function A32nx_EmerExitLts_Pos(pos)
