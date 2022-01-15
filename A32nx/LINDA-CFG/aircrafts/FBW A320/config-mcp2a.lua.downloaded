@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2201120055 (LINDA 4.0.8.195) --
+-- config-mcp2a.lua @ 2201122135 (LINDA 4.0.8.195) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -10,26 +10,26 @@ EFIS1 = {
 ["IDENT"]   = "Std"  ,
 ["InHg."]   = A32nx_BARO_Mode_InHg  ,
 ["hPa ."]   = A32nx_BARO_Mode_HPa  ,
-["FD  ."]   = A32nx_PFD_BTN_FD_1  ,
-["ILS ."]   = A32nx_PFD_BTN_LS_1  ,
-["CSTR."]   = A32nx_MFD_BTN_CSTR_1  ,
-["WPT ."]   = A32nx_MFD_BTN_VORD_1  ,
-["VORD."]   = A32nx_MFD_BTN_WPT_1  ,
-["NDB ."]   = A32nx_MFD_BTN_NDB_1  ,
-["ARPT."]   = A32nx_MFD_BTN_ARPT_1  ,
-["ADF1:"]   = empty  ,
-["ADF1."]   = empty  ,
-["VOR1:"]   = empty  ,
-["VOR1."]   = empty  ,
-["ADF2:"]   = empty  ,
-["ADF2."]   = empty  ,
-["VOR2:"]   = empty  ,
-["VOR2."]   = empty  ,
+["FD  ."]   = A32nx_EFIS_1_FD_toggle  ,
+["ILS ."]   = A32nx_EFIS_LS_toggle  ,
+["CSTR."]   = A32nx_EFIS_L_cstr  ,
+["WPT ."]   = A32nx_EFIS_L_wpt  ,
+["VORD."]   = A32nx_EFIS_L_vor  ,
+["NDB ."]   = A32nx_EFIS_L_ndb  ,
+["ARPT."]   = A32nx_EFIS_L_aprt  ,
+["ADF1:"]   = A32nx_EFIS_L_NAVAID_1_off  ,
+["ADF1."]   = A32nx_EFIS_L_NAVAID_1_adf  ,
+["VOR1:"]   = A32nx_EFIS_L_NAVAID_1_off  ,
+["VOR1."]   = A32nx_EFIS_L_NAVAID_1_vor  ,
+["ADF2:"]   = A32nx_EFIS_L_NAVAID_2_off  ,
+["ADF2."]   = A32nx_EFIS_L_NAVAID_2_adf  ,
+["VOR2:"]   = A32nx_EFIS_L_NAVAID_2_off  ,
+["VOR2."]   = A32nx_EFIS_L_NAVAID_2_vor  ,
 }
 
 -- AEFIS BARO knob
 BARO1 = {
-["A SHOW"]  = Altimeter_BARO_show  ,
+["A SHOW"]  = empty  ,
 ["A  +"]    = A32nx_BARO_inc  ,
 ["A ++"]    = A32nx_BARO_inc  ,
 ["A  -"]    = A32nx_BARO_dec  ,
@@ -49,7 +49,7 @@ NDM1 = {
 ["A ++"]    = A32nx_MFD_NAV_MODE_1_inc  ,
 ["A  -"]    = A32nx_MFD_NAV_MODE_1_dec  ,
 ["A --"]    = A32nx_MFD_NAV_MODE_1_dec  ,
-["PRESS"]   = A32nx_MasterCaution_push  ,
+["PRESS"]   = A32nx_MasterWarning_push  ,
 ["B SHOW"]  = Do_nothing  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
@@ -64,7 +64,7 @@ NDR1 = {
 ["A ++"]    = A32nx_MFD_RANGE_1_inc  ,
 ["A  -"]    = A32nx_MFD_RANGE_1_dec  ,
 ["A --"]    = A32nx_MFD_RANGE_1_dec  ,
-["PRESS"]   = A32nx_MasterWarning_push  ,
+["PRESS"]   = A32nx_MasterCaution_push  ,
 ["B SHOW"]  = empty  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
@@ -132,10 +132,10 @@ NDM2 = {
 -- AEFIS NDR knob
 NDR2 = {
 ["A SHOW"]  = empty  ,
-["A  +"]    = EFB_ZOOM_out  ,
-["A ++"]    = EFB_ZOOM_out  ,
-["A  -"]    = EFB_ZOOM_in  ,
-["A --"]    = EFB_ZOOM_in  ,
+["A  +"]    = empty  ,
+["A ++"]    = empty  ,
+["A  -"]    = empty  ,
+["A --"]    = empty  ,
 ["PRESS"]   = empty  ,
 ["B SHOW"]  = empty  ,
 ["B  +"]    = empty  ,
@@ -162,13 +162,13 @@ EFIS3 = {
 ["NDB ."]   = empty  ,
 ["ARPT."]   = empty  ,
 ["ADF1:"]   = empty  ,
-["ADF1."]   = RXP_WX500_SUBMODE_DN  ,
+["ADF1."]   = empty  ,
 ["VOR1:"]   = empty  ,
-["VOR1."]   = RXP_WX500_SUBMODE_UP  ,
+["VOR1."]   = empty  ,
 ["ADF2:"]   = empty  ,
-["ADF2."]   = RXP_WX500_RANGE_DN  ,
+["ADF2."]   = empty  ,
 ["VOR2:"]   = empty  ,
-["VOR2."]   = RXP_WX500_RANGE_UP  ,
+["VOR2."]   = empty  ,
 }
 
 -- AEFIS BARO knob
@@ -189,10 +189,10 @@ BARO3 = {
 -- AEFIS NDM knob
 NDM3 = {
 ["A SHOW"]  = empty  ,
-["A  +"]    = RXP_WX500_MAIN_MODE_NEXT  ,
-["A ++"]    = RXP_WX500_MAIN_MODE_NEXT  ,
-["A  -"]    = RXP_WX500_MAIN_MODE_PREV  ,
-["A --"]    = RXP_WX500_MAIN_MODE_PREV  ,
+["A  +"]    = empty  ,
+["A ++"]    = empty  ,
+["A  -"]    = empty  ,
+["A --"]    = empty  ,
 ["PRESS"]   = empty  ,
 ["B SHOW"]  = empty  ,
 ["B  +"]    = empty  ,
@@ -204,11 +204,11 @@ NDM3 = {
 -- AEFIS NDR knob
 NDR3 = {
 ["A SHOW"]  = empty  ,
-["A  +"]    = RXP_WX500_TILT_inc  ,
-["A ++"]    = RXP_WX500_TILT_inc  ,
-["A  -"]    = RXP_WX500_TILT_dec  ,
-["A --"]    = RXP_WX500_TILT_dec  ,
-["PRESS"]   = RXP_WX500_TILT_ZERO  ,
+["A  +"]    = empty  ,
+["A ++"]    = empty  ,
+["A  -"]    = empty  ,
+["A --"]    = empty  ,
+["PRESS"]   = empty  ,
 ["B SHOW"]  = empty  ,
 ["B  +"]    = empty  ,
 ["B ++"]    = empty  ,
@@ -223,10 +223,10 @@ NDR3 = {
 -- AFCU block buttons and switches
 MCP1 = {
 ["ENABLED"] 	= true  ,
-["IDENT"]   	= "MCP1"  ,
-["MACH."]   	= A32nx_MCDU_MODE_SELECTED_SPEED  ,
+["IDENT"]   	= "FCU"  ,
+["MACH."]   	= A32nx_FCU_SPDMACH_toggle  ,
 ["LOC ."]   	= A32nx_FCU_LOC_toggle  ,
-["TRK ."]   	= Autopilot_TRK_button  ,
+["TRK ."]   	= A32nx_FCU_FPA_MODE_toggle  ,
 ["AP1 ."]   	= A32nx_FCU_AP_1_toggle  ,
 ["AP2 ."]   	= A32nx_FCU_AP_2_toggle  ,
 ["ATHR."]   	= A32nx_FCU_ATHR_toggle  ,
@@ -237,7 +237,7 @@ MCP1 = {
 
 -- AFCU SPD knob
 SPD1 = {
-["A SHOW"]  	= SPD_show  ,
+["A SHOW"]  	= empty  ,
 ["A  +"]    	= A32nx_FCU_SPD_inc  ,
 ["A ++"]    	= A32nx_FCU_SPD_incfast  ,
 ["A  -"]    	= A32nx_FCU_SPD_dec  ,
@@ -248,7 +248,7 @@ SPD1 = {
 
 -- AFCU HDG knob
 HDG1 = {
-["A SHOW"]  	= HDG_show  ,
+["A SHOW"]  	= empty  ,
 ["A  +"]    	= A32nx_FCU_HDG_inc  ,
 ["A ++"]    	= A32nx_FCU_HDG_incfast  ,
 ["A  -"]    	= A32nx_FCU_HDG_dec  ,
@@ -259,7 +259,7 @@ HDG1 = {
 
 -- AFCU ALT knob
 ALT1 = {
-["A SHOW"]  	= ALT_show  ,
+["A SHOW"]  	= empty  ,
 ["A  +"]    	= A32nx_FCU_ALT_inc  ,
 ["A ++"]    	= A32nx_FCU_ALT_inc  ,
 ["A  -"]    	= A32nx_FCU_ALT_dec  ,
@@ -270,13 +270,13 @@ ALT1 = {
 
 -- AFCU VVS knob
 VVS1 = {
-["A SHOW"]  	= VVS_show  ,
+["A SHOW"]  	= empty  ,
 ["A  +"]    	= A32nx_FCU_VS_inc  ,
 ["A ++"]    	= A32nx_FCU_VS_inc  ,
 ["A  -"]    	= A32nx_FCU_VS_dec  ,
 ["A --"]    	= A32nx_FCU_VS_dec  ,
-["PRESS"]   	= A32nx_FCU_VS_MODE_push  ,
-["PULL"]    	= A32nx_FCU_VS_MODE_pull  ,
+["PRESS"]   	= A32nx_FCU_VS_MODE_managed  ,
+["PULL"]    	= A32nx_FCU_ALT_MODE_selected  ,
 }
 
 
@@ -287,60 +287,60 @@ VVS1 = {
 -- AFCU block buttons and switches
 MCP2 = {
 ["ENABLED"] 	= true  ,
-["IDENT"]   	= "MCP2"  ,
-["MACH."]   	= Autopilot_MACH_button  ,
-["LOC ."]   	= Autopilot_LOC_button  ,
-["TRK ."]   	= Autopilot_TRK_button  ,
-["AP1 ."]   	= Autopilot_AP1_button  ,
-["AP2 ."]   	= Autopilot_AP2_button  ,
-["ATHR."]   	= Autopilot_ATHR_button  ,
-["EXPD."]   	= Autopilot_EXPD_button  ,
-["MTR ."]   	= Autopilot_MTR_button  ,
-["APPR."]   	= Autopilot_APPR_button  ,
+["IDENT"]   	= "FCU1"  ,
+["MACH."]   	= empty  ,
+["LOC ."]   	= empty  ,
+["TRK ."]   	= empty  ,
+["AP1 ."]   	= empty  ,
+["AP2 ."]   	= empty  ,
+["ATHR."]   	= empty  ,
+["EXPD."]   	= empty  ,
+["MTR ."]   	= empty  ,
+["APPR."]   	= empty  ,
 }
 
 -- AFCU SPD knob
 SPD2 = {
-["A SHOW"]  	= SPD_show  ,
-["A  +"]    	= SPD_plus  ,
-["A ++"]    	= SPD_plusfast  ,
-["A  -"]    	= SPD_minus  ,
-["A --"]    	= SPD_minusfast  ,
-["PRESS"]   	= SPD_press  ,
-["PULL"]    	= SPD_pull  ,
+["A SHOW"]  	= empty  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 -- AFCU HDG knob
 HDG2 = {
-["A SHOW"]  	= HDG_show  ,
-["A  +"]    	= HDG_plus  ,
-["A ++"]    	= HDG_plusfast  ,
-["A  -"]    	= HDG_minus  ,
-["A --"]    	= HDG_minusfast  ,
-["PRESS"]   	= HDG_press  ,
-["PULL"]    	= HDG_pull  ,
+["A SHOW"]  	= empty  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 -- AFCU ALT knob
 ALT2 = {
-["A SHOW"]  	= ALT_show  ,
-["A  +"]    	= ALT_plus  ,
-["A ++"]    	= ALT_plusfast  ,
-["A  -"]    	= ALT_minus  ,
-["A --"]    	= ALT_minusfast  ,
-["PRESS"]   	= ALT_press  ,
-["PULL"]    	= ALT_pull  ,
+["A SHOW"]  	= empty  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 -- AFCU VVS knob
 VVS2 = {
-["A SHOW"]  	= VVS_show  ,
-["A  +"]    	= VVS_plus  ,
-["A ++"]    	= VVS_plusfast  ,
-["A  -"]    	= VVS_minus  ,
-["A --"]    	= VVS_minusfast  ,
-["PRESS"]   	= VVS_press  ,
-["PULL"]    	= VVS_pull  ,
+["A SHOW"]  	= empty  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 
@@ -351,60 +351,60 @@ VVS2 = {
 -- AFCU block buttons and switches
 MCP3 = {
 ["ENABLED"] 	= false  ,
-["IDENT"]   	= "MCP3"  ,
-["MACH."]   	= Autopilot_MACH_button  ,
-["LOC ."]   	= Autopilot_LOC_button  ,
-["TRK ."]   	= Autopilot_TRK_button  ,
-["AP1 ."]   	= Autopilot_AP1_button  ,
-["AP2 ."]   	= Autopilot_AP2_button  ,
-["ATHR."]   	= Autopilot_ATHR_button  ,
-["EXPD."]   	= Autopilot_EXPD_button  ,
-["MTR ."]   	= Autopilot_MTR_button  ,
-["APPR."]   	= Autopilot_APPR_button  ,
+["IDENT"]   	= "FCU1"  ,
+["MACH."]   	= empty  ,
+["LOC ."]   	= empty  ,
+["TRK ."]   	= empty  ,
+["AP1 ."]   	= empty  ,
+["AP2 ."]   	= empty  ,
+["ATHR."]   	= empty  ,
+["EXPD."]   	= empty  ,
+["MTR ."]   	= empty  ,
+["APPR."]   	= empty  ,
 }
 
 -- AFCU SPD knob
 SPD3 = {
-["A SHOW"]  	= SPD_show  ,
-["A  +"]    	= SPD_plus  ,
-["A ++"]    	= SPD_plusfast  ,
-["A  -"]    	= SPD_minus  ,
-["A --"]    	= SPD_minusfast  ,
-["PRESS"]   	= SPD_press  ,
-["PULL"]    	= SPD_pull  ,
+["A SHOW"]  	= empty  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 -- AFCU HDG knob
 HDG3 = {
-["A SHOW"]  	= HDG_show  ,
-["A  +"]    	= HDG_plus  ,
-["A ++"]    	= HDG_plusfast  ,
-["A  -"]    	= HDG_minus  ,
-["A --"]    	= HDG_minusfast  ,
-["PRESS"]   	= HDG_press  ,
-["PULL"]    	= HDG_pull  ,
+["A SHOW"]  	= empty  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 -- AFCU ALT knob
 ALT3 = {
-["A SHOW"]  	= ALT_show  ,
-["A  +"]    	= ALT_plus  ,
-["A ++"]    	= ALT_plusfast  ,
-["A  -"]    	= ALT_minus  ,
-["A --"]    	= ALT_minusfast  ,
-["PRESS"]   	= ALT_press  ,
-["PULL"]    	= ALT_pull  ,
+["A SHOW"]  	= empty  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 -- AFCU VVS knob
 VVS3 = {
-["A SHOW"]  	= VVS_show  ,
-["A  +"]    	= VVS_plus  ,
-["A ++"]    	= VVS_plusfast  ,
-["A  -"]    	= VVS_minus  ,
-["A --"]    	= VVS_minusfast  ,
-["PRESS"]   	= VVS_press  ,
-["PULL"]    	= VVS_pull  ,
+["A SHOW"]  	= empty  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 
@@ -416,22 +416,22 @@ VVS3 = {
 USER1 = {
 ["ENABLED"] = true  ,
 ["IDENT"]   = "Lght"  ,
-["BTN1."]   = A32NX_DspMode_Toggle  ,
-["BTN2."]   = Autobreak_Mid  ,
-["BTN3."]   = Autobreak_Max  ,
-["BTN4."]   = A32nx_AUTOBRAKE_low_toggle  ,
-["BTN5."]   = A32nx_AUTOBRAKE_mid_toggle  ,
-["BTN6."]   = A32nx_AUTOBRAKE_max_toggle  ,
-["BTN7."]   = Brakes_PARKING  ,
-["BTN8."]   = VVS_show  ,
-["USR1."]   = A32nx_STBY_CHRONO_elapsed_time_cycle  ,
-["USR2."]   = A32nx_OVHD_calls_ALL  ,
-["USR3."]   = empty  ,
-["USR4."]   = empty  ,
-["USR5."]   = empty  ,
-["USR6."]   = A32nx_AUTOBRAKE_low_toggle  ,
-["USR7."]   = A32nx_AUTOBRAKE_mid_toggle  ,
-["USR8."]   = A32nx_AUTOBRAKE_max_toggle  ,
+["BTN1."]   = VRI_EFIS_MODE_toggle  ,
+["BTN2."]   = VRI_FCU_MODE_toggle  ,
+["BTN3."]   = VRI_USER_MODE_toggle  ,
+["BTN4."]   = A32nx_AUTOBRAKE_cycle  ,
+["BTN5."]   = A32nx_MAIN_BRAKEFAN_toggle  ,
+["BTN6."]   = A32nx_MAIN_ANTISKID_toggle  ,
+["BTN7."]   = A32nx_MasterWarning_push  ,
+["BTN8."]   = A32nx_MasterCaution_push  ,
+["USR1."]   = A32nx_StrobeLts_cycle  ,
+["USR2."]   = A32nx_BeaconLts_toggle  ,
+["USR3."]   = A32nx_NavLts_toggle  ,
+["USR4."]   = A32nx_RwyTurnLts_toggle  ,
+["USR5."]   = A32nx_LandingLts_Both_cycle  ,
+["USR6."]   = A32nx_NoseLts_cycle  ,
+["USR7."]   = empty  ,
+["USR8."]   = empty  ,
 ["LAMP."]   = VRI_Light_PANEL_toggle  ,
 }
 
