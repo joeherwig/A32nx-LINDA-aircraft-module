@@ -2027,6 +2027,7 @@ function A32NX_DspVVS (force)
         force = 0
     end
 
+	local VS_alt = 0
     local VS_val = ipc.readLvar("A32NX_AUTOPILOT_VS_SELECTED")
     local VS_mode = ipc.readLvar("A32NX_FCU_VS_MANAGED")
     local FPA_val = ipc.readLvar("A32NX_AUTOPILOT_FPA_SELECTED")
@@ -2034,8 +2035,20 @@ function A32NX_DspVVS (force)
 
     A32NX_DspHDGtxt(FPA_mode, force)
 
-    _logggg('VS=' .. VS_val .. ' ' .. tostring(VS_mode) .. ' FPA=' .. tostring(FPA_val) .. ' ' .. tostring(FPA_mode))
-
+	-- ensure valid values to cope with initial start conditions
+	if VS_val == nil then
+		VS_val = 0
+	end
+	if VS_mode == nil then
+		VS_mode = 0
+	end
+	if FPA_val == nil then
+		FPA_val = 0
+	end
+	if FPA_mode == nil then
+		FPA_mode == 0
+	end
+	
     if VS_mode == 1 then
         if _MCP2a() then
             DspVVSs("----")
