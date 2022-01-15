@@ -1,3 +1,9 @@
+-- FLYBYWIRE A32NX
+-- Module version 0.10.2
+-- Jan 2022
+
+-- Tested with FlyByWire A32NX Development version
+
 -- ## FCU
 
 -- $$ Autopilot Buttons
@@ -991,8 +997,27 @@ function A32nx_MasterCaution_push ()
     ipc.writeLvar("L:A32NX_MASTER_CAUTION")
 end
 
--- ## EFIS
+-- ## PFD Buttons FD + LS
+-- $$ CPT side (L)
+function A32nx_EFIS_L_FD_toggle()
+    ipc.execCalcCode("1 (>K:TOGGLE_FLIGHT_DIRECTOR, number)")
+end
 
+function A32nx_EFIS_L_LS_toggle()
+    ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_1")
+end
+
+-- $$ FO side (R)
+
+function A32nx_EFIS_R_FD_toggle()
+    ipc.execCalcCode("2 (>K:TOGGLE_FLIGHT_DIRECTOR, number)")
+end
+
+function A32nx_EFIS_R_LS_toggle()
+    ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_2")
+end
+
+-- ## EFIS
 -- $$ EFIS Options
 
 function A32nx_EFIS_L_none()
@@ -1000,7 +1025,7 @@ function A32nx_EFIS_L_none()
     Lval = ipc.readLvar(Lvar)
     opt = 0
     if Lval ~= opt then
-        ipc.writeLvar(Lvar, opt)
+        ipc.writeLvar(Lvar, 0)
         DspShow('EFIS','none')
     end
 end
@@ -1369,28 +1394,6 @@ function A32nx_Spoiler_Arm_off ()
 end
 
 
--- ## MFD 1 controls #####################################
--- $$ MFD MODE --------------------------------------
-function A32nx_MFD_BTN_CSTR_1()
-    ipc.activateHvar("H:A320_Neo_MFD_BTN_CSTR_1")
-end
-
-function A32nx_MFD_BTN_WPT_1()
-    ipc.activateHvar("H:A320_Neo_MFD_BTN_WPT_1")
-end
-
-function A32nx_MFD_BTN_VORD_1()
-    ipc.activateHvar("H:A320_Neo_MFD_BTN_VORD_1")
-end
-
-function A32nx_MFD_BTN_NDB_1()
-    ipc.activateHvar("H:A320_Neo_MFD_BTN_NDB_1")
-end
-
-function A32nx_MFD_BTN_ARPT_1()
-    ipc.activateHvar("H:A320_Neo_MFD_BTN_ARPT_1")
-end
-
 function A32nx_MFD_NAV_MODE_1_ls()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 0)
      mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
@@ -1475,6 +1478,11 @@ end
 
 
 -- ## EICAS ECAM Buttons #####################################
+
+function A32nx_EICAS_TO_CONFIG_press()
+     ipc.writeLvar("L:A32NX_BTN_TOCONFIG", 1)
+
+end
 
 function A32nx_EICAS_2_ECAM_PAGE_eng()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_ENG")
@@ -2186,7 +2194,7 @@ function A32NX_DspVVS (force)
 		FPA_val = 0
 	end
 	if FPA_mode == nil then
-		FPA_mode == 0
+		FPA_mode = 0
 	end
 	
     if VS_mode == 1 then
@@ -2449,9 +2457,28 @@ end
 -- Initial variables
 function InitVars ()
     -- further work required with new GUI
-    EvtFile = "A32NX.EVT"
+    --EvtFile = "A32nx.evt"
+        -- define index to custom events in A32NX.EVT
+	--EvtFile = "A32nx"
+    EvtCnt = ipc.get("EVTNUM")
+    --[[ for i = 0, EvtCnt - 1 do
+        _loggg('[USER] ' .. tostring(i))
+        referenceFile = ipc.get("EVTFILE" .. tostring(i))
+        ipc.sleep(100)
+        _loggg('[USER] ' .. referenceFile)
+
+        if referenceFile == EvtFile then
+            EvtIdx = i
+            break
+        end
+    end
+    _loggg('[USER] EvtIdx=' .. tostring(EvtIdx) .. '::' .. referenceFile)
+    --]]
+
+    -- defined in [EVENTS] block in FSUIPC7.INI
     EvtIdx = 0 -- defined in [EVENTS] block in FSUIPC7.INI
-    EvtPtr = 32768 + EvtIdx -- start address for A32NX.EVT custom events
+    EvtPtr = 32768 + (EvtIdx * 256) -- start address for A32NX.EVT custom events
+
 
     Airbus = true -- set flag for Airbus MCP2a panels
     P3D = 1 -- flag for imperial altitude conversion
@@ -2496,6 +2523,7 @@ function InitVars ()
     A32NX_ALT_Zero = '0'
     A32NX_Dot = string.char(7)
     A32NX_NoDot = ' '
+	
 end
 
 function Timer ()

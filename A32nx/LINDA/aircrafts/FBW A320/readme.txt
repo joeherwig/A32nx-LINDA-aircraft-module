@@ -2,25 +2,30 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.10.1
-     Date: 2022-01-11
+  Version: 0.10.2
+     Date: 2022-01-16
    Author: Joe Herwig
            Andrew Gransden / ScotFlieger (0.9.0 / 0.10.0)
            Falk Scherber (0.8.2)
            Neil Clements (0.4.4 / 0.6.1)
 
 ------------------------------------------------------------------------
+0.10.2
+° fixed EFIS options (CSTR, WPT, VORD, NDB, ARPT, NONE)
++ added T.O.Config
++ added back FD + LS Buttons (toggle only)
+
 0.10.1
-� renamed folder from "A320" to "FBW A320" to indicate that this module is only intended for the FlyByWire A320. Fixes #25
+° renamed folder from "A320" to "FBW A320" to indicate that this module is only intended for the FlyByWire A320. Fixes #25
 
 0.10.0
 + Updated to ways better display mode (by Andrew)
-� Fixed the FCU functions. (by Andrew)
+° Fixed the FCU functions. (by Andrew)
   CAUTION: They require currently the A320nx.evt in the FSUIPC7 root folder and added with index 0 to the [Events] section in FSUIPC7.ini!
-� Updated the assignments in the MCP2a assignments example to the new FCU functions.
+° Updated the assignments in the MCP2a assignments example to the new FCU functions.
 
 0.9.0
-� Fixed multiple issues for instance with the APU not working due to obsolete blank (Andrew Gransden)
+° Fixed multiple issues for instance with the APU not working due to obsolete blank (Andrew Gransden)
 + Barometer reference settings (by Andrew Gransden)
 + Landing gear lever (by Andrew Gransden)
 + Fuel Pumps (on, off, toggle) (by Andrew Gransden)
@@ -31,7 +36,7 @@
 - External Power (on, off) as not available in current DEV version anymore
 
 0.8.2
-� added / renamed A32nx_VS_MODE_level_off instead of A32nx_VS_MODE_level_managed
+° added / renamed A32nx_VS_MODE_level_off instead of A32nx_VS_MODE_level_managed
 - no more working AP Chrono Timer in PFD (was L:PUSH_AUTOPILOT_CHRONO_L)
 + Standby chrono elapsed timer (ET) Thanks to Falk Scherber!
 + A32nx_EICAS_2_ECAM_PAGE_next for those which want to use the ECAM ALL function with VRInsight panels
@@ -39,15 +44,15 @@
 0.8.1
 + A32nx_EmerExit (off, arm, on)
  Master Warning (push) renamed!
-� Master Caution (push) renamed!
+° Master Caution (push) renamed!
 Known_issues:
 - A32nx_Seatbelt_x not working currently with Experimental build
 
 0.8.0
 + Engine Master Switch 1 (off, on)
 + Engine Master Switch 2 (off, on)
-� Overhead Electrics: GEN 1 (off, on, toggle)
-� Overhead Electrics: GEN 2 (off, on, toggle)
+° Overhead Electrics: GEN 1 (off, on, toggle)
+° Overhead Electrics: GEN 2 (off, on, toggle)
 
 0.7.0
 + Landing Lights L (retract, off, on, pos)
@@ -61,8 +66,8 @@ Known_issues:
 + Pitot+Window heat (on, off, toggle)
 
 0.5.1
-� ADIRS
-� Autobreak
+° ADIRS
+° Autobreak
 
 0.5.0
 + Batt1, Batt2
@@ -70,15 +75,15 @@ Known_issues:
 + ENG1 Bleed, ENG2 Bleed
 
 0.4.3
-� Fixed FCU to avoid the neccesity of the A32nx event file. Now it runs on HVars directly. Easier to install
+° Fixed FCU to avoid the neccesity of the A32nx event file. Now it runs on HVars directly. Easier to install
 
 0.4.2
-� Fixed FCU rotaries. Known issue: incfast/decfast not yet working. As well the synchronization of the displayed values betwenn VC and VRi MCP is pending.
+° Fixed FCU rotaries. Known issue: incfast/decfast not yet working. As well the synchronization of the displayed values betwenn VC and VRi MCP is pending.
 
 0.4.1
 + OVHD: Added Battery 1 (SET, ON, OFF, TOGGLE)
 + OVHD: Added Battery 2 (SET, ON, OFF, TOGGLE)
-� fixed version information
+° fixed version information
 
 0.4.0
 + TCAS: Mode pos (STBY, TA, TA/RA, INC, DEC, CYCLE)
@@ -95,9 +100,9 @@ Known_issues:
 0.2.0
 + Glareshield: AutoBreak (off, low, mid, high, SET, INC, DEC, CYCLE)
 + Glareshield: TerrainOnND toggle left.
-� Updated PFD 1 FD
-� Updated PFD 1 LS
-� Renamed MFD buttons for CSTR, WPT, VORD, DNB and ARP to match standard naming
+° Updated PFD 1 FD
+° Updated PFD 1 LS
+° Renamed MFD buttons for CSTR, WPT, VORD, DNB and ARP to match standard naming
 
 0.1.1
 - Debugging Messages
