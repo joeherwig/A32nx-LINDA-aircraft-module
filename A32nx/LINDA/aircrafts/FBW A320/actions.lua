@@ -1951,140 +1951,6 @@ function A32nx_PARK_BRAKE_toggle()
     end
 end
 
--- ## System functions   ##
-
--- Initial info on MCP display
-
-function InitDsp ()
-    if _MCP1() or _MCP2() then
-        DspSPD(ipc.readLvar("A32NX_AUTOPILOT_SPEED_SELECTED"))
-        DspHDG(ipc.readLvar("A32NX_AUTOPILOT_HEADING_SELECTED"))
-        DspALT(getALTValue() / 100)
-        DspVVS(ipc.readLvar("A32NX_AUTOPILOT_VS_SELECTED"))
-    else -- MCP2a
-        A32NX_DspSPDtxt()
-        A32NX_DspHDGtxt()
-        A32NX_DspALTtxt()
-        A32NX_DspSPD()
-        A32NX_DspHDG()
-        A32NX_DspALT()
-        A32NX_DspVVS()
-    end
-end
-
-
-----------------------------------------------------------
-
--- display AP mode information
-function A32NX_AP_INFO ()
-    if _MCP2() then
-        -- FD
-        if ipc.readLvar('A32NX_MPL_FD') == 0 then
-            DspFD(0)
-        else
-            DspFD(1)
-        end
-        -- ATHR
-        if ipc.readLvar('A32NX_AUTOTHRUST_STATUS') == 0 then
-            DspAT(0)
-        else
-            DspAT(1)
-        end
-        -- LNAV
-        if ipc.readLvar('A32NX_AP_HDGmode_setDisp') == 1 then
-            DspLNAV_on ()
-        else
-            DspLNAV_off ()
-            A32NX_DspHDGmode(A32NX_HDGmode_Dot())
-        end
-        -- VNAV
-        if ipc.readLvar('AP_AP_ALT_Mode') == 1 then
-            DspVNAV_on ()
-            A32NX_DspALTmode(true)
-        else
-            DspVNAV_off ()
-            A32NX_DspALTmode(false)
-        end
-        local Var, str1, str2
-        -- A/THR
-        Var = ipc.readLvar('A32NX_AP_ATHR')
-        DspAT(Var)
-        -- AP1
-        Var = ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE')
-        if Var == 1 then
-            str1 = ' 1AP'
-        else
-            str1 = ' -AP'
-        end
-        -- AP2
-        Var = ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE')
-        if Var == 1 then
-            str1 = str1 .. '2 '
-        else
-            str1 = str1 .. '- '
-        end
-        -- ILS
-        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
-        if Var == 1 then
-            str2 = ' ILS '
-        else
-            str2 = '     '
-        end
-        -- LOC or APPR
-        if (ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE') == 1) then
-            str2 = str2 .. 'LOC'
-        elseif (ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE') == 1) then
-            str2 = str2 .. 'APR'
-        end
-        FLIGHT_INFO1 = str1
-        FLIGHT_INFO2 = str2
-    elseif _MCP2a() then -- Airbus FCU
-        local Var
-        -- ILS
-        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
-        DspILS(Var)
-        -- APs 1 & 2
-        DspAPs(ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE'),
-            ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE'))
-        -- A/THR
-        Var = ipc.readLvar('A32NX_AUTOTHRUST_STATUS')
-        DspAT(Var)
-        -- LOC
-        Var = ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE')
-        DspLOC(Var)
-        -- APPR
-        Var = ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE')
-        if not A32NX_MODE then
-            DspAPPR(Var)
-        end
-        -- reset flight information for Airbus MCP2a display
-        FLIGHT_INFO1 = ""
-        FLIGHT_INFO2 = ""
-    end
-    -- SPD/MACH labels
-    A32NX_DspSPDtxt(ipc.readLvar('AUTOPILOT_MANAGED_SPEED_IN_MACH'))
-    -- HDG/TRK labels
-    A32NX_DspHDGtxt(ipc.readLvar("A32NX_TRK_FPA_MODE_ACTIVE"))
-    -- ALT labels
-    A32NX_DspALTtxt()
-    -- ALT/VVS DspE to avoid cursor flicker
-    A32NX_DspE()
-    -- AP VALUES --
-    A32NX_DspSPD ()
-    A32NX_DspHDG ()
-    A32NX_DspALT ()
-    A32NX_DspVVS ()
-end
-
------------------------------------------------------------
-
--- Display Flight Information
-function A32NX_FLIGHT_INFO ()
-        FLIGHT_INFO1 = ""
-        FLIGHT_INFO2 = ""
-   -- end
-end
-
 -----------------------------------------------------------
 
 -- $$ Display Functions
@@ -2454,6 +2320,9 @@ function A32NX_DspMode_Toggle()
 end
 
 -----------------------------------------------------------
+
+-- ## System functions   ##
+
 -- Initial variables
 function InitVars ()
     -- further work required with new GUI
@@ -2526,6 +2395,141 @@ function InitVars ()
 	
 end
 
+-----------------------------------------------------------
+
+-- Initial info on MCP display
+
+function InitDsp ()
+    if _MCP1() or _MCP2() then
+        DspSPD(ipc.readLvar("A32NX_AUTOPILOT_SPEED_SELECTED"))
+        DspHDG(ipc.readLvar("A32NX_AUTOPILOT_HEADING_SELECTED"))
+        DspALT(getALTValue() / 100)
+        DspVVS(ipc.readLvar("A32NX_AUTOPILOT_VS_SELECTED"))
+    else -- MCP2a
+        A32NX_DspSPDtxt()
+        A32NX_DspHDGtxt()
+        A32NX_DspALTtxt()
+        A32NX_DspSPD()
+        A32NX_DspHDG()
+        A32NX_DspALT()
+        A32NX_DspVVS()
+    end
+end
+
+----------------------------------------------------------
+
+-- display AP mode information
+function A32NX_AP_INFO ()
+    if _MCP2() then
+        -- FD
+        if ipc.readLvar('A32NX_MPL_FD') == 0 then
+            DspFD(0)
+        else
+            DspFD(1)
+        end
+        -- ATHR
+        if ipc.readLvar('A32NX_AUTOTHRUST_STATUS') == 0 then
+            DspAT(0)
+        else
+            DspAT(1)
+        end
+        -- LNAV
+        if ipc.readLvar('A32NX_AP_HDGmode_setDisp') == 1 then
+            DspLNAV_on ()
+        else
+            DspLNAV_off ()
+            A32NX_DspHDGmode(A32NX_HDGmode_Dot())
+        end
+        -- VNAV
+        if ipc.readLvar('AP_AP_ALT_Mode') == 1 then
+            DspVNAV_on ()
+            A32NX_DspALTmode(true)
+        else
+            DspVNAV_off ()
+            A32NX_DspALTmode(false)
+        end
+        local Var, str1, str2
+        -- A/THR
+        Var = ipc.readLvar('A32NX_AP_ATHR')
+        DspAT(Var)
+        -- AP1
+        Var = ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE')
+        if Var == 1 then
+            str1 = ' 1AP'
+        else
+            str1 = ' -AP'
+        end
+        -- AP2
+        Var = ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE')
+        if Var == 1 then
+            str1 = str1 .. '2 '
+        else
+            str1 = str1 .. '- '
+        end
+        -- ILS
+        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
+        if Var == 1 then
+            str2 = ' ILS '
+        else
+            str2 = '     '
+        end
+        -- LOC or APPR
+        if (ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE') == 1) then
+            str2 = str2 .. 'LOC'
+        elseif (ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE') == 1) then
+            str2 = str2 .. 'APR'
+        end
+        FLIGHT_INFO1 = str1
+        FLIGHT_INFO2 = str2
+    elseif _MCP2a() then -- Airbus FCU
+        local Var
+        -- ILS
+        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
+        DspILS(Var)
+        -- APs 1 & 2
+        DspAPs(ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE'),
+            ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE'))
+        -- A/THR
+        Var = ipc.readLvar('A32NX_AUTOTHRUST_STATUS')
+        DspAT(Var)
+        -- LOC
+        Var = ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE')
+        DspLOC(Var)
+        -- APPR
+        Var = ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE')
+        if not A32NX_MODE then
+            DspAPPR(Var)
+        end
+        -- reset flight information for Airbus MCP2a display
+        FLIGHT_INFO1 = ""
+        FLIGHT_INFO2 = ""
+    end
+    -- SPD/MACH labels
+    A32NX_DspSPDtxt(ipc.readLvar('AUTOPILOT_MANAGED_SPEED_IN_MACH'))
+    -- HDG/TRK labels
+    A32NX_DspHDGtxt(ipc.readLvar("A32NX_TRK_FPA_MODE_ACTIVE"))
+    -- ALT labels
+    A32NX_DspALTtxt()
+    -- ALT/VVS DspE to avoid cursor flicker
+    A32NX_DspE()
+    -- AP VALUES --
+    A32NX_DspSPD ()
+    A32NX_DspHDG ()
+    A32NX_DspALT ()
+    A32NX_DspVVS ()
+end
+
+-----------------------------------------------------------
+
+-- Display Flight Information
+function A32NX_FLIGHT_INFO ()
+        FLIGHT_INFO1 = ""
+        FLIGHT_INFO2 = ""
+   -- end
+end
+
+-----------------------------------------------------------
+
 function Timer ()
     -- check AP2 status
     if ipc.readLvar('A32NX_AP_LOC2') == 0 and
@@ -2581,6 +2585,7 @@ function Timer ()
         Sounds("modechange")
     end
 end
+
 -----------------------------------------------------------
 
 -- ## Test stuff ################
