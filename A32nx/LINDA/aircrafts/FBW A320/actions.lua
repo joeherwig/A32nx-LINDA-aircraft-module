@@ -2325,29 +2325,9 @@ end
 
 -- Initial variables
 function InitVars ()
-    -- further work required with new GUI
-    --EvtFile = "A32nx.evt"
-        -- define index to custom events in A32NX.EVT
-	--EvtFile = "A32nx"
-    EvtCnt = ipc.get("EVTNUM")
-    --[[ for i = 0, EvtCnt - 1 do
-        _loggg('[USER] ' .. tostring(i))
-        referenceFile = ipc.get("EVTFILE" .. tostring(i))
-        ipc.sleep(100)
-        _loggg('[USER] ' .. referenceFile)
 
-        if referenceFile == EvtFile then
-            EvtIdx = i
-            break
-        end
-    end
-    _loggg('[USER] EvtIdx=' .. tostring(EvtIdx) .. '::' .. referenceFile)
-    --]]
-
-    -- defined in [EVENTS] block in FSUIPC7.INI
-    EvtIdx = 0 -- defined in [EVENTS] block in FSUIPC7.INI
-    EvtPtr = 32768 + (EvtIdx * 256) -- start address for A32NX.EVT custom events
-
+	-- Initialise Custom Event pointers
+	InitEvents()
 
     Airbus = true -- set flag for Airbus MCP2a panels
     P3D = 1 -- flag for imperial altitude conversion
@@ -2393,6 +2373,73 @@ function InitVars ()
     A32NX_Dot = string.char(7)
     A32NX_NoDot = ' '
 	
+end
+
+-----------------------------------------------------------
+
+function InitEvents()
+    -- get custom events file offset start pointer
+    -- defined in [EVENTS] block in FSUIPC7.INI
+    _loggg('[USER] Checking Event Files Data ************')
+    n =  ipc.get("EVTNUM")
+    _loggg('[USER] EvtNum=' .. tostring(n))
+    if n == nil then return end
+    for i = 0, tonumber(n) - 1 do
+        s = ipc.get("EVTFILE" .. i)
+        _loggg('[USER] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
+    end
+
+    EvtFile = string.lower("A32nx")
+    EvtCnt = ipc.get("EVTNUM")
+    EvtPtr = 32768
+    EvtPtr1 = EvtPtr + 256
+    if EvtCnt == nil then
+        EvtCnt = 0
+    end
+    f = ''
+    for i = 0, EvtCnt - 1 do
+        f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
+        if f == EvtFile then
+            EvtIdx = i
+            break
+        end
+    end
+    _loggg('[USER] EvtIdx =' .. tostring(EvtIdx) .. '::' .. f)
+
+
+    -- defined in [EVENTS] block in FSUIPC7.INI
+    if EvtIdx ~= nil then
+        -- start address for A32NX.EVT custom events
+        EvtPtr = 32768 + (EvtIdx * 256)
+    else
+        EvtPtr = 32768
+    end
+
+    EvtFile = string.lower("A32X-FBW1")
+    EvtCnt = ipc.get("EVTNUM")
+    if EvtCnt == nil then
+        EvtCnt = 0
+    end
+    f = ''
+    for i = 0, EvtCnt - 1 do
+        f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
+        if f == EvtFile then
+            EvtIdx = i
+            break
+        end
+    end
+    _loggg('[USER] EvtIdx1=' .. tostring(EvtIdx) .. '::' .. f)
+
+    -- defined in [EVENTS] block in FSUIPC7.INI
+    if EvtIdx ~= nil then
+        -- start address for A32NX.EVT custom events
+        EvtPtr2 = 32768 + (EvtIdx * 256)
+    else
+        EvtPtr2 = 32768 + 256
+    end
+
+    _loggg('[USER] EvtPtrs= ' .. EvtPtr .. ' == ' .. EvtPtr2)
+    _loggg('[USER] Checking Event Files Data ************')
 end
 
 -----------------------------------------------------------
