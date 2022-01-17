@@ -26,7 +26,12 @@ eg:
 2=A32X-FBW2
 ```
 
-Andrew is going to update LINDA so that the order of the event files will get unimportant in future. 
+### Important:
+Note that you must have the MobiFlight WASM module installed and active to use these events.
+To install it, head over to [MobiFlight Connector](https://www.mobiflight.com/de/download.html)
+See "FSUIPC7 for Advanced Users.pdf" within the documentation which is provided with FSUIPC.
+
+LINDA (4.0.8 or later) has been modified to automate handling and reference to these custom event files.
 
 ## Assign the functions
 To work with the included libraries and event-files, just follow the instructions in the [Wiki](https://github.com/joeherwig/A32nx-LINDA-aircraft-module/wiki).

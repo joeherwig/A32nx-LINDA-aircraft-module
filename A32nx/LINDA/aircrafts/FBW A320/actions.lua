@@ -1,12 +1,18 @@
 -- FLYBYWIRE A32NX
--- Module version 0.10.1
+-- Module version 0.10.2
 -- Jan 2022
 
--- Works with FlyByWire A32NX Experimental
+-- Tested with FlyByWire A32NX Development version
 
 -- ## FCU
 
 -- $$ Autopilot Buttons
+
+function A32nx_FCU_SPDMACH_toggle()
+    ipc.control(EvtPtr + 10)
+    DspShow('MACH','tgl')
+end
+
 function A32nx_FCU_AP_1_toggle()
     DspShow('PARK',EvtPtr)
     ipc.control(EvtPtr + 0)
@@ -625,30 +631,123 @@ end
 
 -- ## Overhead Lights & Signs #####################################
 
--- $$ Lights
-function A32nx_StrobeLts_on()
+-- $$ Strobe Lights
+
+function A32nx_StrobeLts_auto()
     ipc.execCalcCode("1 (>L:LIGHTING_STROBE_0) 1 (>L:STROBE_0_Auto) 1 0 r (>K:2:STROBES_SET)")
 end
-function A32nx_StrobeLts_auto()
+
+function A32nx_StrobeLts_on()
     ipc.execCalcCode("0 (>L:LIGHTING_STROBE_0) 0 (>L:STROBE_0_Auto) 1 0 r (>K:2:STROBES_SET)")
 end
+
 function A32nx_StrobeLts_off()
     ipc.execCalcCode("2 (>L:LIGHTING_STROBE_0) 0 (>L:STROBE_0_Auto) 0 0 r (>K:2:STROBES_SET)")
 end
 
+function A32nx_StrobeLts_toggle()
+    local Lvar = "L:LIGHTING_STROBE_0"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_StrobeLts_off()
+    else
+        A32nx_StrobeLts_on()
+    end
+end
+
+function A32nx_StrobeLts_cycle()
+    local Lvar = "L:LIGHTING_STROBE_0"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 2 then
+        A32nx_StrobeLts_auto()
+    elseif Lval == 1 then
+        A32nx_StrobeLts_on()
+    else
+        A32nx_StrobeLts_off()
+    end
+end
+
+-- $$ Beacon Lights
+
 function A32nx_BeaconLts_on()
     ipc.execCalcCode("0 1 (>K:2:BEACON_LIGHTS_SET)")
 end
+
 function A32nx_BeaconLts_off()
     ipc.execCalcCode("0 0 (>K:2:BEACON_LIGHTS_SET)")
 end
 
+function A32nx_BeaconLts_toggle()
+    local Lvar = "L:LIGHTING_BEACON_0"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_BeaconLts_on()
+    else
+        A32nx_BeaconLts_off()
+    end
+end
+
+-- $$ Wing Lights
+
+function A32nx_WingLts_on()
+    ipc.execCalcCode("0 1 (>K:2:WING_LIGHTS_SET)")
+end
+
+function A32nx_WingLts_off()
+    ipc.execCalcCode("0 0 (>K:2:WING_LIGHTS_SET)")
+end
+
+function A32nx_WingLts_toggle()
+    local Lvar = "L:LIGHTING_WING_0"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_WingLts_on()
+    else
+        A32nx_WingLts_off()
+    end
+end
+
+-- $$ Navigation Lights
+
+function A32nx_NavLts_on()
+    ipc.execCalcCode("0 1 (>K:2:NAV_LIGHTS_SET)")
+end
+
+function A32nx_NavLts_off()
+    ipc.execCalcCode("0 0 (>K:2:NAV_LIGHTS_SET)")
+end
+
+function A32nx_NavLts_toggle()
+    local Lvar = "L:LIGHTING_NAV_0"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 0 then
+        A32nx_NavLts_on()
+    else
+        A32nx_NavLts_off()
+    end
+end
+
+-- $$ Runway Turn Off
+
 function A32nx_RwyTurnLts_on()
     ipc.execCalcCode("1 s0 (>L:LIGHTING_TAXI_2) 2 l0 (>K:2:TAXI_LIGHTS_SET) 3 l0 (>K:2:TAXI_LIGHTS_SET)")
 end
+
 function A32nx_RwyTurnLts_off()
     ipc.execCalcCode("0 s0 (>L:LIGHTING_TAXI_2) 2 l0 (>K:2:TAXI_LIGHTS_SET) 3 l0 (>K:2:TAXI_LIGHTS_SET)")
 end
+
+function A32nx_RwyTurnLts_toggle()
+    local Lvar = "L:LIGHTING_TAXI_2"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 1 then
+        A32nx_RwyTurnLts_off()
+    else
+        A32nx_RwyTurnLts_on()
+    end
+end
+
+-- $$ Landing Lights
 
 function A32nx_LandingLts_L_Pos(pos)
     ipc.writeLvar("L:LIGHTING_LANDING_2", pos)
@@ -663,6 +762,26 @@ function A32nx_LandingLts_L_on()
      A32nx_LandingLts_L_Pos(0)
 end
 
+function A32nx_LandingLts_L_toggle()
+    local Lvar = "L:LIGHTING_LANDING_2"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_LandingLts_L_on()
+    else
+        A32nx_LandingLts_L_retract()
+    end
+end
+
+function A32nx_LandingLts_L_cycle()
+    local Lvar = "L:LIGHTING_LANDING_3"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_LandingLts_L_Pos(Lval - 1)
+    else
+        A32nx_LandingLts_L_retract()
+    end
+end
+
 function A32nx_LandingLts_R_Pos(pos)
     ipc.writeLvar("L:LIGHTING_LANDING_3", pos)
 end
@@ -674,6 +793,26 @@ function A32nx_LandingLts_R_off()
 end
 function A32nx_LandingLts_R_on()
     A32nx_LandingLts_R_Pos(0)
+end
+
+function A32nx_LandingLts_R_toggle()
+    local Lvar = "L:LIGHTING_LANDING_3"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_LandingLts_R_on()
+    else
+        A32nx_LandingLts_R_retract()
+    end
+end
+
+function A32nx_LandingLts_R_cycle()
+    local Lvar = "L:LIGHTING_LANDING_3"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_LandingLts_R_Pos(Lval - 1)
+    else
+        A32nx_LandingLts_R_retract()
+    end
 end
 
 function A32nx_LandingLts_Both_Pos(pos)
@@ -693,15 +832,52 @@ function A32nx_LandingLts_Both_on()
      A32nx_LandingLts_R_Pos(0)
 end
 
+function A32nx_LandingLts_Both_toggle()
+     A32nx_LandingLts_L_toggle()
+     A32nx_LandingLts_R_toggle()
+end
+
+function A32nx_LandingLts_Both_cycle()
+     A32nx_LandingLts_L_cycle()
+     A32nx_LandingLts_R_cycle()
+end
+
+-- $$ Nose Lights
+
 function A32nx_NoseLts_TO()
     ipc.execCalcCode("0 (>L:LIGHTING_LANDING_1) 1 1 r (>K:2:LANDING_LIGHTS_SET) 0 1 r (>K:2:TAXI_LIGHTS_SET)")
 end
+
 function A32nx_NoseLts_taxi()
     ipc.execCalcCode("1 (>L:LIGHTING_LANDING_1) 0 1 r (>K:2:LANDING_LIGHTS_SET) 1 1 r (>K:2:TAXI_LIGHTS_SET)")
 end
+
 function A32nx_NoseLts_off()
     ipc.execCalcCode("2 (>L:LIGHTING_LANDING_1) 0 1 r (>K:2:LANDING_LIGHTS_SET) 0 1 r (>K:2:TAXI_LIGHTS_SET)")
 end
+
+function A32nx_NoseLts_toggle()
+    local Lvar = "L:LIGHTING_LANDING_1"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_NoseLts_TO()
+    else
+        A32nx_NoseLts_off()
+    end
+end
+
+function A32nx_NoseLts_cycle()
+    local Lvar = "L:LIGHTING_LANDING_1"
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == 2 then
+        A32nx_NoseLts_taxi()
+    elseif Lval == 1 then
+        A32nx_NoseLts_TO()
+    else
+        A32nx_NoseLts_off()
+    end
+end
+
 -- $$ internal
 
 function A32nx_EmerExitLts_Pos(pos)
@@ -821,6 +997,159 @@ function A32nx_MasterCaution_push ()
     ipc.writeLvar("L:A32NX_MASTER_CAUTION")
 end
 
+-- ## PFD Buttons FD + LS
+-- $$ CPT side (L)
+function A32nx_EFIS_L_FD_toggle()
+    ipc.execCalcCode("1 (>K:TOGGLE_FLIGHT_DIRECTOR, number)")
+end
+
+function A32nx_EFIS_L_LS_toggle()
+    ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_1")
+end
+
+-- $$ FO side (R)
+
+function A32nx_EFIS_R_FD_toggle()
+    ipc.execCalcCode("2 (>K:TOGGLE_FLIGHT_DIRECTOR, number)")
+end
+
+function A32nx_EFIS_R_LS_toggle()
+    ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_2")
+end
+
+-- ## EFIS
+-- $$ EFIS Options
+
+function A32nx_EFIS_L_none()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 0
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, 0)
+        DspShow('EFIS','none')
+    end
+end
+
+function A32nx_EFIS_L_cstr()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 1
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('EFIS','cstr')
+    else
+        A32nx_EFIS_L_none()
+    end
+end
+
+function A32nx_EFIS_L_wpt()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 3
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('EFIS','wpt')
+    else
+        A32nx_EFIS_L_none()
+    end
+end
+
+function A32nx_EFIS_L_vor()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 2
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('EFIS','vor')
+    else
+        A32nx_EFIS_L_none()
+    end
+end
+
+function A32nx_EFIS_L_ndb()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 4
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('EFIS','ndb')
+    else
+        A32nx_EFIS_L_none()
+    end
+end
+
+function A32nx_EFIS_L_aprt()
+    Lvar = "A32NX_EFIS_L_OPTION"
+    Lval = ipc.readLvar(Lvar)
+    opt = 5
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('EFIS','arpt')
+    else
+        A32nx_EFIS_L_none()
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_1_adf()
+    Lvar = "A32NX_EFIS_L_NAVAID_1_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 1
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV1', 'adf')
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_1_off()
+    Lvar = "A32NX_EFIS_L_NAVAID_1_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 0
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV1', 'off')
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_1_vor()
+    Lvar = "A32NX_EFIS_L_NAVAID_1_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 2
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV1', 'vor')
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_2_adf()
+    Lvar = "A32NX_EFIS_L_NAVAID_2_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 1
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV2', 'adf')
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_2_off()
+    Lvar = "A32NX_EFIS_L_NAVAID_2_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 0
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV2', 'off')
+    end
+end
+
+function A32nx_EFIS_L_NAVAID_2_vor()
+    Lvar = "A32NX_EFIS_L_NAVAID_2_MODE"
+    Lval = ipc.readLvar(Lvar)
+    opt = 2
+    if Lval ~= opt then
+        ipc.writeLvar(Lvar, opt)
+        DspShow('NAV2', 'vor')
+    end
+end
+
 -- $$ BARO Reference
 function A32nx_BARO_inc()
     ipc.control(65883,0)
@@ -894,6 +1223,46 @@ function A32nx_BARO_toggle()
 end
 
 -- ## MAIN PANEL #####################################
+
+-- $$ Brake Fan
+
+function A32nx_MAIN_BRAKEFAN_on()
+    ipc.writeLvar("A32NX_BRAKE_FAN_BTN_PRESSED", 1)
+    DspShow('BFAN','on')
+end
+
+function A32nx_MAIN_BRAKEFAN_off()
+    ipc.writeLvar("A32NX_BRAKE_FAN_BTN_PRESSED", 0)
+    DspShow('BFAN','off')
+end
+
+function A32nx_MAIN_BRAKEFAN_toggle()
+    if ipc.readLvar("A32NX_BRAKE_FAN_BTN_PRESSED") == 1 then
+        A32nx_MAIN_BRAKEFAN_off()
+    else
+        A32nx_MAIN_BRAKEFAN_on()
+    end
+end
+
+-- $$ Anti Skid
+
+function A32nx_MAIN_ANTISKID_on()
+    ipc.writeUD(0x0BFD, 1)
+    DspShow('SKID','on')
+end
+
+function A32nx_MAIN_ANTISKID_off()
+    ipc.writeUD(0x0BFD, 0)
+    DspShow('SKID','off')
+end
+
+function A32nx_MAIN_ANTISKID_toggle()
+    if ipc.readUD(0x0BFD) > 0 then
+        A32nx_MAIN_ANTISKID_off()
+    else
+        A32nx_MAIN_ANTISKID_on()
+    end
+end
 
 -- $$ Autobrake ---------------------------------
 
@@ -1025,28 +1394,6 @@ function A32nx_Spoiler_Arm_off ()
 end
 
 
--- ## MFD 1 controls #####################################
--- $$ MFD MODE --------------------------------------
-function A32nx_MFD_BTN_CSTR_1()
-    ipc.activateHvar("H:A320_Neo_MFD_BTN_CSTR_1")
-end
-
-function A32nx_MFD_BTN_WPT_1()
-    ipc.activateHvar("H:A320_Neo_MFD_BTN_WPT_1")
-end
-
-function A32nx_MFD_BTN_VORD_1()
-    ipc.activateHvar("H:A320_Neo_MFD_BTN_VORD_1")
-end
-
-function A32nx_MFD_BTN_NDB_1()
-    ipc.activateHvar("H:A320_Neo_MFD_BTN_NDB_1")
-end
-
-function A32nx_MFD_BTN_ARPT_1()
-    ipc.activateHvar("H:A320_Neo_MFD_BTN_ARPT_1")
-end
-
 function A32nx_MFD_NAV_MODE_1_ls()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 0)
      mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
@@ -1131,6 +1478,11 @@ end
 
 
 -- ## EICAS ECAM Buttons #####################################
+
+function A32nx_EICAS_TO_CONFIG_press()
+     ipc.writeLvar("L:A32NX_BTN_TOCONFIG", 1)
+
+end
 
 function A32nx_EICAS_2_ECAM_PAGE_eng()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_ENG")
@@ -1599,140 +1951,6 @@ function A32nx_PARK_BRAKE_toggle()
     end
 end
 
--- ## System functions   ##
-
--- Initial info on MCP display
-
-function InitDsp ()
-    if _MCP1() or _MCP2() then
-        DspSPD(ipc.readLvar("A32NX_AUTOPILOT_SPEED_SELECTED"))
-        DspHDG(ipc.readLvar("A32NX_AUTOPILOT_HEADING_SELECTED"))
-        DspALT(getALTValue() / 100)
-        DspVVS(ipc.readLvar("A32NX_AUTOPILOT_VS_SELECTED"))
-    else -- MCP2a
-        A32NX_DspSPDtxt()
-        A32NX_DspHDGtxt()
-        A32NX_DspALTtxt()
-        A32NX_DspSPD()
-        A32NX_DspHDG()
-        A32NX_DspALT()
-        A32NX_DspVVS()
-    end
-end
-
-
-----------------------------------------------------------
-
--- display AP mode information
-function A32NX_AP_INFO ()
-    if _MCP2() then
-        -- FD
-        if ipc.readLvar('A32NX_MPL_FD') == 0 then
-            DspFD(0)
-        else
-            DspFD(1)
-        end
-        -- ATHR
-        if ipc.readLvar('A32NX_AUTOTHRUST_STATUS') == 0 then
-            DspAT(0)
-        else
-            DspAT(1)
-        end
-        -- LNAV
-        if ipc.readLvar('A32NX_AP_HDGmode_setDisp') == 1 then
-            DspLNAV_on ()
-        else
-            DspLNAV_off ()
-            A32NX_DspHDGmode(A32NX_HDGmode_Dot())
-        end
-        -- VNAV
-        if ipc.readLvar('AP_AP_ALT_Mode') == 1 then
-            DspVNAV_on ()
-            A32NX_DspALTmode(true)
-        else
-            DspVNAV_off ()
-            A32NX_DspALTmode(false)
-        end
-        local Var, str1, str2
-        -- A/THR
-        Var = ipc.readLvar('A32NX_AP_ATHR')
-        DspAT(Var)
-        -- AP1
-        Var = ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE')
-        if Var == 1 then
-            str1 = ' 1AP'
-        else
-            str1 = ' -AP'
-        end
-        -- AP2
-        Var = ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE')
-        if Var == 1 then
-            str1 = str1 .. '2 '
-        else
-            str1 = str1 .. '- '
-        end
-        -- ILS
-        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
-        if Var == 1 then
-            str2 = ' ILS '
-        else
-            str2 = '     '
-        end
-        -- LOC or APPR
-        if (ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE') == 1) then
-            str2 = str2 .. 'LOC'
-        elseif (ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE') == 1) then
-            str2 = str2 .. 'APR'
-        end
-        FLIGHT_INFO1 = str1
-        FLIGHT_INFO2 = str2
-    elseif _MCP2a() then -- Airbus FCU
-        local Var
-        -- ILS
-        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
-        DspILS(Var)
-        -- APs 1 & 2
-        DspAPs(ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE'),
-            ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE'))
-        -- A/THR
-        Var = ipc.readLvar('A32NX_AUTOTHRUST_STATUS')
-        DspAT(Var)
-        -- LOC
-        Var = ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE')
-        DspLOC(Var)
-        -- APPR
-        Var = ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE')
-        if not A32NX_MODE then
-            DspAPPR(Var)
-        end
-        -- reset flight information for Airbus MCP2a display
-        FLIGHT_INFO1 = ""
-        FLIGHT_INFO2 = ""
-    end
-    -- SPD/MACH labels
-    A32NX_DspSPDtxt(ipc.readLvar('AUTOPILOT_MANAGED_SPEED_IN_MACH'))
-    -- HDG/TRK labels
-    A32NX_DspHDGtxt(ipc.readLvar("A32NX_TRK_FPA_MODE_ACTIVE"))
-    -- ALT labels
-    A32NX_DspALTtxt()
-    -- ALT/VVS DspE to avoid cursor flicker
-    A32NX_DspE()
-    -- AP VALUES --
-    A32NX_DspSPD ()
-    A32NX_DspHDG ()
-    A32NX_DspALT ()
-    A32NX_DspVVS ()
-end
-
------------------------------------------------------------
-
--- Display Flight Information
-function A32NX_FLIGHT_INFO ()
-        FLIGHT_INFO1 = ""
-        FLIGHT_INFO2 = ""
-   -- end
-end
-
 -----------------------------------------------------------
 
 -- $$ Display Functions
@@ -1823,6 +2041,7 @@ function A32NX_DspVVS (force)
         force = 0
     end
 
+	local VS_alt = 0
     local VS_val = ipc.readLvar("A32NX_AUTOPILOT_VS_SELECTED")
     local VS_mode = ipc.readLvar("A32NX_FCU_VS_MANAGED")
     local FPA_val = ipc.readLvar("A32NX_AUTOPILOT_FPA_SELECTED")
@@ -1830,8 +2049,20 @@ function A32NX_DspVVS (force)
 
     A32NX_DspHDGtxt(FPA_mode, force)
 
-    _logggg('VS=' .. VS_val .. ' ' .. tostring(VS_mode) .. ' FPA=' .. tostring(FPA_val) .. ' ' .. tostring(FPA_mode))
-
+	-- ensure valid values to cope with initial start conditions
+	if VS_val == nil then
+		VS_val = 0
+	end
+	if VS_mode == nil then
+		VS_mode = 0
+	end
+	if FPA_val == nil then
+		FPA_val = 0
+	end
+	if FPA_mode == nil then
+		FPA_mode = 0
+	end
+	
     if VS_mode == 1 then
         if _MCP2a() then
             DspVVSs("----")
@@ -2089,12 +2320,34 @@ function A32NX_DspMode_Toggle()
 end
 
 -----------------------------------------------------------
+
+-- ## System functions   ##
+
 -- Initial variables
 function InitVars ()
     -- further work required with new GUI
-    EvtFile = "A32NX.EVT"
+    --EvtFile = "A32nx.evt"
+        -- define index to custom events in A32NX.EVT
+	--EvtFile = "A32nx"
+    EvtCnt = ipc.get("EVTNUM")
+    --[[ for i = 0, EvtCnt - 1 do
+        _loggg('[USER] ' .. tostring(i))
+        referenceFile = ipc.get("EVTFILE" .. tostring(i))
+        ipc.sleep(100)
+        _loggg('[USER] ' .. referenceFile)
+
+        if referenceFile == EvtFile then
+            EvtIdx = i
+            break
+        end
+    end
+    _loggg('[USER] EvtIdx=' .. tostring(EvtIdx) .. '::' .. referenceFile)
+    --]]
+
+    -- defined in [EVENTS] block in FSUIPC7.INI
     EvtIdx = 0 -- defined in [EVENTS] block in FSUIPC7.INI
-    EvtPtr = 32768 + EvtIdx -- start address for A32NX.EVT custom events
+    EvtPtr = 32768 + (EvtIdx * 256) -- start address for A32NX.EVT custom events
+
 
     Airbus = true -- set flag for Airbus MCP2a panels
     P3D = 1 -- flag for imperial altitude conversion
@@ -2139,7 +2392,143 @@ function InitVars ()
     A32NX_ALT_Zero = '0'
     A32NX_Dot = string.char(7)
     A32NX_NoDot = ' '
+	
 end
+
+-----------------------------------------------------------
+
+-- Initial info on MCP display
+
+function InitDsp ()
+    if _MCP1() or _MCP2() then
+        DspSPD(ipc.readLvar("A32NX_AUTOPILOT_SPEED_SELECTED"))
+        DspHDG(ipc.readLvar("A32NX_AUTOPILOT_HEADING_SELECTED"))
+        DspALT(getALTValue() / 100)
+        DspVVS(ipc.readLvar("A32NX_AUTOPILOT_VS_SELECTED"))
+    else -- MCP2a
+        A32NX_DspSPDtxt()
+        A32NX_DspHDGtxt()
+        A32NX_DspALTtxt()
+        A32NX_DspSPD()
+        A32NX_DspHDG()
+        A32NX_DspALT()
+        A32NX_DspVVS()
+    end
+end
+
+----------------------------------------------------------
+
+-- display AP mode information
+function A32NX_AP_INFO ()
+    if _MCP2() then
+        -- FD
+        if ipc.readLvar('A32NX_MPL_FD') == 0 then
+            DspFD(0)
+        else
+            DspFD(1)
+        end
+        -- ATHR
+        if ipc.readLvar('A32NX_AUTOTHRUST_STATUS') == 0 then
+            DspAT(0)
+        else
+            DspAT(1)
+        end
+        -- LNAV
+        if ipc.readLvar('A32NX_AP_HDGmode_setDisp') == 1 then
+            DspLNAV_on ()
+        else
+            DspLNAV_off ()
+            A32NX_DspHDGmode(A32NX_HDGmode_Dot())
+        end
+        -- VNAV
+        if ipc.readLvar('AP_AP_ALT_Mode') == 1 then
+            DspVNAV_on ()
+            A32NX_DspALTmode(true)
+        else
+            DspVNAV_off ()
+            A32NX_DspALTmode(false)
+        end
+        local Var, str1, str2
+        -- A/THR
+        Var = ipc.readLvar('A32NX_AP_ATHR')
+        DspAT(Var)
+        -- AP1
+        Var = ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE')
+        if Var == 1 then
+            str1 = ' 1AP'
+        else
+            str1 = ' -AP'
+        end
+        -- AP2
+        Var = ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE')
+        if Var == 1 then
+            str1 = str1 .. '2 '
+        else
+            str1 = str1 .. '- '
+        end
+        -- ILS
+        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
+        if Var == 1 then
+            str2 = ' ILS '
+        else
+            str2 = '     '
+        end
+        -- LOC or APPR
+        if (ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE') == 1) then
+            str2 = str2 .. 'LOC'
+        elseif (ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE') == 1) then
+            str2 = str2 .. 'APR'
+        end
+        FLIGHT_INFO1 = str1
+        FLIGHT_INFO2 = str2
+    elseif _MCP2a() then -- Airbus FCU
+        local Var
+        -- ILS
+        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
+        DspILS(Var)
+        -- APs 1 & 2
+        DspAPs(ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE'),
+            ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE'))
+        -- A/THR
+        Var = ipc.readLvar('A32NX_AUTOTHRUST_STATUS')
+        DspAT(Var)
+        -- LOC
+        Var = ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE')
+        DspLOC(Var)
+        -- APPR
+        Var = ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE')
+        if not A32NX_MODE then
+            DspAPPR(Var)
+        end
+        -- reset flight information for Airbus MCP2a display
+        FLIGHT_INFO1 = ""
+        FLIGHT_INFO2 = ""
+    end
+    -- SPD/MACH labels
+    A32NX_DspSPDtxt(ipc.readLvar('AUTOPILOT_MANAGED_SPEED_IN_MACH'))
+    -- HDG/TRK labels
+    A32NX_DspHDGtxt(ipc.readLvar("A32NX_TRK_FPA_MODE_ACTIVE"))
+    -- ALT labels
+    A32NX_DspALTtxt()
+    -- ALT/VVS DspE to avoid cursor flicker
+    A32NX_DspE()
+    -- AP VALUES --
+    A32NX_DspSPD ()
+    A32NX_DspHDG ()
+    A32NX_DspALT ()
+    A32NX_DspVVS ()
+end
+
+-----------------------------------------------------------
+
+-- Display Flight Information
+function A32NX_FLIGHT_INFO ()
+        FLIGHT_INFO1 = ""
+        FLIGHT_INFO2 = ""
+   -- end
+end
+
+-----------------------------------------------------------
 
 function Timer ()
     -- check AP2 status
@@ -2196,6 +2585,7 @@ function Timer ()
         Sounds("modechange")
     end
 end
+
 -----------------------------------------------------------
 
 -- ## Test stuff ################

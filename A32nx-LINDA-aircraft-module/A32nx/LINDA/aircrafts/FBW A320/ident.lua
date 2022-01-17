@@ -1,1 +1,0 @@
-simfolder="FlyByWire*A32"
