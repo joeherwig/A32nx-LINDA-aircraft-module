@@ -2,14 +2,19 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.10.2
-     Date: 2022-01-16
+  Version: 0.10.3
+     Date: 2022-01-17
    Author: Joe Herwig
            Andrew Gransden / ScotFlieger (0.9.0 / 0.10.0)
            Falk Scherber (0.8.2)
            Neil Clements (0.4.4 / 0.6.1)
 
 ------------------------------------------------------------------------
+0.10.3
+° fixed nil value for AltStep
+° fixed EventFile handling
++ added Dome Lights (off, dim, brt)
+
 0.10.2
 ° fixed EFIS options (CSTR, WPT, VORD, NDB, ARPT, NONE)
 + added T.O.Config
