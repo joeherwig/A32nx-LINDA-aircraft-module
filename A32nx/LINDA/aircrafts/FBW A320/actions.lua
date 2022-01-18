@@ -958,15 +958,21 @@ function A32nx_APU_START_toggle()
 	A32nx_APU_START_set(APU_STARTStatus)
 end
 
-function A32nx_APU_Generator_off()
+function A32nx_OVHD_ELEC_APU_GEN_off()
     ipc.control(66707, 0)
-    DspShow ("APUG", "off   ")
+    DspShow ("APUG", "off")
 end
 
-function A32nx_APU_Generator_on()
+function A32nx_OVHD_ELEC_APU_GEN_on()
      ipc.control(66707, 1)
-     DspShow ("APUG", "on   ")
+     DspShow ("APUG", "on")
 end
+
+function A32nx_OVHD_ELEC_APU_GEN_toggle()
+     ipc.control(66706, 0)
+     DspShow ("APUG", "tgl")
+end
+
 -- $$ APU pneu bleed -------------
 function A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
     ipc.writeLvar("L:A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON", apuPneyBleed)
