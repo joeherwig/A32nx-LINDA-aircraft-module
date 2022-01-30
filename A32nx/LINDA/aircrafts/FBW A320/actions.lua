@@ -878,6 +878,38 @@ function A32nx_NoseLts_cycle()
     end
 end
 
+-- ## Overhead Internal Lights
+
+-- $$ Seat Belt Signs
+
+-- Lvar XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position not working correctly
+-- control 66719 used to toggle seat belt switch
+
+function A32nx_OVHD_INTLT_SEATBELT_on()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position'
+    ipc.writeLvar(Lvar, 0)
+    DspShow('SEAT', 'on')
+end
+
+function A32nx_OVHD_INTLT_SEATBELT_off()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position'
+    ipc.writeLvar(Lvar, 1)
+    DspShow('SEAT', 'off')
+end
+
+function A32nx_OVHD_INTLT_SEATBELT_toggle()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position'
+    local Lval = ipc.readLvar(Lvar)
+    _loggg('SEAT=' .. tostring(Lval))
+    if Lval == nil then Lval = 1 end
+    ipc.control(66719)
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_SEATBELT_on()
+    else
+        A32nx_OVHD_INTLT_SEATBELT_off()
+    end
+end
+
 -- $$ No Smoking Signs
 
 function A32nx_OVHD_INTLT_NOSMOKING_on()
@@ -1008,6 +1040,26 @@ function A32nx_OVHD_INTLT_ANNLT_toggle()
     else
         A32nx_OVHD_INTLT_ANNLT_dim()
     end
+end
+
+-- $$ Pre/Post Flight
+
+function A32nx_OVHD_INTLT_preflt()
+    A32nx_OVHD_INTLT_SEATBELT_on()
+    A32nx_OVHD_INTLT_NOSMOKING_auto()
+    A32nx_OVHD_INTLT_EMEREXIT_arm()
+end
+
+function A32nx_OVHD_INTLT_postflt()
+    A32nx_OVHD_INTLT_SEATBELT_off()
+    A32nx_OVHD_INTLT_NOSMOKING_off()
+    A32nx_OVHD_INTLT_EMEREXIT_off()
+end
+
+function A32nx_OVHD_INTLT_toggle()
+    A32nx_OVHD_INTLT_SEATBELT_toggle()
+    A32nx_OVHD_INTLT_NOSMOKING_toggle()
+    A32nx_OVHD_INTLT_EMEREXIT_toggle()
 end
 
 -- $$ APU
