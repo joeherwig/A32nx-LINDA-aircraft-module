@@ -1050,6 +1050,48 @@ function A32nx_OVHD_INTLT_toggle()
     A32nx_OVHD_INTLT_NOSMOKING_toggle()
     A32nx_OVHD_INTLT_EMEREXIT_toggle()
 end
+-- $$ Cabin Lighting / Dome
+
+-- Unable to operate Dome switch with controls 66579 or 66911
+-- local variable used to monitor switch position move to initVars
+
+function A32nx_OVHD_INTLT_DOME_brt()
+    ipc.control(66911, 100)
+    A32NX_Dome = 0
+    DspShow('DOME', 'brt')
+end
+
+function A32nx_OVHD_INTLT_DOME_dim()
+    ipc.control(66911, 50)
+    A32NX_Dome = 1
+    DspShow('DOME', 'dim')
+end
+
+function A32nx_OVHD_INTLT_DOME_off()
+    ipc.control(66911, 0)
+    A32NX_Dome = 2
+    DspShow('DOME', 'off')
+end
+
+function A32nx_OVHD_INTLT_DOME_cycle()
+    local Lval = A32NX_Dome
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_DOME_brt()
+    elseif Lval > 0 then
+        A32nx_OVHD_INTLT_DOME_dim()
+    else
+        A32nx_OVHD_INTLT_DOME_off()
+    end
+end
+
+function A32nx_OVHD_INTLT_DOME_toggle()
+    local Lval = A32NX_Dome
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_DOME_brt()
+    else
+        A32nx_OVHD_INTLT_DOME_off()
+    end
+end
 
 -- $$ APU
 function A32nx_APU_MASTER_set(apuMaster)
@@ -2487,6 +2529,8 @@ function InitVars ()
     autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
     tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
     chronoLState = 0
+	
+	A32NX_Dome = 2 -- = off
 
     _loggg('[A3nx] A320nx Variables initialised')
 
