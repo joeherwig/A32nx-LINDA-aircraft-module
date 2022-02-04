@@ -1896,46 +1896,204 @@ function A32nx_ENGINES_MASTER_off()
     ipc.control(66531, 0)
 end
 
--- $$ TCAS #####################################
+-- $$ TCAS / ATC #####################################
 
-function A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
-    ipc.writeLvar("L:A32NX_SWITCH_TCAS_Position", tcasSwitchPos)
-    local tcasMODE = {"STBY","TA","TA/RA"}
-    DspShow("TCAS",tcasMODE[tcasSwitchPos + 1 ])
+function A32nx_TCAS_on()
+    ipc.writeUB(0x0B46, 4)
+    DspShow('TCAS','on')
 end
 
-function A32nx_TCAS_SWITCH_POS_stby()
-    tcasSwitchPos = 0
-    A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+function A32nx_TCAS_stby()
+    ipc.writeUB(0x0B46, 1)
+    DspShow('TCAS','stby')
 end
 
-function A32nx_TCAS_SWITCH_POS_ta()
-    tcasSwitchPos = 1
-    A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+function A32nx_TCAS_toggle()
+    local val = ipc.readUB(0x0B46)
+    if val > 1 then
+        A32nx_TCAS_stby()
+    else
+        A32nx_TCAS_on()
+    end
 end
 
-function A32nx_TCAS_SWITCH_POS_tara()
-    tcasSwitchPos = 2
-    A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+function A32nx_TCAS_MODE_stby()
+    Lvar = "L:A32NX_SWITCH_TCAS_Position"
+    ipc.writeLvar(Lvar, 0)
+    DspShow('TCAS','stby')
 end
 
-function A32nx_TCAS_SWITCH_POS_inc()
-    tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
-    if tcasSwitchPos >= 2 then tcasSwitchPos = 2 else tcasSwitchPos = tcasSwitchPos + 1 end
-	A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+function A32nx_TCAS_MODE_ta()
+    Lvar = "L:A32NX_SWITCH_TCAS_Position"
+    ipc.writeLvar(Lvar, 1)
+    DspShow('TCAS','ta')
 end
 
-function A32nx_TCAS_SWITCH_POS_dec()
-    tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
-    if tcasSwitchPos <= 0 then tcasSwitchPos = 0 else tcasSwitchPos = tcasSwitchPos - 1 end
-	A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+function A32nx_TCAS_MODE_tara()
+    Lvar = "L:A32NX_SWITCH_TCAS_Position"
+    ipc.writeLvar(Lvar, 2)
+    DspShow('TCAS','tara')
 end
 
-function A32nx_TCAS_SWITCH_POS_cycle()
-    tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
-    if tcasSwitchPos >= 2 then tcasSwitchPos = 0 else tcasSwitchPos = tcasSwitchPos + 1 end
-	A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+function A32nx_TCAS_MODE_inc()
+    Lvar = "A32NX_SWITCH_TCAS_Position"
+    Lval = ipc.readLvar(Lvar)
+    if Lval < 2 then
+        Lval = Lval + 1
+    end
+    if Lval == 0 then
+        A32nx_TCAS_MODE_stby()
+    elseif Lval == 2 then
+        A32nx_TCAS_MODE_tara()
+    else
+        A32nx_TCAS_MODE_ta()
+    end
 end
+
+function A32nx_TCAS_MODE_dec()
+    Lvar = "A32NX_SWITCH_TCAS_Position"
+    Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        Lval = Lval - 1
+    end
+    if Lval == 0 then
+        A32nx_TCAS_MODE_stby()
+    elseif Lval == 2 then
+        A32nx_TCAS_MODE_tara()
+    else
+        A32nx_TCAS_MODE_ta()
+    end
+end
+
+function A32nx_TCAS_MODE_cycle()
+    Lvar = "A32NX_SWITCH_TCAS_Position"
+    Lval = ipc.readLvar(Lvar)
+    if Lval > 1 then
+        A32nx_TCAS_MODE_stby()
+    elseif Lval > 0 then
+        A32nx_TCAS_MODE_tara()
+    else
+        A32nx_TCAS_MODE_ta()
+    end
+end
+
+function A32nx_TCAS_TFC_thrt()
+    Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
+    ipc.writeLvar(Lvar, 0)
+    DspShow('TFC','thrt')
+end
+
+function A32nx_TCAS_TFC_all()
+    Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
+    ipc.writeLvar(Lvar, 1)
+    DspShow('TFC','all')
+end
+
+function A32nx_TCAS_TFC_abv()
+    Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
+    ipc.writeLvar(Lvar, 2)
+    DspShow('TFC','abv')
+end
+
+function A32nx_TCAS_TFC_blw()
+    Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
+    ipc.writeLvar(Lvar, 3)
+    DspShow('TFC','blw')
+end
+
+function A32nx_TCAS_TFC_inc()
+    Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
+    Lval = ipc.readLvar(Lvar)
+    if Lval < 3 then
+        Lval = Lval + 1
+    end
+    if Lval == 0 then
+        A32nx_TCAS_TFC_thrt()
+    elseif Lval == 3 then
+        A32nx_TCAS_TFC_blw()
+    elseif Lval == 2 then
+        A32nx_TCAS_TFC_abv()
+    else
+        A32nx_TCAS_TFC_all()
+    end
+end
+
+function A32nx_TCAS_TFC_dec()
+    Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
+    Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        Lval = Lval - 1
+    end
+    if Lval == 0 then
+        A32nx_TCAS_TFC_thrt()
+    elseif Lval == 3 then
+        A32nx_TCAS_TFC_blw()
+    elseif Lval == 2 then
+        A32nx_TCAS_TFC_abv()
+    else
+        A32nx_TCAS_TFC_all()
+    end
+end
+
+function A32nx_TCAS_TFC_cycle()
+    Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
+    Lval = ipc.readLvar(Lvar)
+    if Lval > 2 then
+        A32nx_TCAS_TFC_thrt()
+    elseif Lval > 1 then
+        A32nx_TCAS_TFC_blw()
+    elseif Lval > 0 then
+        A32nx_TCAS_TFC_abv()
+    else
+        A32nx_TCAS_TFC_all()
+    end
+end
+
+function A32nx_TCAS_ATC_1()
+    Lvar = "A32NX_SWITCH_ATC"
+    ipc.writeLvar(Lvar, 0)
+    DspShow('ATC','1')
+end
+
+function A32nx_TCAS_ATC_2()
+    Lvar = "A32NX_SWITCH_ATC"
+    ipc.writeLvar(Lvar, 1)
+    DspShow('ATC','2')
+end
+
+function A32nx_TCAS_ATC_toggle()
+    Lvar = "A32NX_SWITCH_ATC"
+    Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_TCAS_ATC_1()
+    else
+        A32nx_TCAS_ATC_2()
+    end
+end
+
+function A32nx_TCAS_ALT_off()
+    Lvar = "A32NX_SWITCH_ATC_ALT"
+    ipc.writeLvar(Lvar, 0)
+    DspShow('ALT','off')
+end
+
+function A32nx_TCAS_ALT_on()
+    Lvar = "A32NX_SWITCH_ATC_ALT"
+    ipc.writeLvar(Lvar, 1)
+    DspShow('ALT','on')
+end
+
+function A32nx_TCAS_ALT_toggle()
+    Lvar = "A32NX_SWITCH_ATC_ALT"
+    Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_TCAS_ALT_off()
+    else
+        A32nx_TCAS_ALT_on()
+    end
+end
+
+
 
 -- $ Park Brake
 
