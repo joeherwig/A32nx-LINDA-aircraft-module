@@ -12,7 +12,6 @@
 ------------------------------------------------------------------------
 0.10.3
 ° fixed nil value for AltStep
-° fixed EventFile handling
 + added Dome Lights (off, dim, brt)
 
 0.10.2

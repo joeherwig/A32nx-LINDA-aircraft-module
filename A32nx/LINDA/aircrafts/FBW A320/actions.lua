@@ -142,8 +142,9 @@ end
 function A32nx_FCU_ALT_inc()
     --ipc.control(65892,1)
     ipc.control(EvtPtr + 17)
-    AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
-    local alt = round( getALTValue() / AltStep ) * AltStep + AltStep
+    local AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
+    local alt = round(getALTValue()/AltStep)*AltStep + AltStep
+    --_loggg('alt=' .. alt)
     setALTValue(alt)
     ipc.control(66124, getALTValue())
     A32NX_DspALT()
@@ -152,8 +153,8 @@ end
 function A32nx_FCU_ALT_dec()
     --ipc.control(65893,1)
     ipc.control(EvtPtr + 18)
-    AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
-    local alt = round( getALTValue() / AltStep ) * AltStep - AltStep
+    local AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
+    local alt = round(getALTValue()/AltStep)*AltStep - AltStep
     --_loggg('alt=' .. alt)
     setALTValue(alt)
     ipc.control(66124, getALTValue())
@@ -915,20 +916,6 @@ end
 function A32nx_NoSmoking_on()
     A32nx_NoSmoking_Pos(0)
 end
-
---$$ Dome Lights
-function Dome_Light_brt()
-    ipc.execCalcCode("1 (>K:2:CABIN_LIGHTS_SET) 100 (>K:LIGHT_POTENTIOMETER_7_SET)")
-end
-
-function Dome_Light_dim()
-    ipc.execCalcCode("1 (>K:2:CABIN_LIGHTS_SET) 50 (>K:LIGHT_POTENTIOMETER_7_SET)")
-end
-
-function Dome_Light_off()
-    ipc.execCalcCode("1 (>K:2:CABIN_LIGHTS_SET) 0 (>K:LIGHT_POTENTIOMETER_7_SET)")
-end
-
 
 -- $$ APU
 function A32nx_APU_MASTER_set(apuMaster)
@@ -2209,7 +2196,7 @@ function A32NX_DspVVS (force)
 	if FPA_mode == nil then
 		FPA_mode = 0
 	end
-	
+
     if VS_mode == 1 then
         if _MCP2a() then
             DspVVSs("----")
@@ -2507,7 +2494,6 @@ function InitVars ()
     eicasEcam2Page = 1
     bat1Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO")
     bat2Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_2_PB_IS_AUTO")
-    AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
     eicasEcam2Functions = {"A32nx_EICAS_2_ECAM_PAGE_ENG","A32nx_EICAS_2_ECAM_PAGE_BLEED","A32nx_EICAS_2_ECAM_PAGE_PRESS","A32nx_EICAS_2_ECAM_PAGE_ELEC","A32nx_EICAS_2_ECAM_PAGE_HYD","A32nx_EICAS_2_ECAM_PAGE_FUEL","A32nx_EICAS_2_ECAM_PAGE_APU","A32nx_EICAS_2_ECAM_PAGE_COND","A32nx_EICAS_2_ECAM_PAGE_DOOR","A32nx_EICAS_2_ECAM_PAGE_WHEEL","A32nx_EICAS_2_ECAM_PAGE_FTCL","A32nx_EICAS_2_ECAM_PAGE_STS","A32nx_EICAS_2_ECAM_PAGE_cycle"}
     autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
     tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
@@ -2519,7 +2505,7 @@ function InitVars ()
 	baro_mode = 1  -- default BARO mode is hPa
 	auto_brk = 0
     AutoDisplay = false -- override automatic display updates (SPD/HDG/ALT/VVS_
-    DSP_MODE_one ()
+    --DSP_MODE_one ()
     EcamTxt = 1
     OnVar = 16 -- change this for initial brightness of displays. 0 to 20
     --TestCnt = 0
@@ -2537,7 +2523,9 @@ function InitVars ()
     A32NX_ALT_Zero = '0'
     A32NX_Dot = string.char(7)
     A32NX_NoDot = ' '
-	
+
+
+
 end
 
 function Timer ()
@@ -2595,13 +2583,22 @@ function Timer ()
         Sounds("modechange")
     end
 end
------------------------------------------------------------
 
--- ## Test stuff ################
--- $$ Test
-function dispRefresh ()
-    val = ipc.readLvar("L:A32NX_AUTOPILOT_VS_SELECTED")
-    val = ipc.readLvar("L:A32NX_AUTOPILOT_HEADING_SELECTED")
-    DspHDG (val)
+function setDimmer(offset, value)
+    for i = 1, #analogChangeEvents do
+      if analogChangeEvents[i][1] == offset then
+        calculatedValue = analogChangeEvents[i][3]:gsub("{value}", value)
+        command = 'ipc.execCalcCode("'.. analogChangeEvents[i][2]:gsub("{value}", tostring(loadstring("return ("..calculatedValue..")")())) ..'")'
+        assert(loadstring(command))()
+       else
+       end
+    end
 end
+
+InitVars()
+
+
+-- ## Test & experimental stuff ################
+-- $$ Test
+
 
