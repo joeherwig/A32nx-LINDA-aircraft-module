@@ -958,15 +958,21 @@ function A32nx_APU_START_toggle()
 	A32nx_APU_START_set(APU_STARTStatus)
 end
 
-function A32nx_APU_Generator_off()
+function A32nx_OVHD_ELEC_APU_GEN_off()
     ipc.control(66707, 0)
-    DspShow ("APUG", "off   ")
+    DspShow ("APUG", "off")
 end
 
-function A32nx_APU_Generator_on()
+function A32nx_OVHD_ELEC_APU_GEN_on()
      ipc.control(66707, 1)
-     DspShow ("APUG", "on   ")
+     DspShow ("APUG", "on")
 end
+
+function A32nx_OVHD_ELEC_APU_GEN_toggle()
+     ipc.control(66706, 0)
+     DspShow ("APUG", "tgl")
+end
+
 -- $$ APU pneu bleed -------------
 function A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
     ipc.writeLvar("L:A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON", apuPneyBleed)
@@ -2456,29 +2462,9 @@ end
 -----------------------------------------------------------
 -- Initial variables
 function InitVars ()
-    -- further work required with new GUI
-    --EvtFile = "A32nx.evt"
-        -- define index to custom events in A32NX.EVT
-	--EvtFile = "A32nx"
-    EvtCnt = ipc.get("EVTNUM")
-    --[[ for i = 0, EvtCnt - 1 do
-        _loggg('[USER] ' .. tostring(i))
-        referenceFile = ipc.get("EVTFILE" .. tostring(i))
-        ipc.sleep(100)
-        _loggg('[USER] ' .. referenceFile)
 
-        if referenceFile == EvtFile then
-            EvtIdx = i
-            break
-        end
-    end
-    _loggg('[USER] EvtIdx=' .. tostring(EvtIdx) .. '::' .. referenceFile)
-    --]]
-
-    -- defined in [EVENTS] block in FSUIPC7.INI
-    EvtIdx = 0 -- defined in [EVENTS] block in FSUIPC7.INI
-    EvtPtr = 32768 + (EvtIdx * 256) -- start address for A32NX.EVT custom events
-
+	-- Initialise Custom Event pointers
+	InitEvents()
 
     Airbus = true -- set flag for Airbus MCP2a panels
     P3D = 1 -- flag for imperial altitude conversion
@@ -2527,6 +2513,208 @@ function InitVars ()
 
 
 end
+
+-----------------------------------------------------------
+
+function InitEvents()
+    -- get custom events file offset start pointer
+    -- defined in [EVENTS] block in FSUIPC7.INI
+    _loggg('[USER] Checking Event Files Data ************')
+    n =  ipc.get("EVTNUM")
+    _loggg('[USER] EvtNum=' .. tostring(n))
+    if n == nil then return end
+    for i = 0, tonumber(n) - 1 do
+        s = ipc.get("EVTFILE" .. i)
+        _loggg('[USER] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
+    end
+
+    EvtFile = string.lower("A32nx")
+    EvtCnt = ipc.get("EVTNUM")
+    EvtPtr = 32768
+    EvtPtr1 = EvtPtr + 256
+    if EvtCnt == nil then
+        EvtCnt = 0
+    end
+    f = ''
+    for i = 0, EvtCnt - 1 do
+        f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
+        if f == EvtFile then
+            EvtIdx = i
+            break
+        end
+    end
+    _loggg('[USER] EvtIdx =' .. tostring(EvtIdx) .. '::' .. f)
+
+
+    -- defined in [EVENTS] block in FSUIPC7.INI
+    if EvtIdx ~= nil then
+        -- start address for A32NX.EVT custom events
+        EvtPtr = 32768 + (EvtIdx * 256)
+    else
+        EvtPtr = 32768
+    end
+
+    EvtFile = string.lower("A32X-FBW1")
+    EvtCnt = ipc.get("EVTNUM")
+    if EvtCnt == nil then
+        EvtCnt = 0
+    end
+    f = ''
+    for i = 0, EvtCnt - 1 do
+        f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
+        if f == EvtFile then
+            EvtIdx = i
+            break
+        end
+    end
+    _loggg('[USER] EvtIdx1=' .. tostring(EvtIdx) .. '::' .. f)
+
+    -- defined in [EVENTS] block in FSUIPC7.INI
+    if EvtIdx ~= nil then
+        -- start address for A32NX.EVT custom events
+        EvtPtr2 = 32768 + (EvtIdx * 256)
+    else
+        EvtPtr2 = 32768 + 256
+    end
+
+    _loggg('[USER] EvtPtrs= ' .. EvtPtr .. ' == ' .. EvtPtr2)
+    _loggg('[USER] Checking Event Files Data ************')
+end
+
+-----------------------------------------------------------
+
+-- Initial info on MCP display
+
+function InitDsp ()
+    if _MCP1() or _MCP2() then
+        DspSPD(ipc.readLvar("A32NX_AUTOPILOT_SPEED_SELECTED"))
+        DspHDG(ipc.readLvar("A32NX_AUTOPILOT_HEADING_SELECTED"))
+        DspALT(getALTValue() / 100)
+        DspVVS(ipc.readLvar("A32NX_AUTOPILOT_VS_SELECTED"))
+    else -- MCP2a
+        A32NX_DspSPDtxt()
+        A32NX_DspHDGtxt()
+        A32NX_DspALTtxt()
+        A32NX_DspSPD()
+        A32NX_DspHDG()
+        A32NX_DspALT()
+        A32NX_DspVVS()
+    end
+end
+
+----------------------------------------------------------
+
+-- display AP mode information
+function A32NX_AP_INFO ()
+    if _MCP2() then
+        -- FD
+        if ipc.readLvar('A32NX_MPL_FD') == 0 then
+            DspFD(0)
+        else
+            DspFD(1)
+        end
+        -- ATHR
+        if ipc.readLvar('A32NX_AUTOTHRUST_STATUS') == 0 then
+            DspAT(0)
+        else
+            DspAT(1)
+        end
+        -- LNAV
+        if ipc.readLvar('A32NX_AP_HDGmode_setDisp') == 1 then
+            DspLNAV_on ()
+        else
+            DspLNAV_off ()
+            A32NX_DspHDGmode(A32NX_HDGmode_Dot())
+        end
+        -- VNAV
+        if ipc.readLvar('AP_AP_ALT_Mode') == 1 then
+            DspVNAV_on ()
+            A32NX_DspALTmode(true)
+        else
+            DspVNAV_off ()
+            A32NX_DspALTmode(false)
+        end
+        local Var, str1, str2
+        -- A/THR
+        Var = ipc.readLvar('A32NX_AP_ATHR')
+        DspAT(Var)
+        -- AP1
+        Var = ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE')
+        if Var == 1 then
+            str1 = ' 1AP'
+        else
+            str1 = ' -AP'
+        end
+        -- AP2
+        Var = ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE')
+        if Var == 1 then
+            str1 = str1 .. '2 '
+        else
+            str1 = str1 .. '- '
+        end
+        -- ILS
+        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
+        if Var == 1 then
+            str2 = ' ILS '
+        else
+            str2 = '     '
+        end
+        -- LOC or APPR
+        if (ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE') == 1) then
+            str2 = str2 .. 'LOC'
+        elseif (ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE') == 1) then
+            str2 = str2 .. 'APR'
+        end
+        FLIGHT_INFO1 = str1
+        FLIGHT_INFO2 = str2
+    elseif _MCP2a() then -- Airbus FCU
+        local Var
+        -- ILS
+        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
+        DspILS(Var)
+        -- APs 1 & 2
+        DspAPs(ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE'),
+            ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE'))
+        -- A/THR
+        Var = ipc.readLvar('A32NX_AUTOTHRUST_STATUS')
+        DspAT(Var)
+        -- LOC
+        Var = ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE')
+        DspLOC(Var)
+        -- APPR
+        Var = ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE')
+        if not A32NX_MODE then
+            DspAPPR(Var)
+        end
+        -- reset flight information for Airbus MCP2a display
+        FLIGHT_INFO1 = ""
+        FLIGHT_INFO2 = ""
+    end
+    -- SPD/MACH labels
+    A32NX_DspSPDtxt(ipc.readLvar('AUTOPILOT_MANAGED_SPEED_IN_MACH'))
+    -- HDG/TRK labels
+    A32NX_DspHDGtxt(ipc.readLvar("A32NX_TRK_FPA_MODE_ACTIVE"))
+    -- ALT labels
+    A32NX_DspALTtxt()
+    -- ALT/VVS DspE to avoid cursor flicker
+    A32NX_DspE()
+    -- AP VALUES --
+    A32NX_DspSPD ()
+    A32NX_DspHDG ()
+    A32NX_DspALT ()
+    A32NX_DspVVS ()
+end
+
+-----------------------------------------------------------
+
+-- Display Flight Information
+function A32NX_FLIGHT_INFO ()
+        FLIGHT_INFO1 = ""
+        FLIGHT_INFO2 = ""
+   -- end
+end
+
+-----------------------------------------------------------
 
 function Timer ()
     -- check AP2 status
@@ -2596,7 +2784,6 @@ function setDimmer(offset, value)
 end
 
 InitVars()
-
 
 -- ## Test & experimental stuff ################
 -- $$ Test
