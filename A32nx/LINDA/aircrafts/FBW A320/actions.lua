@@ -1898,198 +1898,198 @@ end
 
 -- $$ TCAS / ATC #####################################
 
-function A32nx_TCAS_on()
+function A32nx_PED_TCAS_on()
     ipc.writeUB(0x0B46, 4)
     DspShow('TCAS','on')
 end
 
-function A32nx_TCAS_stby()
+function A32nx_PED_TCAS_stby()
     ipc.writeUB(0x0B46, 1)
     DspShow('TCAS','stby')
 end
 
-function A32nx_TCAS_toggle()
+function A32nx_PED_TCAS_toggle()
     local val = ipc.readUB(0x0B46)
     if val > 1 then
-        A32nx_TCAS_stby()
+        A32nx_PED_TCAS_stby()
     else
-        A32nx_TCAS_on()
+        A32nx_PED_TCAS_on()
     end
 end
 
-function A32nx_TCAS_MODE_stby()
+function A32nx_PED_TCAS_MODE_stby()
     Lvar = "L:A32NX_SWITCH_TCAS_Position"
     ipc.writeLvar(Lvar, 0)
     DspShow('TCAS','stby')
 end
 
-function A32nx_TCAS_MODE_ta()
+function A32nx_PED_TCAS_MODE_ta()
     Lvar = "L:A32NX_SWITCH_TCAS_Position"
     ipc.writeLvar(Lvar, 1)
     DspShow('TCAS','ta')
 end
 
-function A32nx_TCAS_MODE_tara()
+function A32nx_PED_TCAS_MODE_tara()
     Lvar = "L:A32NX_SWITCH_TCAS_Position"
     ipc.writeLvar(Lvar, 2)
     DspShow('TCAS','tara')
 end
 
-function A32nx_TCAS_MODE_inc()
+function A32nx_PED_TCAS_MODE_inc()
     Lvar = "A32NX_SWITCH_TCAS_Position"
     Lval = ipc.readLvar(Lvar)
     if Lval < 2 then
         Lval = Lval + 1
     end
     if Lval == 0 then
-        A32nx_TCAS_MODE_stby()
+        A32nx_PED_TCAS_MODE_stby()
     elseif Lval == 2 then
-        A32nx_TCAS_MODE_tara()
+        A32nx_PED_TCAS_MODE_tara()
     else
-        A32nx_TCAS_MODE_ta()
+        A32nx_PED_TCAS_MODE_ta()
     end
 end
 
-function A32nx_TCAS_MODE_dec()
+function A32nx_PED_TCAS_MODE_dec()
     Lvar = "A32NX_SWITCH_TCAS_Position"
     Lval = ipc.readLvar(Lvar)
     if Lval > 0 then
         Lval = Lval - 1
     end
     if Lval == 0 then
-        A32nx_TCAS_MODE_stby()
+        A32nx_PED_TCAS_MODE_stby()
     elseif Lval == 2 then
-        A32nx_TCAS_MODE_tara()
+        A32nx_PED_TCAS_MODE_tara()
     else
-        A32nx_TCAS_MODE_ta()
+        A32nx_PED_TCAS_MODE_ta()
     end
 end
 
-function A32nx_TCAS_MODE_cycle()
+function A32nx_PED_TCAS_MODE_cycle()
     Lvar = "A32NX_SWITCH_TCAS_Position"
     Lval = ipc.readLvar(Lvar)
     if Lval > 1 then
-        A32nx_TCAS_MODE_stby()
+        A32nx_PED_TCAS_MODE_stby()
     elseif Lval > 0 then
-        A32nx_TCAS_MODE_tara()
+        A32nx_PED_TCAS_MODE_tara()
     else
-        A32nx_TCAS_MODE_ta()
+        A32nx_PED_TCAS_MODE_ta()
     end
 end
 
-function A32nx_TCAS_TFC_thrt()
+function A32nx_PED_TCAS_TFC_thrt()
     Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
     ipc.writeLvar(Lvar, 0)
-    DspShow('TFC','thrt')
+    DspShow('TRFC','thrt')
 end
 
-function A32nx_TCAS_TFC_all()
+function A32nx_PED_TCAS_TFC_all()
     Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
     ipc.writeLvar(Lvar, 1)
-    DspShow('TFC','all')
+    DspShow('TRFC','all')
 end
 
-function A32nx_TCAS_TFC_abv()
+function A32nx_PED_TCAS_TFC_abv()
     Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
     ipc.writeLvar(Lvar, 2)
-    DspShow('TFC','abv')
+    DspShow('TRFC','abv')
 end
 
-function A32nx_TCAS_TFC_blw()
+function A32nx_PED_TCAS_TFC_blw()
     Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
     ipc.writeLvar(Lvar, 3)
-    DspShow('TFC','blw')
+    DspShow('TRFC','blw')
 end
 
-function A32nx_TCAS_TFC_inc()
+function A32nx_PED_TCAS_TFC_inc()
     Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
     Lval = ipc.readLvar(Lvar)
     if Lval < 3 then
         Lval = Lval + 1
     end
     if Lval == 0 then
-        A32nx_TCAS_TFC_thrt()
+        A32nx_PED_TCAS_TFC_thrt()
     elseif Lval == 3 then
-        A32nx_TCAS_TFC_blw()
+        A32nx_PED_TCAS_TFC_blw()
     elseif Lval == 2 then
-        A32nx_TCAS_TFC_abv()
+        A32nx_PED_TCAS_TFC_abv()
     else
-        A32nx_TCAS_TFC_all()
+        A32nx_PED_TCAS_TFC_all()
     end
 end
 
-function A32nx_TCAS_TFC_dec()
+function A32nx_PED_TCAS_TFC_dec()
     Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
     Lval = ipc.readLvar(Lvar)
     if Lval > 0 then
         Lval = Lval - 1
     end
     if Lval == 0 then
-        A32nx_TCAS_TFC_thrt()
+        A32nx_PED_TCAS_TFC_thrt()
     elseif Lval == 3 then
-        A32nx_TCAS_TFC_blw()
+        A32nx_PED_TCAS_TFC_blw()
     elseif Lval == 2 then
-        A32nx_TCAS_TFC_abv()
+        A32nx_PED_TCAS_TFC_abv()
     else
-        A32nx_TCAS_TFC_all()
+        A32nx_PED_TCAS_TFC_all()
     end
 end
 
-function A32nx_TCAS_TFC_cycle()
+function A32nx_PED_TCAS_TFC_cycle()
     Lvar = "A32NX_SWITCH_TCAS_TRAFFIC_POSITION"
     Lval = ipc.readLvar(Lvar)
     if Lval > 2 then
-        A32nx_TCAS_TFC_thrt()
+        A32nx_PED_TCAS_TFC_thrt()
     elseif Lval > 1 then
-        A32nx_TCAS_TFC_blw()
+        A32nx_PED_TCAS_TFC_blw()
     elseif Lval > 0 then
-        A32nx_TCAS_TFC_abv()
+        A32nx_PED_TCAS_TFC_abv()
     else
-        A32nx_TCAS_TFC_all()
+        A32nx_PED_TCAS_TFC_all()
     end
 end
 
-function A32nx_TCAS_ATC_1()
+function A32nx_PED_TCAS_ATC_1()
     Lvar = "A32NX_SWITCH_ATC"
     ipc.writeLvar(Lvar, 0)
     DspShow('ATC','1')
 end
 
-function A32nx_TCAS_ATC_2()
+function A32nx_PED_TCAS_ATC_2()
     Lvar = "A32NX_SWITCH_ATC"
     ipc.writeLvar(Lvar, 1)
     DspShow('ATC','2')
 end
 
-function A32nx_TCAS_ATC_toggle()
+function A32nx_PED_TCAS_ATC_toggle()
     Lvar = "A32NX_SWITCH_ATC"
     Lval = ipc.readLvar(Lvar)
     if Lval > 0 then
-        A32nx_TCAS_ATC_1()
+        A32nx_PED_TCAS_ATC_1()
     else
-        A32nx_TCAS_ATC_2()
+        A32nx_PED_TCAS_ATC_2()
     end
 end
 
-function A32nx_TCAS_ALT_off()
+function A32nx_PED_TCAS_ALT_off()
     Lvar = "A32NX_SWITCH_ATC_ALT"
     ipc.writeLvar(Lvar, 0)
     DspShow('ALT','off')
 end
 
-function A32nx_TCAS_ALT_on()
+function A32nx_PED_TCAS_ALT_on()
     Lvar = "A32NX_SWITCH_ATC_ALT"
     ipc.writeLvar(Lvar, 1)
     DspShow('ALT','on')
 end
 
-function A32nx_TCAS_ALT_toggle()
+function A32nx_PED_TCAS_ALT_toggle()
     Lvar = "A32NX_SWITCH_ATC_ALT"
     Lval = ipc.readLvar(Lvar)
     if Lval > 0 then
-        A32nx_TCAS_ALT_off()
+        A32nx_PED_TCAS_ALT_off()
     else
-        A32nx_TCAS_ALT_on()
+        A32nx_PED_TCAS_ALT_on()
     end
 end
 
