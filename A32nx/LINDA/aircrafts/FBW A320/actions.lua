@@ -1050,10 +1050,11 @@ function A32nx_OVHD_INTLT_toggle()
     A32nx_OVHD_INTLT_NOSMOKING_toggle()
     A32nx_OVHD_INTLT_EMEREXIT_toggle()
 end
+
 -- $$ Cabin Lighting / Dome
 
--- Unable to operate Dome switch with controls 66579 or 66911
 -- local variable used to monitor switch position move to initVars
+-- fault in FBW prevents moving switch to OFF position
 
 function A32nx_OVHD_INTLT_DOME_brt()
     ipc.control(66911, 100)
@@ -1068,6 +1069,8 @@ function A32nx_OVHD_INTLT_DOME_dim()
 end
 
 function A32nx_OVHD_INTLT_DOME_off()
+    -- move switch to DIM position first
+    A32nx_OVHD_INTLT_DOME_dim()
     ipc.control(66911, 0)
     A32NX_Dome = 2
     DspShow('DOME', 'off')
@@ -1076,9 +1079,9 @@ end
 function A32nx_OVHD_INTLT_DOME_cycle()
     local Lval = A32NX_Dome
     if Lval > 1 then
-        A32nx_OVHD_INTLT_DOME_brt()
-    elseif Lval > 0 then
         A32nx_OVHD_INTLT_DOME_dim()
+    elseif Lval > 0 then
+        A32nx_OVHD_INTLT_DOME_brt()
     else
         A32nx_OVHD_INTLT_DOME_off()
     end
@@ -1089,7 +1092,7 @@ function A32nx_OVHD_INTLT_DOME_toggle()
     if Lval > 1 then
         A32nx_OVHD_INTLT_DOME_brt()
     else
-        A32nx_OVHD_INTLT_DOME_off()
+        A32nx_OVHD_INTLT_DOME_dim()
     end
 end
 
@@ -2530,6 +2533,7 @@ function InitVars ()
     tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
     chronoLState = 0
 	
+	-- used to control position of DOME light switch
 	A32NX_Dome = 2 -- = off
 
     _loggg('[A3nx] A320nx Variables initialised')
