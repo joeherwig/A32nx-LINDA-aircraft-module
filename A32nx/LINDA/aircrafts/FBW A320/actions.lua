@@ -413,101 +413,102 @@ function A32NX_OVHD_FUEL_PUMP_ALL_off()
 end
 
 -- ## Overhead ADIRS #####################################
-function A32nx_OVHD_ADIRS_KNOB_1_off()
+
+function A32nx_OVHD_ADIRS_1_off()
      adirs1Knob = 0
-     A32nx_OVHD_ADIRS_KNOB_1_set(adirs1Knob)
+     A32nx_OVHD_ADIRS_1_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_1_NAV()
+function A32nx_ADIRS_1_nav()
      adirs1Knob = 1
-	A32nx_OVHD_ADIRS_KNOB_1_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_1_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_1_ATT()
+function A32nx_OVHD_ADIRS_1_att()
      adirs1Knob = 2
-	A32nx_OVHD_ADIRS_KNOB_1_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_1_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_1_inc()
+function A32nx_OVHD_ADIRS_1_inc()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_1_MODE_SELECTOR_KNOB")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
-	A32nx_OVHD_ADIRS_KNOB_1_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_1_set(adirs1Knob)
     DspShow ("ADIRS1", adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_1_dec()
+function A32nx_OVHD_ADIRS_1_dec()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_1_MODE_SELECTOR_KNOB")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
-	A32nx_OVHD_ADIRS_KNOB_1_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_1_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_1_set(adirs1Knob)
+function A32nx_OVHD_ADIRS_1_set(adirs1Knob)
      ipc.writeLvar("L:A32NX_OVHD_ADIRS_IR_1_MODE_SELECTOR_KNOB", adirs1Knob)
-     DspShow ("ADIR1", adirs1Knob)
+     DspShow ("ADR1", adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_2_off()
+function A32nx_OVHD_ADIRS_2_off()
      adirs1Knob = 0
-     A32nx_OVHD_ADIRS_KNOB_2_set(adirs1Knob)
+     A32nx_OVHD_ADIRS_2_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_2_NAV()
+function A32nx_OVHD_ADIRS_2_nav()
      adirs1Knob = 1
-	A32nx_OVHD_ADIRS_KNOB_2_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_2_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_2_ATT()
+function A32nx_OVHD_ADIRS_2_att()
      adirs1Knob = 2
-	A32nx_OVHD_ADIRS_KNOB_2_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_2_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_2_inc()
+function A32nx_OVHD_ADIRS_2_inc()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_2_MODE_SELECTOR_KNOB")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
-	A32nx_OVHD_ADIRS_KNOB_2_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_2_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_2_dec()
+function A32nx_OVHD_ADIRS_2_dec()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_2_MODE_SELECTOR_KNOB")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
-	A32nx_OVHD_ADIRS_KNOB_2_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_2_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_2_set(adirs1Knob)
+function A32nx_OVHD_ADIRS_2_set(adirs1Knob)
      ipc.writeLvar("L:A32NX_OVHD_ADIRS_IR_2_MODE_SELECTOR_KNOB", adirs1Knob)
-     DspShow ("ADIR2", adirs1Knob)
+     DspShow ("ADR2", adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_3_off()
+function A32nx_OVHD_ADIRS_3_off()
      adirs1Knob = 0
-     A32nx_OVHD_ADIRS_KNOB_3_set(adirs1Knob)
+     A32nx_OVHD_ADIRS_3_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_3_NAV()
+function A32nx_OVHD_ADIRS_3_NAV()
      adirs1Knob = 1
-	A32nx_OVHD_ADIRS_KNOB_3_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_3_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_3_ATT()
+function A32nx_OVHD_ADIRS_3_ATT()
      adirs1Knob = 2
-	A32nx_OVHD_ADIRS_KNOB_3_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_3_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_3_inc()
+function A32nx_OVHD_ADIRS_3_inc()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_3_MODE_SELECTOR_KNOB")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
-	A32nx_OVHD_ADIRS_KNOB_3_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_3_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_3_dec()
+function A32nx_OVHD_ADIRS_3_dec()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_3_MODE_SELECTOR_KNOB")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
-	A32nx_OVHD_ADIRS_KNOB_3_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_3_set(adirs1Knob)
 end
 
-function A32nx_OVHD_ADIRS_KNOB_3_set(adirs1Knob)
+function A32nx_OVHD_ADIRS_3_set(adirs1Knob)
      ipc.writeLvar("L:A32NX_OVHD_ADIRS_IR_3_MODE_SELECTOR_KNOB", adirs1Knob)
-     DspShow ("ADIR3", adirs1Knob)
+     DspShow ("ADR3", adirs1Knob)
 end
 
 
