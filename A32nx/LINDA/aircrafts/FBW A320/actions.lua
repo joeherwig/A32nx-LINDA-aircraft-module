@@ -657,23 +657,23 @@ function A32nx_OVHD_APU_START_on()
     DspShow('APU','strt')
 end
 
--- $$ APU pneu bleed -------------
+-- $$ APU Bleed -------------
 
-function A32nx_OVHD_PNEU_APU_BLEED_on()
+function A32nx_OVHD_ACON_APUBLEED_on()
     ipc.writeLvar('A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON', 1)
     DspShow('BLED','on')
 end
 
-function A32nx_OVHD_PNEU_APU_BLEED_off()
+function A32nx_OVHD_ACON_APUBLEED_off()
     ipc.writeLvar('A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON', 0)
     DspShow('BLED','off')
 end
 
-function A32nx_OVHD_PNEU_APU_BLEED_toggle()
+function A32nx_OVHD_ACON_APUBLEED_toggle()
     if ipc.readLvar('A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON') > 0 then
-        A32nx_OVHD_PNEU_APU_BLEED_off()
+        A32nx_OVHD_ACON_APUBLEED_off()
     else
-        A32nx_OVHD_PNEU_APU_BLEED_on()
+        A32nx_OVHD_ACON_APUBLEED_on()
     end
 end
 
