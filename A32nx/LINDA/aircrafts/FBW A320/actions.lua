@@ -870,7 +870,7 @@ function A32nx_OVHD_EXTLT_NOSE_cycle()
     local Lvar = "L:LIGHTING_LANDING_1"
     local Lval = ipc.readLvar(Lvar)
     if Lval == 2 then
-        A32nx_NoseLts_taxi()
+        A32nx_OVHD_EXTLT_NOSE_taxi()
     elseif Lval == 1 then
         A32nx_OVHD_EXTLT_NOSE_to()
     else
