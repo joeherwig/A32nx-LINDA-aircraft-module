@@ -1058,12 +1058,19 @@ end
 
 function A32nx_OVHD_INTLT_DOME_brt()
     ipc.control(66911, 100)
+	-- frig to rest cabin light state if moved by mouse
+	if A32NX_Dome == 2 or A32NX_Dome == 0 then
+        ipc.control(66579)
+    end
     A32NX_Dome = 0
     DspShow('DOME', 'brt')
 end
 
 function A32nx_OVHD_INTLT_DOME_dim()
     ipc.control(66911, 50)
+    if A32NX_Dome == 2 then
+        ipc.control(66579)
+    end
     A32NX_Dome = 1
     DspShow('DOME', 'dim')
 end
@@ -1072,6 +1079,9 @@ function A32nx_OVHD_INTLT_DOME_off()
     -- move switch to DIM position first
     A32nx_OVHD_INTLT_DOME_dim()
     ipc.control(66911, 0)
+    if A32NX_Dome ~= 2 then
+        ipc.control(66579)
+    end
     A32NX_Dome = 2
     DspShow('DOME', 'off')
 end
