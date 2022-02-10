@@ -2464,7 +2464,7 @@ end
 function InitVars ()
 
 	-- Initialise Custom Event pointers
-	InitEvents()
+	InitCustomEvents()
 
     Airbus = true -- set flag for Airbus MCP2a panels
     P3D = 1 -- flag for imperial altitude conversion
@@ -2516,16 +2516,16 @@ end
 
 -----------------------------------------------------------
 
-function InitEvents()
+function InitCustomEvents()
     -- get custom events file offset start pointer
     -- defined in [EVENTS] block in FSUIPC7.INI
-    _loggg('[USER] Checking Event Files Data ************')
+    _loggg('[A32NX] Checking Event Files Data ************')
     n =  ipc.get("EVTNUM")
-    _loggg('[USER] EvtNum=' .. tostring(n))
+    _loggg('[A32NX] EvtNum=' .. tostring(n))
     if n == nil then return end
     for i = 0, tonumber(n) - 1 do
         s = ipc.get("EVTFILE" .. i)
-        _loggg('[USER] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
+        _loggg('[A32NX] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
     end
 
     EvtFile = string.lower("A32nx")
@@ -2543,7 +2543,7 @@ function InitEvents()
             break
         end
     end
-    _loggg('[USER] EvtIdx =' .. tostring(EvtIdx) .. '::' .. f)
+    _loggg('[A32NX] EvtIdx =' .. tostring(EvtIdx) .. '::' .. f)
 
 
     -- defined in [EVENTS] block in FSUIPC7.INI
@@ -2567,7 +2567,7 @@ function InitEvents()
             break
         end
     end
-    _loggg('[USER] EvtIdx1=' .. tostring(EvtIdx) .. '::' .. f)
+    _loggg('[A32NX] EvtIdx1=' .. tostring(EvtIdx) .. '::' .. f)
 
     -- defined in [EVENTS] block in FSUIPC7.INI
     if EvtIdx ~= nil then
@@ -2577,8 +2577,8 @@ function InitEvents()
         EvtPtr2 = 32768 + 256
     end
 
-    _loggg('[USER] EvtPtrs= ' .. EvtPtr .. ' == ' .. EvtPtr2)
-    _loggg('[USER] Checking Event Files Data ************')
+    _loggg('[A32NX] EvtPtrs= ' .. EvtPtr .. ' == ' .. EvtPtr2)
+    _loggg('[A32NX] Checking Event Files Data ************')
 end
 
 -----------------------------------------------------------
