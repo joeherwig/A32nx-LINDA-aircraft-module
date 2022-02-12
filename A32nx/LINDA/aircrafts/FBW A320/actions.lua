@@ -967,14 +967,40 @@ end
 
 -- $$ APU Generator
 
-function A32nx_APU_Generator_off()
+function A32nx_OVHD_ELEC_APU_GEN_off()
     ipc.control(66707, 0)
-    DspShow ("APUG", "off   ")
+    DspShow ("APUG", "off")
 end
 
-function A32nx_APU_Generator_on()
+function A32nx_OVHD_ELEC_APU_GEN_on()
      ipc.control(66707, 1)
-     DspShow ("APUG", "on   ")
+     DspShow ("APUG", "on")
+end
+
+function A32nx_OVHD_ELEC_APU_GEN_toggle()
+     ipc.control(66706, 0)
+     DspShow ("APUG", "tgl")
+end
+
+-- $$ APU pneu bleed -------------
+function A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
+    ipc.writeLvar("L:A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON", apuPneyBleed)
+end
+
+function  A32nx_OVHD_PNEU_APU_BLEED_on()
+     apuPneyBleed = 1
+	 A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
+end
+
+function  A32nx_OVHD_PNEU_APU_BLEED_off()
+     apuPneyBleed = 0
+	 A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
+end
+
+function  A32nx_OVHD_PNEU_APU_BLEED_toggle()
+     apuPneyBleed = ipc.readLvar("L:A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON")
+     if apuPneyBleed >= 1 then apuPneyBleed = 0 else apuPneyBleed = 1 end
+	 A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
 end
 
 -- ## Master Warn+Caution #####################################
@@ -1940,6 +1966,140 @@ function A32nx_PARK_BRAKE_toggle()
     end
 end
 
+-- ## System functions   ##
+
+-- Initial info on MCP display
+
+function InitDsp ()
+    if _MCP1() or _MCP2() then
+        DspSPD(ipc.readLvar("A32NX_AUTOPILOT_SPEED_SELECTED"))
+        DspHDG(ipc.readLvar("A32NX_AUTOPILOT_HEADING_SELECTED"))
+        DspALT(getALTValue() / 100)
+        DspVVS(ipc.readLvar("A32NX_AUTOPILOT_VS_SELECTED"))
+    else -- MCP2a
+        A32NX_DspSPDtxt()
+        A32NX_DspHDGtxt()
+        A32NX_DspALTtxt()
+        A32NX_DspSPD()
+        A32NX_DspHDG()
+        A32NX_DspALT()
+        A32NX_DspVVS()
+    end
+end
+
+
+----------------------------------------------------------
+
+-- display AP mode information
+function A32NX_AP_INFO ()
+    if _MCP2() then
+        -- FD
+        if ipc.readLvar('A32NX_MPL_FD') == 0 then
+            DspFD(0)
+        else
+            DspFD(1)
+        end
+        -- ATHR
+        if ipc.readLvar('A32NX_AUTOTHRUST_STATUS') == 0 then
+            DspAT(0)
+        else
+            DspAT(1)
+        end
+        -- LNAV
+        if ipc.readLvar('A32NX_AP_HDGmode_setDisp') == 1 then
+            DspLNAV_on ()
+        else
+            DspLNAV_off ()
+            A32NX_DspHDGmode(A32NX_HDGmode_Dot())
+        end
+        -- VNAV
+        if ipc.readLvar('AP_AP_ALT_Mode') == 1 then
+            DspVNAV_on ()
+            A32NX_DspALTmode(true)
+        else
+            DspVNAV_off ()
+            A32NX_DspALTmode(false)
+        end
+        local Var, str1, str2
+        -- A/THR
+        Var = ipc.readLvar('A32NX_AP_ATHR')
+        DspAT(Var)
+        -- AP1
+        Var = ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE')
+        if Var == 1 then
+            str1 = ' 1AP'
+        else
+            str1 = ' -AP'
+        end
+        -- AP2
+        Var = ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE')
+        if Var == 1 then
+            str1 = str1 .. '2 '
+        else
+            str1 = str1 .. '- '
+        end
+        -- ILS
+        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
+        if Var == 1 then
+            str2 = ' ILS '
+        else
+            str2 = '     '
+        end
+        -- LOC or APPR
+        if (ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE') == 1) then
+            str2 = str2 .. 'LOC'
+        elseif (ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE') == 1) then
+            str2 = str2 .. 'APR'
+        end
+        FLIGHT_INFO1 = str1
+        FLIGHT_INFO2 = str2
+    elseif _MCP2a() then -- Airbus FCU
+        local Var
+        -- ILS
+        Var = ipc.readLvar('BTN_LS_1_FILTER_ACTIVE')
+        DspILS(Var)
+        -- APs 1 & 2
+        DspAPs(ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE'),
+            ipc.readLvar('A32NX_AUTOPILOT_2_ACTIVE'))
+        -- A/THR
+        Var = ipc.readLvar('A32NX_AUTOTHRUST_STATUS')
+        DspAT(Var)
+        -- LOC
+        Var = ipc.readLvar('A32NX_FCU_LOC_MODE_ACTIVE')
+        DspLOC(Var)
+        -- APPR
+        Var = ipc.readLvar('A32NX_FCU_APPR_MODE_ACTIVE')
+        if not A32NX_MODE then
+            DspAPPR(Var)
+        end
+        -- reset flight information for Airbus MCP2a display
+        FLIGHT_INFO1 = ""
+        FLIGHT_INFO2 = ""
+    end
+    -- SPD/MACH labels
+    A32NX_DspSPDtxt(ipc.readLvar('AUTOPILOT_MANAGED_SPEED_IN_MACH'))
+    -- HDG/TRK labels
+    A32NX_DspHDGtxt(ipc.readLvar("A32NX_TRK_FPA_MODE_ACTIVE"))
+    -- ALT labels
+    A32NX_DspALTtxt()
+    -- ALT/VVS DspE to avoid cursor flicker
+    A32NX_DspE()
+    -- AP VALUES --
+    A32NX_DspSPD ()
+    A32NX_DspHDG ()
+    A32NX_DspALT ()
+    A32NX_DspVVS ()
+end
+
+-----------------------------------------------------------
+
+-- Display Flight Information
+function A32NX_FLIGHT_INFO ()
+        FLIGHT_INFO1 = ""
+        FLIGHT_INFO2 = ""
+   -- end
+end
+
 -----------------------------------------------------------
 
 -- $$ Display Functions
@@ -2051,7 +2211,7 @@ function A32NX_DspVVS (force)
 	if FPA_mode == nil then
 		FPA_mode = 0
 	end
-	
+
     if VS_mode == 1 then
         if _MCP2a() then
             DspVVSs("----")
@@ -2309,14 +2469,11 @@ function A32NX_DspMode_Toggle()
 end
 
 -----------------------------------------------------------
-
--- ## System functions   ##
-
 -- Initial variables
 function InitVars ()
 
 	-- Initialise Custom Event pointers
-	InitEvents()
+	InitCustomEvents()
 
     Airbus = true -- set flag for Airbus MCP2a panels
     P3D = 1 -- flag for imperial altitude conversion
@@ -2343,7 +2500,7 @@ function InitVars ()
 	baro_mode = 1  -- default BARO mode is hPa
 	auto_brk = 0
     AutoDisplay = false -- override automatic display updates (SPD/HDG/ALT/VVS_
-    DSP_MODE_one ()
+    --DSP_MODE_one ()
     EcamTxt = 1
     OnVar = 16 -- change this for initial brightness of displays. 0 to 20
     --TestCnt = 0
@@ -2361,21 +2518,23 @@ function InitVars ()
     A32NX_ALT_Zero = '0'
     A32NX_Dot = string.char(7)
     A32NX_NoDot = ' '
-	
+
+
+
 end
 
 -----------------------------------------------------------
 
-function InitEvents()
+function InitCustomEvents()
     -- get custom events file offset start pointer
     -- defined in [EVENTS] block in FSUIPC7.INI
-    _loggg('[USER] Checking Event Files Data ************')
+    _loggg('[A32NX] Checking Event Files Data ************')
     n =  ipc.get("EVTNUM")
-    _loggg('[USER] EvtNum=' .. tostring(n))
+    _loggg('[A32NX] EvtNum=' .. tostring(n))
     if n == nil then return end
     for i = 0, tonumber(n) - 1 do
         s = ipc.get("EVTFILE" .. i)
-        _loggg('[USER] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
+        _loggg('[A32NX] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
     end
 
     EvtFile = string.lower("A32nx")
@@ -2393,7 +2552,7 @@ function InitEvents()
             break
         end
     end
-    _loggg('[USER] EvtIdx =' .. tostring(EvtIdx) .. '::' .. f)
+    _loggg('[A32NX] EvtIdx =' .. tostring(EvtIdx) .. '::' .. f)
 
 
     -- defined in [EVENTS] block in FSUIPC7.INI
@@ -2417,7 +2576,7 @@ function InitEvents()
             break
         end
     end
-    _loggg('[USER] EvtIdx1=' .. tostring(EvtIdx) .. '::' .. f)
+    _loggg('[A32NX] EvtIdx1=' .. tostring(EvtIdx) .. '::' .. f)
 
     -- defined in [EVENTS] block in FSUIPC7.INI
     if EvtIdx ~= nil then
@@ -2427,8 +2586,8 @@ function InitEvents()
         EvtPtr2 = 32768 + 256
     end
 
-    _loggg('[USER] EvtPtrs= ' .. EvtPtr .. ' == ' .. EvtPtr2)
-    _loggg('[USER] Checking Event Files Data ************')
+    _loggg('[A32NX] EvtPtrs= ' .. EvtPtr .. ' == ' .. EvtPtr2)
+    _loggg('[A32NX] Checking Event Files Data ************')
 end
 
 -----------------------------------------------------------
@@ -2599,7 +2758,7 @@ function Timer ()
         end
     else  -- Display for MCP1 Users
         -- Display Autopilot
-        A32NX_DispA32NX_AP_MCP1 ()
+        A32NX_DispAP_MCP1 ()
         -- Display Gearstatus
         A32NX_DispGear_MCP1 ()
         -- Display Flapstatus
@@ -2622,12 +2781,287 @@ function Timer ()
     end
 end
 
------------------------------------------------------------
+function A32NX_DispAP_MCP1 ()
 
--- ## Test stuff ################
--- $$ Test
-function dispRefresh ()
-    val = ipc.readLvar("L:A32NX_AUTOPILOT_VS_SELECTED")
-    val = ipc.readLvar("L:A32NX_AUTOPILOT_HEADING_SELECTED")
-    DspHDG (val)
+    ILS_cur = ipc.readLvar("BTN_LS_1_FILTER_ACTIVE")
+    LOC_cur = ipc.readLvar("A32NX_FCU_LOC_MODE_ACTIVE")
+    AP1_cur = ipc.readLvar("A32NX_AUTOPILOT_1_ACTIVE")
+    AP2_cur = ipc.readLvar("A32NX_AUTOPILOT_1_ACTIVE")
+    ATT_cur = ipc.readLvar("A32NX_AUTOTHRUST_STATUS")
+    APP_cur = ipc.readLvar("A32NX_FCU_APPR_MODE_ACTIVE")
+    FD_cur  = 0 --ipc.readUD(0x2EE0)
+
+    APUbleed_cur    = ipc.readLvar("A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON")
+    MASTERcaut_cur  = ipc.readLvar("A32NX_MASTER_CAUTION")
+    MASTERwarn_cur  = ipc.readLvar("A32NX_MASTER_WARNING")
+
+    SPDmode_cur = ipc.readLvar("A32NX_FCU_SPD_MANAGED_DASHES")
+    HDGmode_cur = ipc.readLvar("A32NX_FCU_HDG_MANAGED_DASHES")
+    -- VSmode_cur  = ipc.readSB(0x5634)
+
+    QNH_cur = ipc.readSW(0x0330) / 16
+
+    -- QNH changed
+    if QNH_cur ~= QNH_pre then
+        QNH_pre = QNH_cur
+        if round(QNH_cur, 0) == 1013 then
+            DspShow ('BARO', ' STD')
+        else
+            DspShow('BARO', QNH_cur)
+        end
+    end
+
+    -- Important LED change
+        -- MASTER Caution
+    if MASTERcaut_cur ~= MASTERcaut_pre then
+        MASTERcaut_pre = MASTERcaut_cur
+        if MASTERcaut_cur == 1 then
+            FLIGHT_INFO1 = 'MSTR'
+            FLIGHT_INFO2 = 'CAUT'
+        else
+            APchange = true
+        end
+    end
+
+        -- MASTER Warning
+    if MASTERwarn_cur ~= MASTERwarn_pre then
+        MASTERwarn_pre = MASTERwarn_cur
+        if MASTERwarn_cur == 1 then
+            FLIGHT_INFO1 = 'MSTR'
+            FLIGHT_INFO2 = 'WARN'
+        else
+            APchange = true
+        end
+    end
+        -- APU Bleed LED on/off
+    if APUbleed_cur ~= APUbleed_pre then
+        APUbleed_pre = APUbleed_cur
+        if APUbleed_cur == 1 then
+            DspShow("APUb",">>on")
+        else
+            DspShow("APUb",">off")
+        end
+    end
+
+    -- Selected / Managed Display
+    if SPDmode_cur ~= SPDmode_pre then
+        SPDmode_pre = SPDmode_cur
+        if SPDmode_cur == 1 then
+            val = '---'
+    	else
+            val = 'sel'
+        end
+        DspShow ("SPD", val)
+    end
+
+    if HDGmode_cur ~= HDGmode_pre then
+        HDGmode_pre = HDGmode_cur
+        if HDGmode_cur == 1 then
+            val = '---'
+    	else
+            val = 'sel'
+        end
+        DspShow ("HDG", val)
+    end
+
+    if VSmode_cur ~= VSmode_pre then
+        VSmode_pre = VSmode_cur
+        if VSmode_cur == 1 then
+            val = '---'
+    	else
+            val = 'sel'
+        end
+        DspShow ("VS", val)
+    end
+
+    -- Autopilot Display
+    -- AP1
+	if AP1_cur ~= AP1_pre then
+        AP1_pre = AP1_cur
+        APchange = true
+        if AP1_cur == 1 then
+            D11 = "1"
+        else
+            D11 = "_"
+        end
+	end
+
+    -- AP2
+	if AP2_cur ~= AP2_pre then
+        AP2_pre = AP2_cur
+        APchange = true
+        if AP2_cur == 1 then
+            D12 = "2"
+        else
+            D12 = "_"
+        end
+	end
+
+    -- APPR mode
+	if APP_cur ~= APP_pre then
+        APP_pre = APP_cur
+        APchange = true
+        if APP_cur == 1 then
+            D14 = "A"
+        else
+            D14 = "_"
+        end
+	end
+    -- LOC mode
+	if LOC_cur ~= LOC_pre then
+        LOC_pre = LOC_cur
+        APchange = true
+        if LOC_cur == 1 then
+            D14 = "L"
+        else
+            D14 = D14
+        end
+	end
+
+    -- FD
+	if FD_cur ~= FD_pre then
+        FD_pre = FD_cur
+        APchange = true
+        if FD_cur == 1 then
+            D21 = "F"
+        else
+            D21 = "_"
+        end
+	end
+
+    -- ILS
+	if ILS_cur ~= ILS_pre then
+        ILS_pre = ILS_cur
+        APchange = true
+        if ILS_cur == 1 then
+            D22 = "I"
+        else
+            D22 = "_"
+        end
+	end
+
+    -- ATHR
+	if ATT_cur ~= ATT_pre then
+        ATT_pre = ATT_cur
+        APchange = true
+        if ATT_cur == 1 then
+            D24 = "T"
+        else
+            D24 = "_"
+        end
+	end
+
+    -- form 2 lines of flight info display
+    if APchange == true then
+        APchange = false
+        FLIGHT_INFO1 = D11 .. D12 .. ' ' .. D14
+        FLIGHT_INFO2 = D21 .. D22 .. ' ' .. D24
+    end
 end
+
+function A32NX_DispGear_MCP1 ()
+    GNOSE_cur = ipc.readUD(0x0BEC)
+    GLEFT_cur = ipc.readUD(0x0BF4)
+    GRIGHT_cur = ipc.readUD(0x0BF0)
+
+    if GNOSE_cur ~= GNOSE_pre then
+        GNOSE_pre = GNOSE_cur
+        GEARchange = true
+
+        if GNOSE_cur == 16383 then
+            GNOSE = ' oo'
+        elseif GNOSE_cur == 0 then
+            GNOSE = ' -- '
+        else
+            GNOSE = ' ** '
+        end
+    end
+
+    if GLEFT_cur ~= GLEFT_pre then
+        GLEFT_pre = GLEFT_cur
+        GEARchange = true
+
+        if GLEFT_cur == 16383 then
+            GLEFT = 'o##'
+        elseif GLEFT_cur == 0 then
+            GLEFT = '-##'
+        else
+            GLEFT = '*##'
+        end
+    end
+
+    if GRIGHT_cur ~= GRIGHT_pre then
+        GRIGHT_pre = GRIGHT_cur
+        GEARchange = true
+
+        if GRIGHT_cur == 16383 then
+            GRIGHT = 'o'
+        elseif GRIGHT_cur == 0 then
+            GRIGHT = '-'
+        else
+            GRIGHT = '*'
+        end
+    end
+
+    if GEARchange == true then
+        GEARchange = false
+        FLIGHT_INFO1 = GNOSE
+        FLIGHT_INFO2 = GLEFT .. GRIGHT
+    else
+        APchange = true
+    end
+end
+
+function A32NX_DispFlaps_MCP1 ()
+
+    FLAP_cur = ipc.readUD(0x0BDC)
+
+    if FLAP_pre ~= FLAP_cur then
+        FLAP_pre = FLAP_cur
+
+        if FLAP_cur == 0 then
+            FLAP = '----'
+            FLAPchange=true
+        elseif FLAP_cur > 4096 and FLAP_cur < 6750 then
+            FLAP = '1---'
+            FLAPchange=true
+        elseif FLAP_cur > 7000 and  FLAP_cur < 10000 then
+            FLAP = '-2--'
+            FLAPchange=true
+        elseif FLAP_cur > 11000 and FLAP_cur < 13500 then
+            FLAP = '--3-'
+            FLAPchange=true
+        elseif FLAP_cur > 16000 then
+            FLAP = '---4'
+            FLAPchange=true
+        else
+            FLAPchange = false
+        end
+    end
+
+    if FLAPchange == true then
+        FLAPchange=false
+        _loggg('FLAP=' .. FLAP)
+        DspShow('FLAP', FLAP)
+    else
+        APchange = true
+    end
+end
+
+function setDimmer(offset, value)
+    for i = 1, #analogChangeEvents do
+      if analogChangeEvents[i][1] == offset then
+        calculatedValue = analogChangeEvents[i][3]:gsub("{value}", value)
+        command = 'ipc.execCalcCode("'.. analogChangeEvents[i][2]:gsub("{value}", tostring(loadstring("return ("..calculatedValue..")")())) ..'")'
+        assert(loadstring(command))()
+       else
+       end
+    end
+end
+
+InitVars()
+
+-- ## Test & experimental stuff ################
+-- $$ Test
+
+
