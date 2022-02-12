@@ -1859,51 +1859,73 @@ end
 
 -- $$ ENGINES #####################################
 
-function A32nx_ENGINE_MODE_set(engMode)
-    ipc.control(67017, engMode)
-    ipc.control(67018, engMode)
+function A32nx_PED_ENG_MODE_crank()
+    ipc.control(67017, 0)
+    ipc.control(67018, 0)
+    DspShow('ENG1','crnk')
 end
 
-function A32nx_ENGINE_MODE_crank()
-    A32nx_ENGINE_MODE_set(0)
+function A32nx_PED_ENG_MODE_norm()
+    ipc.control(67017, 1)
+    ipc.control(67018, 1)
+    DspShow('ENG1','norm')
 end
 
-function A32nx_ENGINE_MODE_norm()
-    A32nx_ENGINE_MODE_set(1)
+function A32nx_PED_ENG_MODE_start()
+    ipc.control(67017, 2)
+    ipc.control(67018, 2)
+    DspShow('ENG1','strt')
 end
 
-function A32nx_ENGINE_MODE_start()
-    A32nx_ENGINE_MODE_set(2)
+function A32nx_PED_ENG_1_toggle()
+    if ipc.readUW(0x0892) > 1 then
+        A32nx_PED_ENG_1_on()
+    else
+        A32nx_PED_ENG_1_off()
+    end
 end
 
-function A32nx_ENGINE_1_on()
+function A32nx_PED_ENG_1_on()
     ipc.control(67198, 1)
     ipc.control(66300, 0)
-    -- DspShow ("Gen1", ipc.readUW(0x02C0) )
+    DspShow('ENG1','on')
 end
 
-function A32nx_ENGINE_1_off()
+function A32nx_PED_ENG_1_off()
     ipc.control(67197, 1)
     ipc.control(66300, 0)
-    -- DspShow ("Gen1", ipc.readUW(0x02C0) )
+    DspShow('ENG1','off')
 end
 
-function A32nx_ENGINE_2_on()
+function A32nx_PED_ENG_2_toggle()
+    if ipc.readUW(0x092A) > 1 then
+        A32nx_PED_ENG_2_on()
+    else
+        A32nx_PED_ENG_2_off()
+    end
+end
+
+function A32nx_PED_ENG_2_on()
     ipc.control(67198, 2)
     ipc.control(66301, 0)
+    DspShow('ENG2','on')
 end
 
-function A32nx_ENGINE_2_off()
+function A32nx_PED_ENG_2_off()
     ipc.control(67197, 2)
     ipc.control(66302, 0)
+    DspShow('ENG2','on')
 end
 
-function A32nx_ENGINES_MASTER_on()
+function A32nx_PED_ENG_MASTER_on()
     ipc.control(66224, 0)
+    DspShow('ENG','on')
 end
-function A32nx_ENGINES_MASTER_off()
+function A32nx_PED_ENG_MASTER_off()
     ipc.control(66531, 0)
+    DspShow('ENG','off')
 end
+
 
 -- $$ TCAS #####################################
 
