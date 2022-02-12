@@ -926,43 +926,232 @@ function A32nx_NoseLts_cycle()
     end
 end
 
--- $$ internal
+-- ## Overhead Internal Lights
 
-function A32nx_EmerExitLts_Pos(pos)
-    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position", pos)
-end
-function A32nx_EmerExitLts_off()
-     A32nx_EmerExitLts_Pos(2)
-end
-function A32nx_EmerExitLts_arm()
-     A32nx_EmerExitLts_Pos(1)
-end
-function A32nx_EmerExitLts_on()
-     A32nx_EmerExitLts_Pos(0)
+-- $$ Seat Belt Signs
+function A32nx_OVHD_INTLT_SEATBELT_on()
+    if ipc.readUB(0x341D) == 0 then
+        A32nx_OVHD_INTLT_SEATBELT_toggle()
+    end
+    DspShow('SEAT', 'on')
 end
 
--- $$ Signs
-function A32nx_Seatbelt_on()
-    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 1)
-end
-function A32nx_Seatbelt_off()
-    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 0)
-end
-
-function A32nx_NoSmoking_Pos(pos)
-    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position", pos)
+function A32nx_OVHD_INTLT_SEATBELT_off()
+    if ipc.readUB(0x341D) == 1 then
+        A32nx_OVHD_INTLT_SEATBELT_toggle()
+    end
+    DspShow('SEAT', 'off')
 end
 
-function A32nx_NoSmoking_off()
-     A32nx_NoSmoking_Pos(2)
+function A32nx_OVHD_INTLT_SEATBELT_toggle()
+    ipc.control(66719)
 end
 
-function A32nx_NoSmoking_auto()
-     A32nx_NoSmoking_Pos(1)
+-- $$ No Smoking Signs
+
+function A32nx_OVHD_INTLT_NOSMOKING_on()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position'
+    ipc.writeLvar(Lvar, 0)
+    DspShow('SMOK', 'on')
 end
 
-function A32nx_NoSmoking_on()
-    A32nx_NoSmoking_Pos(0)
+function A32nx_OVHD_INTLT_NOSMOKING_auto()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position'
+    ipc.writeLvar(Lvar, 1)
+    DspShow('SMOK', 'auto')
+end
+
+function A32nx_OVHD_INTLT_NOSMOKING_off()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position'
+    ipc.writeLvar(Lvar, 2)
+    DspShow('SMOK', 'off')
+end
+
+function A32nx_OVHD_INTLT_NOSMOKING_cycle()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_NOSMOKING_auto()
+    elseif Lval > 0 then
+        A32nx_OVHD_INTLT_NOSMOKING_on()
+    else
+        A32nx_OVHD_INTLT_NOSMOKING_off()
+    end
+end
+
+function A32nx_OVHD_INTLT_NOSMOKING_toggle()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_NOSMOKING_auto()
+    else
+        A32nx_OVHD_INTLT_NOSMOKING_off()
+    end
+end
+
+-- $$ Emergency Exit Lighting
+
+function A32nx_OVHD_INTLT_EMEREXIT_on()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position'
+    ipc.writeLvar(Lvar, 0)
+    DspShow('EXIT', 'on')
+end
+
+function A32nx_OVHD_INTLT_EMEREXIT_arm()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position'
+    ipc.writeLvar(Lvar, 1)
+    DspShow('EXIT', 'auto')
+end
+
+function A32nx_OVHD_INTLT_EMEREXIT_off()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position'
+    ipc.writeLvar(Lvar, 2)
+    DspShow('EXIT', 'off')
+end
+
+function A32nx_OVHD_INTLT_EMEREXIT_cycle()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_EMEREXIT_arm()
+    elseif Lval > 0 then
+        A32nx_OVHD_INTLT_EMEREXIT_on()
+    else
+        A32nx_OVHD_INTLT_EMEREXIT_off()
+    end
+end
+
+function A32nx_OVHD_INTLT_EMEREXIT_toggle()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_EMEREXIT_arm()
+    else
+        A32nx_OVHD_INTLT_EMEREXIT_off()
+    end
+end
+
+-- $$ Annuciator Lighting
+
+function A32nx_OVHD_INTLT_ANNLT_test()
+    local Lvar = 'L:A32NX_OVHD_INTLT_ANN'
+    ipc.writeLvar(Lvar, 0)
+    DspShow('ANLT', 'test')
+end
+
+function A32nx_OVHD_INTLT_ANNLT_brt()
+    local Lvar = 'L:A32NX_OVHD_INTLT_ANN'
+    ipc.writeLvar(Lvar, 1)
+    DspShow('ANLT', 'brt')
+end
+
+function A32nx_OVHD_INTLT_ANNLT_dim()
+    local Lvar = 'L:A32NX_OVHD_INTLT_ANN'
+    ipc.writeLvar(Lvar, 2)
+    DspShow('ANLT', 'dim')
+end
+
+function A32nx_OVHD_INTLT_ANNLT_cycle()
+    local Lvar = 'L:A32NX_OVHD_INTLT_ANN'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_ANNLT_brt()
+    elseif Lval > 0 then
+        A32nx_OVHD_INTLT_ANNLT_test()
+    else
+        A32nx_OVHD_INTLT_ANNLT_dim()
+    end
+end
+
+function A32nx_OVHD_INTLT_ANNLT_toggle()
+    local Lvar = 'L:A32NX_OVHD_INTLT_ANN'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_ANNLT_brt()
+    else
+        A32nx_OVHD_INTLT_ANNLT_dim()
+    end
+end
+
+-- $$ Pre/Post Flight
+
+function A32nx_OVHD_INTLT_preflt()
+    A32nx_OVHD_INTLT_SEATBELT_on()
+    A32nx_OVHD_INTLT_NOSMOKING_auto()
+    A32nx_OVHD_INTLT_EMEREXIT_arm()
+end
+
+function A32nx_OVHD_INTLT_postflt()
+    A32nx_OVHD_INTLT_SEATBELT_off()
+    A32nx_OVHD_INTLT_NOSMOKING_off()
+    A32nx_OVHD_INTLT_EMEREXIT_off()
+end
+
+function A32nx_OVHD_INTLT_toggle()
+    A32nx_OVHD_INTLT_SEATBELT_toggle()
+    A32nx_OVHD_INTLT_NOSMOKING_toggle()
+    A32nx_OVHD_INTLT_EMEREXIT_toggle()
+end
+
+-- $$ Cabin Lighting / Dome
+
+-- local variable used to monitor switch position move to initVars
+-- fault in FBW prevents moving switch to OFF position
+
+function A32nx_OVHD_INTLT_DOME_brt()
+    ipc.control(66911, 100)
+	-- frig to rest cabin light state if moved by mouse
+	if A32NX_Dome == 2 or A32NX_Dome == 0 then
+        ipc.control(66579)
+    end
+    A32NX_Dome = 0
+    DspShow('DOME', 'brt')
+end
+
+function A32nx_OVHD_INTLT_DOME_dim()
+    ipc.control(66911, 50)
+    if A32NX_Dome == 2 then
+        ipc.control(66579)
+    end
+    A32NX_Dome = 1
+    DspShow('DOME', 'dim')
+end
+
+function A32nx_OVHD_INTLT_DOME_off()
+    -- move switch to DIM position first
+    A32nx_OVHD_INTLT_DOME_dim()
+    ipc.control(66911, 0)
+    if A32NX_Dome ~= 2 then
+        ipc.control(66579)
+    end
+    A32NX_Dome = 2
+    DspShow('DOME', 'off')
+end
+
+function A32nx_OVHD_INTLT_DOME_cycle()
+    local Lval = A32NX_Dome
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_DOME_dim()
+    elseif Lval > 0 then
+        A32nx_OVHD_INTLT_DOME_brt()
+    else
+        A32nx_OVHD_INTLT_DOME_off()
+    end
+end
+
+function A32nx_OVHD_INTLT_DOME_toggle()
+    local Lval = A32NX_Dome
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_DOME_brt()
+    else
+        A32nx_OVHD_INTLT_DOME_dim()
+    end
 end
 
 -- $$ APU Generator
@@ -2515,6 +2704,9 @@ function InitVars ()
     autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
     tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
     chronoLState = 0
+	
+	-- used to control position of DOME light switch
+	A32NX_Dome = 2 -- = off
 
     _loggg('[A3nx] A320nx Variables initialised')
 
