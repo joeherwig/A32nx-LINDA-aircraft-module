@@ -4,42 +4,42 @@
 
 -- Tested with FlyByWire A32NX Development version
 
--- ## FCU
+-- ## GLARESHIELD - FCU
 
 -- $$ Autopilot Buttons
 
-function A32nx_FCU_SPDMACH_toggle()
+function A32nx_GLSD_FCU_SPDMACH_toggle()
     ipc.control(EvtPtr + 10)
     DspShow('MACH','tgl')
 end
 
-function A32nx_FCU_AP_1_toggle()
+function A32nx_GLSD_FCU_AP_1_toggle()
     DspShow('PARK',EvtPtr)
     ipc.control(EvtPtr + 0)
     DspShow('AP1','tgl')
 end
 
-function A32nx_FCU_AP_2_toggle()
+function A32nx_GLSD_FCU_AP_2_toggle()
     ipc.control(EvtPtr + 1)
     DspShow('AP2','tgl')
 end
 
-function A32nx_FCU_AP_Disconnect()
+function A32nx_GLSD_FCU_AP_Disconnect()
     ipc.control(EvtPtr + 2)
     DspShow('AP','disc')
 end
 
-function A32nx_FCU_ATHR_toggle()
+function A32nx_GLSD_FCU_ATHR_toggle()
     ipc.control(EvtPtr + 3)
     DspShow('ATHR','tgl')
 end
 
-function A32nx_FCU_ATHR_Disconnect()
+function A32nx_GLSD_FCU_ATHR_Disconnect()
     ipc.control(EvtPtr + 4)
     DspShow('ATHR','disc')
 end
 
-function A32nx_FCU_LOC_toggle()
+function A32nx_GLSD_FCU_LOC_toggle()
     ipc.control(EvtPtr + 29)
     DspShow('LOC','tgl')
 end
@@ -60,32 +60,32 @@ function A32nx_FCU_SPD_inc()
     A32NX_DspSPD()
 end
 
-function A32nx_FCU_SPD_incfast()
+function A32nx_GLSD_FCU_SPD_incfast()
     for i = 1, 5, 1 do
         ipc.control(EvtPtr + 5)
         A32NX_DspSPD()
     end
 end
 
-function A32nx_FCU_SPD_dec()
+function A32nx_GLSD_FCU_SPD_dec()
     ipc.control(EvtPtr + 6)
     A32NX_DspSPD()
 end
 
-function A32nx_FCU_SPD_decfast()
+function A32nx_GLSD_FCU_SPD_decfast()
     for i = 1, 5, 1 do
         ipc.control(EvtPtr + 6)
         A32NX_DspSPD()
     end
 end
 
-function A32nx_FCU_SPD_MODE_selected ()
+function A32nx_GLSD_FCU_SPD_MODE_selected ()
     ipc.control(EvtPtr + 9)
     DspShow ("SPD", "set")
     A32NX_DspSPD()
 end
 
-function A32nx_FCU_SPD_MODE_managed ()
+function A32nx_GLSD_FCU_SPD_MODE_managed ()
     ipc.control(EvtPtr + 8)
     DspShow ("SPD", "mngd")
     A32NX_DspSPD()
@@ -93,13 +93,13 @@ end
 
 -- $$ HEADING -----------------
 
-function A32nx_FCU_HDG_inc()
+function A32nx_GLSD_FCU_HDG_inc()
     --ipc.control(65879,0)
     ipc.control(EvtPtr + 11)
     A32NX_DspHDG()
 end
 
-function A32nx_FCU_HDG_incfast()
+function A32nx_GLSD_FCU_HDG_incfast()
     for i = 1, 5, 1 do
         --ipc.control(65879,0)
     ipc.control(EvtPtr + 11)
@@ -107,13 +107,13 @@ function A32nx_FCU_HDG_incfast()
     end
 end
 
-function A32nx_FCU_HDG_dec()
+function A32nx_GLSD_FCU_HDG_dec()
     --ipc.control(65880,0)
     ipc.control(EvtPtr + 12)
     A32NX_DspHDG()
 end
 
-function A32nx_FCU_HDG_decfast()
+function A32nx_GLSD_FCU_HDG_decfast()
     for i = 1, 5, 1 do
         --ipc.control(65880,0)
         ipc.control(EvtPtr + 12)
@@ -121,7 +121,7 @@ function A32nx_FCU_HDG_decfast()
     end
 end
 
-function A32nx_FCU_HDG_MODE_selected ()
+function A32nx_GLSD_FCU_HDG_MODE_selected ()
     --ipc.control(65815, 0)
     ipc.control(EvtPtr + 15)
     DspShow ("HDG", "set")
@@ -129,7 +129,7 @@ function A32nx_FCU_HDG_MODE_selected ()
     A32NX_DspSPD()
 end
 
-function A32nx_FCU_HDG_MODE_managed ()
+function A32nx_GLSD_FCU_HDG_MODE_managed ()
     --ipc.control(65807,0)
     ipc.control(EvtPtr + 14)
     DspShow ("HDG", "mngd")
@@ -139,108 +139,106 @@ end
 
 -- $$ ALTITUDE -----------------
 
-function A32nx_FCU_ALT_inc()
+function A32nx_GLSD_FCU_ALT_inc()
     --ipc.control(65892,1)
     ipc.control(EvtPtr + 17)
     local AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
     local alt = round(getALTValue()/AltStep)*AltStep + AltStep
-    --_loggg('alt=' .. alt)
     setALTValue(alt)
     ipc.control(66124, getALTValue())
     A32NX_DspALT()
 end
 
-function A32nx_FCU_ALT_dec()
+function A32nx_GLSD_FCU_ALT_dec()
     --ipc.control(65893,1)
     ipc.control(EvtPtr + 18)
     local AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
     local alt = round(getALTValue()/AltStep)*AltStep - AltStep
-    --_loggg('alt=' .. alt)
     setALTValue(alt)
     ipc.control(66124, getALTValue())
     A32NX_DspALT()
 end
 
-function A32nx_FCU_ALT_MODE_selected ()
+function A32nx_GLSD_FCU_ALT_MODE_selected ()
     --ipc.control(65816)
     ipc.control(EvtPtr + 21)
     DspShow ("ALT", "set")
     A32NX_DspALT()
 end
 
-function A32nx_FCU_ALT_MODE_managed ()
+function A32nx_GLSD_FCU_ALT_MODE_managed ()
     --ipc.control(65808)
     ipc.control(EvtPtr + 20)
     DspShow ("ALT", "mngd")
     A32NX_DspALT()
 end
 
-function A32nx_FCU_ALT_STEP_100()
+function A32nx_GLSD_FCU_ALT_STEP_100()
     ipc.writeLvar("XMLVAR_Autopilot_Altitude_Increment", 100)
     DspShow("STEP","100")
 end
 
-function A32nx_FCU_ALT_STEP_1000()
+function A32nx_GLSD_FCU_ALT_STEP_1000()
     ipc.writeLvar("XMLVAR_Autopilot_Altitude_Increment", 1000)
     DspShow("STEP","1000")
 end
 
-function A32nx_FCU_ALT_STEP_toggle()
+function A32nx_GLSD_FCU_ALT_STEP_toggle()
     step = ipc.readLvar("XMLVAR_Autopilot_Altitude_Increment")
     if step == 100 then
-        A32nx_FCU_ALT_STEP_1000()
+        A32nx_GLSD_FCU_ALT_STEP_1000()
     else
-        A32nx_FCU_ALT_STEP_100()
+        A32nx_GLSD_FCU_ALT_STEP_100()
     end
 end
 
 -- $$ VS
 
-function A32nx_FCU_VS_inc()
+function A32nx_GLSD_FCU_VS_inc()
     --ipc.control(65894)
     ipc.control(EvtPtr + 24)
     A32NX_DspVVS ()
 end
 
-function A32nx_FCU_VS_dec()
+function A32nx_GLSD_FCU_VS_dec()
     --ipc.control(65895)
     ipc.control(EvtPtr + 25)
     A32NX_DspVVS ()
 end
 
-function A32nx_FCU_VS_MODE_push ()
+function A32nx_GLSD_FCU_VS_MODE_push ()
     ipc.control(EvtPtr + 27)
     DspShow ("VS", "push")
     A32NX_DspVVS ()
 end
 
-function A32nx_FCU_VS_MODE_pull ()
+function A32nx_GLSD_FCU_VS_MODE_pull ()
     ipc.control(EvtPtr + 28)
     DspShow ("VS", "pull")
     A32NX_DspVVS ()
 end
 
-function A32nx_FCU_VS_MODE_selected ()
+function A32nx_GLSD_FCU_VS_MODE_selected ()
     --ipc.control(66101)
     ipc.control(EvtPtr + 28)
     DspShow ("VS", "set")
     A32NX_DspVVS ()
 end
 
-function A32nx_FCU_VS_MODE_managed ()
+function A32nx_GLSD_FCU_VS_MODE_managed ()
     --ipc.control(66100)
     ipc.control(EvtPtr + 27)
     DspShow ("VS", "mngd")
     A32NX_DspVVS ()
 end
 
-function A32nx_FCU_VS_MODE_level_off ()
+function A32nx_GLSD_FCU_VS_MODE_level_off ()
     ipc.control(EvtPtr + 26,0) -- zero rate of climb
     DspShow ("VS", "mngd")
     A32NX_DspVVS ()
 end
 
-function A32nx_FCU_FPA_MODE_toggle ()
+function A32nx_GLSD_FCU_FPA_MODE_toggle ()
     ipc.control(66099)
     DspShow ("FPA", "tog")
     A32NX_DspVVS (1)
@@ -415,127 +413,128 @@ function A32NX_OVHD_FUEL_PUMP_ALL_off()
 end
 
 -- ## Overhead ADIRS #####################################
-function A32nx_ADIRS_KNOB_1_off()
+
+function A32nx_OVHD_ADIRS_1_off()
      adirs1Knob = 0
-     A32nx_ADIRS_KNOB_1_set(adirs1Knob)
+     A32nx_OVHD_ADIRS_1_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_1_NAV()
+function A32nx_ADIRS_1_nav()
      adirs1Knob = 1
-	A32nx_ADIRS_KNOB_1_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_1_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_1_ATT()
+function A32nx_OVHD_ADIRS_1_att()
      adirs1Knob = 2
-	A32nx_ADIRS_KNOB_1_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_1_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_1_inc()
+function A32nx_OVHD_ADIRS_1_inc()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_1_MODE_SELECTOR_KNOB")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
-	A32nx_ADIRS_KNOB_1_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_1_set(adirs1Knob)
     DspShow ("ADIRS1", adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_1_dec()
+function A32nx_OVHD_ADIRS_1_dec()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_1_MODE_SELECTOR_KNOB")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
-	A32nx_ADIRS_KNOB_1_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_1_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_1_set(adirs1Knob)
+function A32nx_OVHD_ADIRS_1_set(adirs1Knob)
      ipc.writeLvar("L:A32NX_OVHD_ADIRS_IR_1_MODE_SELECTOR_KNOB", adirs1Knob)
-     DspShow ("ADIR1", adirs1Knob)
+     DspShow ("ADR1", adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_2_off()
+function A32nx_OVHD_ADIRS_2_off()
      adirs1Knob = 0
-     A32nx_ADIRS_KNOB_2_set(adirs1Knob)
+     A32nx_OVHD_ADIRS_2_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_2_NAV()
+function A32nx_OVHD_ADIRS_2_nav()
      adirs1Knob = 1
-	A32nx_ADIRS_KNOB_2_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_2_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_2_ATT()
+function A32nx_OVHD_ADIRS_2_att()
      adirs1Knob = 2
-	A32nx_ADIRS_KNOB_2_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_2_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_2_inc()
+function A32nx_OVHD_ADIRS_2_inc()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_2_MODE_SELECTOR_KNOB")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
-	A32nx_ADIRS_KNOB_2_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_2_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_2_dec()
+function A32nx_OVHD_ADIRS_2_dec()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_2_MODE_SELECTOR_KNOB")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
-	A32nx_ADIRS_KNOB_2_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_2_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_2_set(adirs1Knob)
+function A32nx_OVHD_ADIRS_2_set(adirs1Knob)
      ipc.writeLvar("L:A32NX_OVHD_ADIRS_IR_2_MODE_SELECTOR_KNOB", adirs1Knob)
-     DspShow ("ADIR2", adirs1Knob)
+     DspShow ("ADR2", adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_3_off()
+function A32nx_OVHD_ADIRS_3_off()
      adirs1Knob = 0
-     A32nx_ADIRS_KNOB_3_set(adirs1Knob)
+     A32nx_OVHD_ADIRS_3_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_3_NAV()
+function A32nx_OVHD_ADIRS_3_NAV()
      adirs1Knob = 1
-	A32nx_ADIRS_KNOB_3_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_3_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_3_ATT()
+function A32nx_OVHD_ADIRS_3_ATT()
      adirs1Knob = 2
-	A32nx_ADIRS_KNOB_3_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_3_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_3_inc()
+function A32nx_OVHD_ADIRS_3_inc()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_3_MODE_SELECTOR_KNOB")
      if adirs1Knob >= 2 then adirs1Knob = 2 else adirs1Knob = adirs1Knob + 1 end
-	A32nx_ADIRS_KNOB_3_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_3_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_3_dec()
+function A32nx_OVHD_ADIRS_3_dec()
      adirs1Knob = ipc.readLvar("L:A32NX_OVHD_ADIRS_IR_3_MODE_SELECTOR_KNOB")
      if adirs1Knob <= 0 then adirs1Knob = 0 else adirs1Knob = adirs1Knob - 1 end
-	A32nx_ADIRS_KNOB_3_set(adirs1Knob)
+	A32nx_OVHD_ADIRS_3_set(adirs1Knob)
 end
 
-function A32nx_ADIRS_KNOB_3_set(adirs1Knob)
+function A32nx_OVHD_ADIRS_3_set(adirs1Knob)
      ipc.writeLvar("L:A32NX_OVHD_ADIRS_IR_3_MODE_SELECTOR_KNOB", adirs1Knob)
-     DspShow ("ADIR3", adirs1Knob)
+     DspShow ("ADR3", adirs1Knob)
 end
 
 
 -- ## Overhead AntiIce #####################################
 
-function A32nx_WING_DEICE_toggle()
+function A32nx_OVHD_AICE_WING_toggle()
      ipc.control(66337, 0)
 end
 
-function A32nx_ENG_1_DEICE_toggle()
+function A32nx_OVHD_AICE_ENG_1_toggle()
      ipc.control(66484, 0)
 end
 
-function A32nx_ENG_2_DEICE_toggle()
+function A32nx_OVHD_AICE_ENG_2_toggle()
      ipc.control(66485, 0)
 end
 
-function A32nx_WINDSHIELD_DEICE_off()
+function A32nx_OVHD_AICE_WINDSHIELD_off()
      ipc.writeLvar("L:A32NX_MAN_PITOT_HEAT", 0)
 end
 
-function A32nx_WINDSHIELD_DEICE_on()
+function A32nx_OVHD_AICE_WINDSHIELD_on()
      ipc.writeLvar("L:A32NX_MAN_PITOT_HEAT", 1)
 end
 
-function A32nx_WINDSHIELD_DEICE_toggle()
+function A32nx_OVHD_AICE_WINDSHIELD_toggle()
     if ipc.readLvar("L:A32NX_MAN_PITOT_HEAT") <= 0
         then ipc.writeLvar("L:A32NX_MAN_PITOT_HEAT", 1)
     else
@@ -545,83 +544,82 @@ end
 
 -- ## Overhead Electrics #####################################
 -- $$ External Power
-function A32nx_External_Power_toggle()
+function A32nx_OVHD_ELEC_EXTPWR_toggle()
     ipc.control(67090, 0)
 end
 
 
 -- $$ Batteries
-function A32nx_Bat1_set(bat1Status)
+function A32nx_OVHD_ELEC_BAT1_set(bat1Status)
     ipc.writeLvar("L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO", bat1Status)
 end
 
-function A32nx_Bat1_on()
+function A32nx_OVHD_ELEC_BAT1_on()
     bat1Status = 1
-	A32nx_Bat1_set(bat1Status)
+	A32nx_OVHD_ELEC_BAT1_set(bat1Status)
 end
 
-function A32nx_Bat1_off()
+function A32nx_OVHD_ELEC_BAT1_off()
      bat1Status = 0
-	A32nx_Bat1_set(bat1Status)
+	A32nx_OVHD_ELEC_BAT1_set(bat1Status)
 end
 
-function A32nx_Bat1_toggle()
+function A32nx_OVHD_ELEC_BAT1_toggle()
      bat1Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO")
      ipc.display(bat1Status, 1)
      if bat1Status >= 1 then bat1Status = 0 else bat1Status = 1 end
-	A32nx_Bat1_set(bat1Status)
+	A32nx_OVHD_ELEC_BAT1_set(bat1Status)
 end
 
-
-function A32nx_Bat2_set(bat2Status)
+function A32nx_OVHD_ELEC_BAT2_set(bat2Status)
     ipc.writeLvar("L:A32NX_OVHD_ELEC_BAT_2_PB_IS_AUTO", bat2Status)
 end
 
-function A32nx_Bat2_on()
+function A32nx_OVHD_ELEC_BAT2_on()
      bat2Status = 1
-	A32nx_Bat2_set(bat2Status)
+	A32nx_OVHD_ELEC_BAT2_set(bat2Status)
 end
 
-function A32nx_Bat2_off()
+function A32nx_OVHD_ELEC_BAT2_off()
      bat2Status = 0
-	A32nx_Bat2_set(bat2Status)
+	A32nx_OVHD_ELEC_BAT2_set(bat2Status)
 end
 
-function A32nx_Bat2_toggle()
+function A32nx_OVHD_ELEC_BAT2_toggle()
      bat2Status = ipc.readLvar("L:A32NX_OVHD_ELEC_BAT_2_PB_IS_AUTO")
      if bat2Status >= 1 then bat2Status = 0 else bat2Status = 1 end
-	A32nx_Bat2_set(bat2Status)
+	A32nx_OVHD_ELEC_BAT2_set(bat2Status)
 end
 
 -- $$ Generators
-  function A32nx_Gen1_on()
+  function A32nx_OVHD_ELEC_GEN1_on()
     ipc.writeUW(0x0892, 2)
     DspShow ("Gen1", ipc.readUW(0x0892) )
 end
 
-function A32nx_Gen1_off()
+function A32nx_OVHD_ELEC_GEN1_off()
     ipc.writeUW(0x0892, 0)
     DspShow ("Gen1", ipc.readUW(0x0892) )
 end
 
-function A32nx_Gen1_toggle()
+function A32nx_OVHD_ELEC_GEN1_toggle()
      if ipc.readUW(0x0892) > 0
      then ipc.writeUW(0x0892, 0)
      else ipc.writeUW(0x0892, 2)
      end
 end
 
-function A32nx_Gen2_on()
+function A32nx_OVHD_ELEC_GEN2_on()
     ipc.writeUW(0x092A, 2)
     DspShow ("Gen2", ipc.readUW(0x092A) )
 end
 
-function A32nx_Gen2_off()
+function A32nx_OVHD_ELEC_GEN2_off()
     ipc.writeUW(0x092A, 0)
     DspShow ("Gen2", ipc.readUW(0x092A) )
 end
 
-function A32nx_Gen2_toggle()
+function A32nx_OVHD_ELEC_GEN2_toggle()
      if ipc.readUW(0x092A) > 0
      then ipc.writeUW(0x092A, 0)
      else ipc.writeUW(0x092A, 2)
@@ -681,248 +679,251 @@ end
 
 -- $$ Strobe Lights
 
-function A32nx_StrobeLts_auto()
+function A32nx_OVHD_EXTLT_STROBE_auto()
     ipc.execCalcCode("1 (>L:LIGHTING_STROBE_0) 1 (>L:STROBE_0_Auto) 1 0 r (>K:2:STROBES_SET)")
 end
 
-function A32nx_StrobeLts_on()
+function A32nx_OVHD_EXTLT_STROBE_on()
     ipc.execCalcCode("0 (>L:LIGHTING_STROBE_0) 0 (>L:STROBE_0_Auto) 1 0 r (>K:2:STROBES_SET)")
 end
 
-function A32nx_StrobeLts_off()
+function A32nx_OVHD_EXTLT_STORE_off()
     ipc.execCalcCode("2 (>L:LIGHTING_STROBE_0) 0 (>L:STROBE_0_Auto) 0 0 r (>K:2:STROBES_SET)")
 end
 
-function A32nx_StrobeLts_toggle()
+function A32nx_OVHD_EXTLT_STROBE_toggle()
     local Lvar = "L:LIGHTING_STROBE_0"
     local Lval = ipc.readLvar(Lvar)
     if Lval == 0 then
-        A32nx_StrobeLts_off()
+        A32nx_OVHD_EXTLT_STROBE_off()
     else
-        A32nx_StrobeLts_on()
+        A32nx_OVHD_EXTLT_STROBE_on()
     end
 end
 
-function A32nx_StrobeLts_cycle()
+function A32nx_OVHD_EXTLT_STROBE_cycle()
     local Lvar = "L:LIGHTING_STROBE_0"
     local Lval = ipc.readLvar(Lvar)
     if Lval == 2 then
-        A32nx_StrobeLts_auto()
+        A32nx_OVHD_EXTLT_STROBE_auto()
     elseif Lval == 1 then
-        A32nx_StrobeLts_on()
+        A32nx_OVHD_EXTLT_STROBE_on()
     else
-        A32nx_StrobeLts_off()
+        A32nx_OVHD_EXTLT_STROBE_off()
     end
 end
 
 -- $$ Beacon Lights
 
-function A32nx_BeaconLts_on()
+function A32nx_OVHD_EXTLT_BEACON_on()
     ipc.execCalcCode("0 1 (>K:2:BEACON_LIGHTS_SET)")
 end
 
-function A32nx_BeaconLts_off()
+function A32nx_OVHD_EXTLT_BEACON_off()
     ipc.execCalcCode("0 0 (>K:2:BEACON_LIGHTS_SET)")
 end
 
-function A32nx_BeaconLts_toggle()
+function A32nx_OVHD_EXTLT_BEACON_toggle()
     local Lvar = "L:LIGHTING_BEACON_0"
     local Lval = ipc.readLvar(Lvar)
     if Lval == 0 then
-        A32nx_BeaconLts_on()
+        A32nx_OVHD_EXTLT_BEACON_on()
     else
-        A32nx_BeaconLts_off()
+        A32nx_OVHD_EXTLT_BEACON_off()
     end
 end
 
 -- $$ Wing Lights
 
-function A32nx_WingLts_on()
+function A32nx_OVHD_EXTLT_WING_on()
     ipc.execCalcCode("0 1 (>K:2:WING_LIGHTS_SET)")
 end
 
-function A32nx_WingLts_off()
+function A32nx_OVHD_EXTLT_WING_off()
     ipc.execCalcCode("0 0 (>K:2:WING_LIGHTS_SET)")
 end
 
-function A32nx_WingLts_toggle()
+function A32nx_OVHD_EXTLT_WING_toggle()
     local Lvar = "L:LIGHTING_WING_0"
     local Lval = ipc.readLvar(Lvar)
     if Lval == 0 then
-        A32nx_WingLts_on()
+        A32nx_OVHD_EXTLT_WING_on()
     else
-        A32nx_WingLts_off()
+        A32nx_OVHD_EXTLT_WING_off()
     end
 end
 
 -- $$ Navigation Lights
 
-function A32nx_NavLts_on()
+function A32nx_OVHD_EXTLT_NAV_on()
     ipc.execCalcCode("0 1 (>K:2:NAV_LIGHTS_SET)")
 end
 
-function A32nx_NavLts_off()
+function A32nx_OVHD_EXTLT_NAV_off()
     ipc.execCalcCode("0 0 (>K:2:NAV_LIGHTS_SET)")
 end
 
-function A32nx_NavLts_toggle()
+function A32nx_OVHD_EXTLT_NAV_toggle()
     local Lvar = "L:LIGHTING_NAV_0"
     local Lval = ipc.readLvar(Lvar)
     if Lval == 0 then
-        A32nx_NavLts_on()
+        A32nx_OVHD_EXTLT_NAV_on()
     else
-        A32nx_NavLts_off()
+        A32nx_OVHD_EXTLT_NAV_off()
     end
 end
 
 -- $$ Runway Turn Off
 
-function A32nx_RwyTurnLts_on()
+function A32nx_OVHD_EXTLT_RWYTURN_on()
     ipc.execCalcCode("1 s0 (>L:LIGHTING_TAXI_2) 2 l0 (>K:2:TAXI_LIGHTS_SET) 3 l0 (>K:2:TAXI_LIGHTS_SET)")
 end
 
-function A32nx_RwyTurnLts_off()
+function A32nx_OVHD_EXTLT_RWYTURN_off()
     ipc.execCalcCode("0 s0 (>L:LIGHTING_TAXI_2) 2 l0 (>K:2:TAXI_LIGHTS_SET) 3 l0 (>K:2:TAXI_LIGHTS_SET)")
 end
 
-function A32nx_RwyTurnLts_toggle()
+function A32nx_OVHD_EXTLT_RWYTURN_toggle()
     local Lvar = "L:LIGHTING_TAXI_2"
     local Lval = ipc.readLvar(Lvar)
     if Lval == 1 then
-        A32nx_RwyTurnLts_off()
+        A32nx_OVHD_EXTLT_RWYTURN_off()
     else
-        A32nx_RwyTurnLts_on()
+        A32nx_OVHD_EXTLT_RWYTURN_on()
     end
 end
 
 -- $$ Landing Lights
 
-function A32nx_LandingLts_L_Pos(pos)
+function A32nx_OVHD_EXTLT_LAND_L_Pos(pos)
     ipc.writeLvar("L:LIGHTING_LANDING_2", pos)
 end
-function A32nx_LandingLts_L_retract()
-     A32nx_LandingLts_L_Pos(2)
+function A32nx_OVHD_EXTLT_LAND_L_retract()
+     A32nx_OVHD_EXTLT_LAND_L_Pos(2)
 end
-function A32nx_LandingLts_L_off()
-     A32nx_LandingLts_L_Pos(1)
+function A32nx_OVHD_EXTLT_LAND_L_off()
+     A32nx_OVHD_EXTLT_LAND_L_Pos(1)
 end
-function A32nx_LandingLts_L_on()
-     A32nx_LandingLts_L_Pos(0)
+function A32nx_OVHD_EXTLT_LAND_L_on()
+     A32nx_OVHD_EXTLT_LAND_L_Pos(0)
 end
 
-function A32nx_LandingLts_L_toggle()
+function A32nx_OVHD_EXTLT_LAND_L_toggle()
     local Lvar = "L:LIGHTING_LANDING_2"
     local Lval = ipc.readLvar(Lvar)
     if Lval > 0 then
-        A32nx_LandingLts_L_on()
+        A32nx_OVHD_EXTLT_LAND_L_on()
     else
-        A32nx_LandingLts_L_retract()
+        A32nx_OVHD_EXTLT_LAND_L_retract()
     end
 end
 
-function A32nx_LandingLts_L_cycle()
+function A32nx_OVHD_EXTLT_LAND_L_cycle()
     local Lvar = "L:LIGHTING_LANDING_3"
     local Lval = ipc.readLvar(Lvar)
     if Lval > 0 then
-        A32nx_LandingLts_L_Pos(Lval - 1)
+        A32nx_OVHD_EXTLT_LAND_L_Pos(Lval - 1)
     else
-        A32nx_LandingLts_L_retract()
+        A32nx_OVHD_EXTLT_LAND_L_retract()
     end
 end
 
-function A32nx_LandingLts_R_Pos(pos)
+function A32nx_OVHD_EXTLT_LAND_R_Pos(pos)
     ipc.writeLvar("L:LIGHTING_LANDING_3", pos)
 end
-function A32nx_LandingLts_R_retract()
-     A32nx_LandingLts_R_Pos(2)
-end
-function A32nx_LandingLts_R_off()
-     A32nx_LandingLts_R_Pos(1)
-end
-function A32nx_LandingLts_R_on()
-    A32nx_LandingLts_R_Pos(0)
+
+function A32nx_OVHD_EXTLT_LAND_R_retract()
+     A32nx_OVHD_EXTLT_LAND_R_Pos(2)
 end
 
-function A32nx_LandingLts_R_toggle()
+function A32nx_OVHD_EXTLT_LAND_R_off()
+     A32nx_OVHD_EXTLT_LAND_R_Pos(1)
+end
+
+function A32nx_OVHD_EXTLT_LAND_R_on()
+    A32nx_OVHD_EXTLT_LAND_R_Pos(0)
+end
+
+function A32nx_OVHD_EXTLT_LAND_R_toggle()
     local Lvar = "L:LIGHTING_LANDING_3"
     local Lval = ipc.readLvar(Lvar)
     if Lval > 0 then
-        A32nx_LandingLts_R_on()
+        A32nx_OVHD_EXTLT_LAND_R_on()
     else
-        A32nx_LandingLts_R_retract()
+        A32nx_OVHD_EXTLT_LAND_R_retract()
     end
 end
 
-function A32nx_LandingLts_R_cycle()
+function A32nx_OVHD_EXTLT_LAND_R_cycle()
     local Lvar = "L:LIGHTING_LANDING_3"
     local Lval = ipc.readLvar(Lvar)
     if Lval > 0 then
-        A32nx_LandingLts_R_Pos(Lval - 1)
+        A32nx_OVHD_EXTLT_LAND_R_Pos(Lval - 1)
     else
-        A32nx_LandingLts_R_retract()
+        A32nx_OVHD_EXTLT_LAND_R_retract()
     end
 end
 
-function A32nx_LandingLts_Both_Pos(pos)
-    A32nx_LandingLts_L_Pos(pos)
-    A32nx_LandingLts_R_Pos(pos)
+function A32nx_OVHD_EXTLT_LAND_Both_Pos(pos)
+    A32nx_OVHD_EXTLT_LAND_L_Pos(pos)
+    A32nx_OVHD_EXTLT_LAND_R_Pos(pos)
 end
-function A32nx_LandingLts_Both_retract()
-     A32nx_LandingLts_L_Pos(2)
-     A32nx_LandingLts_R_Pos(2)
+function A32nx_OVHD_EXTLT_LAND_Both_retract()
+     A32nx_OVHD_EXTLT_LAND_L_Pos(2)
+     A32nx_OVHD_EXTLT_LAND_R_Pos(2)
 end
-function A32nx_LandingLts_Both_off()
-     A32nx_LandingLts_L_Pos(1)
-     A32nx_LandingLts_R_Pos(1)
+function A32nx_OVHD_EXTLT_LAND_Both_off()
+     A32nx_OVHD_EXTLT_LAND_L_Pos(1)
+     A32nx_OVHD_EXTLT_LAND_R_Pos(1)
 end
-function A32nx_LandingLts_Both_on()
-     A32nx_LandingLts_L_Pos(0)
-     A32nx_LandingLts_R_Pos(0)
-end
-
-function A32nx_LandingLts_Both_toggle()
-     A32nx_LandingLts_L_toggle()
-     A32nx_LandingLts_R_toggle()
+function A32nx_OVHD_EXTLT_LAND_Both_on()
+     A32nx_OVHD_EXTLT_LAND_L_Pos(0)
+     A32nx_OVHD_EXTLT_LAND_R_Pos(0)
 end
 
-function A32nx_LandingLts_Both_cycle()
-     A32nx_LandingLts_L_cycle()
-     A32nx_LandingLts_R_cycle()
+function A32nx_OVHD_EXTLT_LAND_Both_toggle()
+     A32nx_LOVHD_EXTLT_LAND_L_toggle()
+     A32nx_OVHD_EXTLT_LAND_R_toggle()
+end
+
+function A32nx_OVHD_EXTLT_LAND_Both_cycle()
+     A32nx_OVHD_EXTLT_LAND_L_cycle()
+     A32nx_OVHD_EXTLT_LAND_R_cycle()
 end
 
 -- $$ Nose Lights
 
-function A32nx_NoseLts_TO()
+function A32nx_OVHD_EXTLT_NOSE_to()
     ipc.execCalcCode("0 (>L:LIGHTING_LANDING_1) 1 1 r (>K:2:LANDING_LIGHTS_SET) 0 1 r (>K:2:TAXI_LIGHTS_SET)")
 end
 
-function A32nx_NoseLts_taxi()
+function A32nx_OVHD_EXTLT_NOSE_taxi()
     ipc.execCalcCode("1 (>L:LIGHTING_LANDING_1) 0 1 r (>K:2:LANDING_LIGHTS_SET) 1 1 r (>K:2:TAXI_LIGHTS_SET)")
 end
 
-function A32nx_NoseLts_off()
+function A32nx_OVHD_EXTLT_NOSE_off()
     ipc.execCalcCode("2 (>L:LIGHTING_LANDING_1) 0 1 r (>K:2:LANDING_LIGHTS_SET) 0 1 r (>K:2:TAXI_LIGHTS_SET)")
 end
 
-function A32nx_NoseLts_toggle()
+function A32nx_OVHD_EXTLT_NOSE_toggle()
     local Lvar = "L:LIGHTING_LANDING_1"
     local Lval = ipc.readLvar(Lvar)
     if Lval > 0 then
-        A32nx_NoseLts_TO()
+        A32nx_OVHD_EXTLT_NOSE_to()
     else
-        A32nx_NoseLts_off()
+        A32nx_OVHD_EXTLT_NOSE_off()
     end
 end
 
-function A32nx_NoseLts_cycle()
+function A32nx_OVHD_EXTLT_NOSE_cycle()
     local Lvar = "L:LIGHTING_LANDING_1"
     local Lval = ipc.readLvar(Lvar)
     if Lval == 2 then
-        A32nx_NoseLts_taxi()
+        A32nx_OVHD_EXTLT_NOSE_taxi()
     elseif Lval == 1 then
-        A32nx_NoseLts_TO()
+        A32nx_OVHD_EXTLT_NOSE_to()
     else
-        A32nx_NoseLts_off()
+        A32nx_OVHD_EXTLT_NOSE_off()
     end
 end
 
@@ -1192,39 +1193,42 @@ function  A32nx_OVHD_PNEU_APU_BLEED_toggle()
 	 A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
 end
 
--- ## Master Warn+Caution #####################################
-function A32nx_MasterWarning_push ()
+-- ## Glareshield - Master Warn+Caution #####################################
+
+function A32nx_GLSD_ATTNL_WARNING_push ()
     ipc.writeLvar("L:A32NX_MASTER_WARNING")
 end
 
-function A32nx_MasterCaution_push ()
+function A32nx_GLSD_ATTNL_CAUTION_push ()
     ipc.writeLvar("L:A32NX_MASTER_CAUTION")
 end
 
 -- ## PFD Buttons FD + LS
+
 -- $$ CPT side (L)
-function A32nx_EFIS_L_FD_toggle()
+function A32nx_GLSD_EFISL_FD_toggle()
     ipc.execCalcCode("1 (>K:TOGGLE_FLIGHT_DIRECTOR, number)")
 end
 
-function A32nx_EFIS_L_LS_toggle()
+function A32nx_GLSD_EFISL_LS_toggle()
     ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_1")
 end
 
 -- $$ FO side (R)
 
-function A32nx_EFIS_R_FD_toggle()
+function A32nx_GLSD_EFISR_FD_toggle()
     ipc.execCalcCode("2 (>K:TOGGLE_FLIGHT_DIRECTOR, number)")
 end
 
-function A32nx_EFIS_R_LS_toggle()
+function A32nx_GLSD_EFISR_LS_toggle()
     ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_2")
 end
 
--- ## EFIS
+-- ## Glareshield - EFIS
+
 -- $$ EFIS Options
 
-function A32nx_EFIS_L_none()
+function A32nx_GLSD_EFISL_none()
     Lvar = "A32NX_EFIS_L_OPTION"
     Lval = ipc.readLvar(Lvar)
     opt = 0
@@ -1234,7 +1238,7 @@ function A32nx_EFIS_L_none()
     end
 end
 
-function A32nx_EFIS_L_cstr()
+function A32nx_GLSD_EFISL_cstr()
     Lvar = "A32NX_EFIS_L_OPTION"
     Lval = ipc.readLvar(Lvar)
     opt = 1
@@ -1242,11 +1246,11 @@ function A32nx_EFIS_L_cstr()
         ipc.writeLvar(Lvar, opt)
         DspShow('EFIS','cstr')
     else
-        A32nx_EFIS_L_none()
+        A32nx_GLSD_EFISL_none()
     end
 end
 
-function A32nx_EFIS_L_wpt()
+function A32nx_GLSD_EFISL_wpt()
     Lvar = "A32NX_EFIS_L_OPTION"
     Lval = ipc.readLvar(Lvar)
     opt = 3
@@ -1254,11 +1258,11 @@ function A32nx_EFIS_L_wpt()
         ipc.writeLvar(Lvar, opt)
         DspShow('EFIS','wpt')
     else
-        A32nx_EFIS_L_none()
+        A32nx_GLSD_EFISL_none()
     end
 end
 
-function A32nx_EFIS_L_vor()
+function A32nx_GLSD_EFISL_vor()
     Lvar = "A32NX_EFIS_L_OPTION"
     Lval = ipc.readLvar(Lvar)
     opt = 2
@@ -1266,11 +1270,11 @@ function A32nx_EFIS_L_vor()
         ipc.writeLvar(Lvar, opt)
         DspShow('EFIS','vor')
     else
-        A32nx_EFIS_L_none()
+        A32nx_GLSD_EFISL_none()
     end
 end
 
-function A32nx_EFIS_L_ndb()
+function A32nx_GLSD_EFISL_ndb()
     Lvar = "A32NX_EFIS_L_OPTION"
     Lval = ipc.readLvar(Lvar)
     opt = 4
@@ -1278,11 +1282,11 @@ function A32nx_EFIS_L_ndb()
         ipc.writeLvar(Lvar, opt)
         DspShow('EFIS','ndb')
     else
-        A32nx_EFIS_L_none()
+        A32nx_GLSD_EFISL_none()
     end
 end
 
-function A32nx_EFIS_L_aprt()
+function A32nx_GLSD_EFISL_aprt()
     Lvar = "A32NX_EFIS_L_OPTION"
     Lval = ipc.readLvar(Lvar)
     opt = 5
@@ -1290,11 +1294,11 @@ function A32nx_EFIS_L_aprt()
         ipc.writeLvar(Lvar, opt)
         DspShow('EFIS','arpt')
     else
-        A32nx_EFIS_L_none()
+        A32nx_GLSD_EFISL_none()
     end
 end
 
-function A32nx_EFIS_L_NAVAID_1_adf()
+function A32nx_GLSD_EFISL_NAVAID1_adf()
     Lvar = "A32NX_EFIS_L_NAVAID_1_MODE"
     Lval = ipc.readLvar(Lvar)
     opt = 1
@@ -1304,7 +1308,7 @@ function A32nx_EFIS_L_NAVAID_1_adf()
     end
 end
 
-function A32nx_EFIS_L_NAVAID_1_off()
+function A32nx_GLSD_EFISL_NAVAID1_off()
     Lvar = "A32NX_EFIS_L_NAVAID_1_MODE"
     Lval = ipc.readLvar(Lvar)
     opt = 0
@@ -1314,7 +1318,7 @@ function A32nx_EFIS_L_NAVAID_1_off()
     end
 end
 
-function A32nx_EFIS_L_NAVAID_1_vor()
+function A32nx_GLSD_EFISL_NAVAID1_vor()
     Lvar = "A32NX_EFIS_L_NAVAID_1_MODE"
     Lval = ipc.readLvar(Lvar)
     opt = 2
@@ -1324,7 +1328,7 @@ function A32nx_EFIS_L_NAVAID_1_vor()
     end
 end
 
-function A32nx_EFIS_L_NAVAID_2_adf()
+function A32nx_GLSD_EFISL_NAVAID2_adf()
     Lvar = "A32NX_EFIS_L_NAVAID_2_MODE"
     Lval = ipc.readLvar(Lvar)
     opt = 1
@@ -1334,7 +1338,7 @@ function A32nx_EFIS_L_NAVAID_2_adf()
     end
 end
 
-function A32nx_EFIS_L_NAVAID_2_off()
+function A32nx_GLSD_EFISL_NAVAID2_off()
     Lvar = "A32NX_EFIS_L_NAVAID_2_MODE"
     Lval = ipc.readLvar(Lvar)
     opt = 0
@@ -1344,7 +1348,7 @@ function A32nx_EFIS_L_NAVAID_2_off()
     end
 end
 
-function A32nx_EFIS_L_NAVAID_2_vor()
+function A32nx_GLSD_EFISL_NAVAID2_vor()
     Lvar = "A32NX_EFIS_L_NAVAID_2_MODE"
     Lval = ipc.readLvar(Lvar)
     opt = 2
@@ -1355,7 +1359,8 @@ function A32nx_EFIS_L_NAVAID_2_vor()
 end
 
 -- $$ BARO Reference
-function A32nx_BARO_inc()
+
+function A32nx_GLSD_EFISL_BARO_inc()
     ipc.control(65883,0)
     if BaroMode == 1 then
         ipc.control(65883,0)
@@ -1363,7 +1368,7 @@ function A32nx_BARO_inc()
     end
     DspShow('BARO','inc')
 end
-function A32nx_BARO_dec()
+function A32nx_GLSD_EFISL_BARO_dec()
     ipc.control(65884,0)
     if BaroMode == 1 then
         ipc.control(65884,0)
@@ -1371,58 +1376,58 @@ function A32nx_BARO_dec()
     end
     DspShow('BARO','dec')
 end
-function A32nx_BARO_Mode_HPa()
+function A32nx_GLSD_EFISL_BARO_HPa()
     ipc.writeLvar("L:XMLVAR_Baro_Selector_HPA_1", 1)
     BaroMode = 1
     DspShow('BARO','HPa')
 end
-function A32nx_BARO_Mode_InHg()
+function A32nx_GLSD_EFISL_BARO_InHg()
     ipc.writeLvar("L:XMLVAR_Baro_Selector_HPA_1", 0)
     BaroMode = 0
     DspShow('BARO','InHg')
 end
-function A32nx_BARO_Mode_toggle()
+function A32nx_GLSD_BARO_MODE_toggle()
     if ipc.readLvar("L:XMLVAR_Baro_Selector_HPA_1") == 0 then
-        A32nx_BARO_Mode_HPa()
+        A32nx_GLSD_EFISL_BARO_HPa()
     else
-        A32nx_BARO_Mode_InHg()
+        A32nx_GLSD_EFISL_BARO_InHg()
     end
 end
-function A32nx_BARO_qfe()
+function A32nx_GLSD_EFISL_BARO_qfe()
     ipc.writeLvar("L:XMLVAR_Baro1_Mode",0)
     BaroRef = 0
     DspShow('BARO', 'qfe')
 end
-function A32nx_BARO_qnh()
+function A32nx_GLSD_EFISL_BARO_qnh()
     ipc.writeLvar("L:XMLVAR_Baro1_Mode",1)
     BaroRef = 1
     DspShow('BARO', 'qnh')
 end
-function A32nx_BARO_std()
+function A32nx_GLSD_EFISL_BARO_std()
     ipc.writeLvar("L:XMLVAR_Baro1_Mode",2)
     DspShow('BARO', 'std')
 end
-function A32nx_BARO_pull()
+function A32nx_GLSD_EFISL_BARO_pull()
     A32nx_BARO_std()
 end
-function A32nx_BARO_push()
+function A32nx_GLSD_EFISL_BARO_push()
     Lval = ipc.readLvar("L:XMLVAR_Baro1_Mode")
     if Lval == 0 then
-        A32nx_BARO_qnh()
+        A32nx_GLSD_EFISL_BARO_qnh()
     elseif Lval == 1 then
-        A32nx_BARO_qfe()
+        A32nx_GLSD_EFISL_BARO_qfe()
     elseif BaroRef > 0 then
-        A32nx_BARO_qnh()
+        A32nx_GLSD_EFISL_BARO_qnh()
     else
-        A32nx_BARO_qfe()
+        A32nx_GLSD_EFISL_BARO_qfe()
     end
 end
-function A32nx_BARO_toggle()
+function A32nx_GLSD_EFISL_BARO_toggle()
     Lval = ipc.readLvar("L:XMLVAR_Baro1_Mode")
     if Lval > 1 then
-        A32nx_BARO_push()
+        A32nx_GLSD_EFISL_BARO_push()
     else
-        A32nx_BARO_pull()
+        A32nx_GLSD_EFISL_BARO_pull()
     end
 end
 
@@ -1430,333 +1435,334 @@ end
 
 -- $$ Brake Fan
 
-function A32nx_MAIN_BRAKEFAN_on()
+function A32nx_MPNL_LDG_BRAKEFAN_on()
     ipc.writeLvar("A32NX_BRAKE_FAN_BTN_PRESSED", 1)
     DspShow('BFAN','on')
 end
 
-function A32nx_MAIN_BRAKEFAN_off()
+function A32nx_MPNL_LDG_BRAKEFAN_off()
     ipc.writeLvar("A32NX_BRAKE_FAN_BTN_PRESSED", 0)
     DspShow('BFAN','off')
 end
 
-function A32nx_MAIN_BRAKEFAN_toggle()
+function A32nx_MPNL_LDG_BRAKEFAN_toggle()
     if ipc.readLvar("A32NX_BRAKE_FAN_BTN_PRESSED") == 1 then
-        A32nx_MAIN_BRAKEFAN_off()
+        A32nx_MPNL_LDG_BRAKEFAN_off()
     else
-        A32nx_MAIN_BRAKEFAN_on()
+        A32nx_MPNL_LDG_BRAKEFAN_on()
     end
 end
 
 -- $$ Anti Skid
 
-function A32nx_MAIN_ANTISKID_on()
+function A32nx_MPNL_ABRK_ANTISKID_on()
     ipc.writeUD(0x0BFD, 1)
     DspShow('SKID','on')
 end
 
-function A32nx_MAIN_ANTISKID_off()
+function A32nx_MPNL_ABRK_ANTISKID_off()
     ipc.writeUD(0x0BFD, 0)
     DspShow('SKID','off')
 end
 
-function A32nx_MAIN_ANTISKID_toggle()
+function A32nx_MPNL_ABRK_ANTISKID_toggle()
     if ipc.readUD(0x0BFD) > 0 then
-        A32nx_MAIN_ANTISKID_off()
+        A32nx_MPNL_ABRK_ANTISKID_off()
     else
-        A32nx_MAIN_ANTISKID_on()
+        A32nx_MPNL_ABRK_ANTISKID_on()
     end
 end
 
 -- $$ Autobrake ---------------------------------
 
-function A32nx_AUTOBRAKE_off()
-     A32nx_AUTOBRAKE_set(0)
+function A32nx_MPNL_ABRK_AUTOBRAKE_off()
+     A32nx_MPNL_ABRK_AUTOBRAKE_set(0)
 end
 
-function A32nx_AUTOBRAKE_low()
-     A32nx_AUTOBRAKE_set(1)
+function A32nx_MPNL_ABRK_AUTOBRAKE_low()
+     A32nx_MPNL_ABRK_AUTOBRAKE_set(1)
 end
 
-function A32nx_AUTOBRAKE_mid()
-     A32nx_AUTOBRAKE_set(2)
+function A32nx_MPNL_ABRK_AUTOBRAKE_mid()
+     A32nx_MPNL_ABRK_AUTOBRAKE_set(2)
 end
 
-function A32nx_AUTOBRAKE_max()
-     A32nx_AUTOBRAKE_set(3)
+function A32nx_MPNL_ABRK_AUTOBRAKE_max()
+     A32nx_MPNL_ABRK_AUTOBRAKE_set(3)
 end
 
-function A32nx_AUTOBRAKE_low_toggle()
+function A32nx_MPNL_ABRK_AUTOBRAKE_LOW_toggle()
      if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 1 then A32nx_AUTOBRAKE_set(1) else A32nx_AUTOBRAKE_set(0) end
 end
 
-function A32nx_AUTOBRAKE_mid_toggle()
+function A32nx_MPNL_ABRK_AUTOBRAKE_MID_toggle()
      if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 2 then A32nx_AUTOBRAKE_set(2) else A32nx_AUTOBRAKE_set(0) end
 end
 
-function A32nx_AUTOBRAKE_max_toggle()
+function A32nx_MPNL_ABRK_AUTOBRAKE_MAX_toggle()
      if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 3 then A32nx_AUTOBRAKE_set(3) else A32nx_AUTOBRAKE_set(0) end
 end
 
-function A32nx_AUTOBRAKE_set(autoBrakeLevel)
+function A32nx_MPNL_ABRK_AUTOBRAKE_set(autoBrakeLevel)
      ipc.writeLvar("L:A32NX_AUTOBRAKES_ARMED_MODE", autoBrakeLevel)
      local autoBrakeLevelText = {"off","low","mid","max"}
      DspShow ("A-BRK", autoBrakeLevelText[autoBrakeLevel+1])
 end
 
-function A32nx_AUTOBRAKE_inc()
+function A32nx_MPNL_ABRK_AUTOBRAKE_inc()
      autoBrakeLevel = ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE")
      if autoBrakeLevel >= 3 then autoBrakeLevel = 3 else autoBrakeLevel = autoBrakeLevel + 1 end
-	A32nx_AUTOBRAKE_set(autoBrakeLevel)
+	A32nx_MPNL_ABRK_AUTOBRAKE_set(autoBrakeLevel)
 end
 
-function A32nx_AUTOBRAKE_dec()
+function A32nx_MPNL_ABRK_AUTOBRAKE_dec()
      autoBrakeLevel = ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE")
      if autoBrakeLevel <= 0 then autoBrakeLevel = 0 else autoBrakeLevel = autoBrakeLevel - 1 end
-	A32nx_AUTOBRAKE_set(autoBrakeLevel)
+	A32nx_MPNL_ABRK_AUTOBRAKE_set(autoBrakeLevel)
 end
 
-function A32nx_AUTOBRAKE_cycle()
+function A32nx_MPNL_ABRK_AUTOBRAKE_cycle()
      autoBrakeLevel = ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE")
      if autoBrakeLevel >= 3 then autoBrakeLevel = 0 else autoBrakeLevel = autoBrakeLevel + 1 end
-	A32nx_AUTOBRAKE_set(autoBrakeLevel)
+	A32nx_MPNL_ABRK_AUTOBRAKE_set(autoBrakeLevel)
 end
 
 -- $$ Landing Gear Handle
-function A32nx_MAIN_LANDING_GEAR_up()
+function A32nx_MPNL_LDG_GEAR_up()
     ipc.writeUD(0x0BE8, 0)
     DspShow('GEAR','up')
 end
-function A32nx_MAIN_LANDING_GEAR_down()
+function A32nx_MPNL_LDG_GEAR_down()
     ipc.writeUD(0x0BE8, 16383)
     DspShow('GEAR','down')
 end
-function A32nx_MAIN_LANDING_GEAR_toggle()
+function A32nx_MPNL_LDG__GEAR_toggle()
     if ipc.readUD(0x0BE8) > 0 then
-        A32nx_MAIN_LANDING_GEAR_up()
+        A32nx_MPNL_LDG__GEAR_up()
     else
-        A32nx_MAIN_LANDING_GEAR_down()
+        A32nx_MPNL_LDG__GEAR_down()
     end
 end
 
 -- $$ Terronnd
-function A32nx_MFD_BTN_TERRONND_1_toggle()
+function A32nx_MPNL_ND_TERRONND_1_toggle()
     ipc.activateHvar("H:A320_Neo_MFD_BTN_TERRONND_1")
 end
 
 -- $$ Standby Chrono elapsed timer ##
 
-function A32nx_STBY_CHRONO_elapsed_time_run ()
-         ipc.writeLvar("L:A32NX_CHRONO_ET_SWITCH_POS", 0)
+function A32nx_MPNL_CLOCK_elapsed_time_run ()
+	ipc.writeLvar("L:A32NX_CHRONO_ET_SWITCH_POS", 0)
 end
 
-function A32nx_STBY_CHRONO_elapsed_time_stop ()
-         ipc.writeLvar("L:A32NX_CHRONO_ET_SWITCH_POS", 1)
+function A32nx_MPNL_CLOCK_elapsed_time_stop ()
+	ipc.writeLvar("L:A32NX_CHRONO_ET_SWITCH_POS", 1)
 end
 
-function A32nx_STBY_CHRONO_elapsed_time_reset ()
-         ipc.writeLvar("L:A32NX_CHRONO_ET_SWITCH_POS", 2)
+function A32nx_MPNL_CLOCK_elapsed_time_reset ()
+	ipc.writeLvar("L:A32NX_CHRONO_ET_SWITCH_POS", 2)
 end
 
-function A32nx_STBY_CHRONO_elapsed_time_up ()
-local pos = ipc.readLvar("L:A32NX_CHRONO_ET_SWITCH_POS")
-         if pos == 2 then
-         A32nx_STBY_CHRONO_elapsed_time_stop ()
-         else
-            if pos == 1 then
-            A32nx_STBY_CHRONO_elapsed_time_run ()
-            end
-         end
+function A32nx_MPNL_CLOCK_elapsed_time_up ()
+	local pos = ipc.readLvar("L:A32NX_CHRONO_ET_SWITCH_POS")
+    if pos == 2 then
+    	A32nx_MPNL_CLOCK_elapsed_time_stop ()
+    else
+		if pos == 1 then
+    		A32nx_MPNL_CLOCK_elapsed_time_run ()
+    	end
+    end
 end
 
-function A32nx_STBY_CHRONO_elapsed_time_down ()
-local pos = ipc.readLvar("L:A32NX_CHRONO_ET_SWITCH_POS")
-         if pos == 0 then
-         A32nx_STBY_CHRONO_elapsed_time_stop ()
-         else
-            if pos == 1 then
-            A32nx_STBY_CHRONO_elapsed_time_reset ()
-            end
-         end
+function A32nx_MPNL_CLOCK_elapsed_time_down ()
+	local pos = ipc.readLvar("L:A32NX_CHRONO_ET_SWITCH_POS")
+	if pos == 0 then
+    	A32nx_MPNL_CLOCK_elapsed_time_stop ()
+    else
+    	if pos == 1 then
+            A32nx_MPNL_CLOCK_elapsed_time_reset ()
+        end
+    end
 end
 
-function A32nx_STBY_CHRONO_elapsed_time_cycle ()
-local pos = ipc.readLvar("L:A32NX_CHRONO_ET_SWITCH_POS")
-          if pos == 0 then
-          A32nx_STBY_CHRONO_elapsed_time_reset ()
-          else
-          A32nx_STBY_CHRONO_elapsed_time_up ()
-          end
+function A32nx_MPNL_CLOCK_elapsed_time_cycle ()
+	local pos = ipc.readLvar("L:A32NX_CHRONO_ET_SWITCH_POS")
+    if pos == 0 then
+    	A32nx_MPNL_CLOCK_elapsed_time_reset ()
+    else
+    	A32nx_MPNL_CLOCK_elapsed_time_up ()
+    end
 end
+
 -- # Flight controls #####################################
-function A32nx_Spoiler_Arm_on ()
+
+function A32nx_PED_SPOILERARM_on ()
     ipc.control(66068, 1)
 end
 
-function A32nx_Spoiler_Arm_off ()
+function A32nx_PED_SPOILERARM_off ()
     ipc.control(66068, 0)
 end
 
+-- $$ Glareshield - EFISL - ND Mode
 
-function A32nx_MFD_NAV_MODE_1_ls()
+function A32nx_GLSD_EFISL_NDMODE1_ls()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 0)
      mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
 end
 
-function A32nx_MFD_NAV_MODE_1_vor()
+function A32nx_GLSD_EFISL_NDMODE1_vor()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 1)
      mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
 end
 
-function A32nx_MFD_NAV_MODE_1_nav()
+function A32nx_GLSD_EFISL_NDMODE1_nav()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 2)
      mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
 end
 
-function A32nx_MFD_NAV_MODE_1_arc()
+function A32nx_GLSD_EFISL_NDMODE1_arc()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 3)
      mfd1MODE = ipc.readLvar("L:A32NX_EFIS_L_ND_MODE")
 end
 
-function A32nx_MFD_NAV_MODE_1_plan()
+function A32nx_GLSD_EFISL_NDMODE1_plan()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 4)
      mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
-     DspShow ("MFDr", mfd1MODE)
 end
 
-function A32nx_MFD_NAV_MODE_1_inc()
+function A32nx_GLSD_EFISL_NDMODE1_inc()
      mfd1MODE = ipc.readLvar("L:A32NX_EFIS_L_ND_MODE")
      if mfd1MODE >= 5 then mfd1MODE = 5 else mfd1MODE = mfd1MODE + 1 end
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", mfd1MODE)
 end
 
-function A32nx_MFD_NAV_MODE_1_dec()
+function A32nx_GLSD_EFISL_NDMODE1_dec()
      mfd1MODE = ipc.readLvar("L:A32NX_EFIS_L_ND_MODE")
      if mfd1MODE <= 0 then mfd1MODE = 0 else mfd1MODE = mfd1MODE - 1 end
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", mfd1MODE)
 end
 
 -- $$ MFD Range --------------------------------------
-function A32nx_MFD_RANGE_1_10()
+
+function A32nx_GLSD_EFISL_NDRANGE1_10()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 0)
      mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
 end
 
-function A32nx_MFD_RANGE_1_20()
+function A32nx_GLSD_EFISL_NDRANGE1_20()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 1)
      mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
 end
 
-function A32nx_MFD_RANGE_1_40()
+function A32nx_GLSD_EFISL_NDRANGE1_40()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 2)
      mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
 end
 
-function A32nx_MFD_RANGE_1_80()
+function A32nx_GLSD_EFISL_NDRANGE1_80()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 3)
      mfd1Range = ipc.readLvar("L:A32NX_EFIS_L_ND_RANGE")
 end
 
-function A32nx_MFD_RANGE_1_160()
+function A32nx_GLSD_EFISL_NDRANGE1_160()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 4)
      mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
 end
 
-function A32nx_MFD_RANGE_1_320()
+function A32nx_GLSD_EFISL_NDRANGE1_320()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 5)
      mfd1Range = ipc.readLvar("L:A32NX_EFIS_L_ND_RANGE")
 end
 
-function A32nx_MFD_RANGE_1_inc()
+function A32nx_GLSD_EFISL_NDRANGE1_inc()
      mfd1Range = ipc.readLvar("L:A32NX_EFIS_L_ND_RANGE")
      if mfd1Range >= 5 then mfd1Range = 5 else mfd1Range = mfd1Range + 1 end
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", mfd1Range)
 end
 
-function A32nx_MFD_RANGE_1_dec()
+function A32nx_GLSD_EFISL_NDRANGE1_dec()
      mfd1Range = ipc.readLvar("L:A32NX_EFIS_L_ND_RANGE")
      if mfd1Range <= 0 then mfd1Range = 0 else mfd1Range = mfd1Range - 1 end
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", mfd1Range)
 end
 
-
-
 -- ## EICAS ECAM Buttons #####################################
 
-function A32nx_EICAS_TO_CONFIG_press()
+function A32nx_PED_ECAM_TOCONFIG_press()
      ipc.writeLvar("L:A32NX_BTN_TOCONFIG", 1)
 
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_eng()
+function A32nx_PED_ECAM_eng()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_ENG")
      eicasEcam2Page = 1
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_bleed()
+function A32nx_PED_ECAM_bleed()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_BLEED")
      eicasEcam2Page = 2
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_press()
+function A32nx_PED_ECAM_press()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_PRESS")
      eicasEcam2Page = 3
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_elec()
+function A32nx_PED_ECAM_elec()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_ELEC")
      eicasEcam2Page = 4
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_hyd()
+function A32nx_PED_ECAM_hyd()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_HYD")
      eicasEcam2Page = 5
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_fuel()
+function A32nx_PED_ECAM_fuel()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_FUEL")
      eicasEcam2Page = 6
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_apu()
+function A32nx_PED_ECAM_apu()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_APU")
      eicasEcam2Page = 7
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_cond()
+function A32nx_PED_ECAM_cond()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_COND")
      eicasEcam2Page = 8
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_door()
+function A32nx_PED_ECAM_door()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_DOOR")
      eicasEcam2Page = 9
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_wheel()
+function A32nx_PED_ECAM_wheel()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_WHEEL")
      eicasEcam2Page = 10
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_fctl()
+function A32nx_PED_ECAM_fctl()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_FTCL")
      eicasEcam2Page = 11
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_sts()
+function A32nx_PED_ECAM_sts()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_STS")
      eicasEcam2Page = 12
 end
 
-function A32nx_EICAS_2_ECAM_ALL_press()
+function A32nx_PED_ECAM_ALL_press()
     ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 1)
 end
 
-function A32nx_EICAS_2_ECAM_ALL_release()
+function A32nx_PED_ECAM_ALL_release()
     ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 0)
 end
 
-function A32nx_EICAS_2_ECAM_PAGE_next()
+function A32nx_PED_ECAM_next()
     ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 1)
     ipc.sleep(250)
     ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 0)
@@ -1764,207 +1770,207 @@ end
 
 -- ## CDU left #####################################
 
-function A32nx_CDU_1_BTN_dir()
+function A32nx_PED_MCDUL_BTN_dir()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_DIR")
 end
 
-function A32nx_CDU_1_BTN_prog()
+function A32nx_PED_MCDUL_BTN_prog()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_PROG")
 end
 
-function A32nx_CDU_1_BTN_perf()
+function A32nx_PED_MCDUL_BTN_perf()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_PERF")
 end
 
-function A32nx_CDU_1_BTN_init()
+function A32nx_PED_MCDUL_BTN_init()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_INIT")
 end
 
-function A32nx_CDU_1_BTN_data()
+function A32nx_PED_MCDUL_BTN_data()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_DATA")
 end
 
-function A32nx_CDU_1_BTN_fpln()
+function A32nx_PED_MCDUL_BTN_fpln()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_FPLN")
 end
 
-function A32nx_CDU_1_BTN_rad()
+function A32nx_PED_MCDUL_BTN_rad()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_RAD")
 end
 
-function A32nx_CDU_1_BTN_fuel()
+function A32nx_PED_MCDUL_BTN_fuel()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_FUEL")
 end
 
-function A32nx_CDU_1_BTN_sec()
+function A32nx_PED_MCDUL_BTN_sec()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_SEC")
 end
 
-function A32nx_CDU_1_BTN_atc()
+function A32nx_PED_MCDUL_BTN_atc()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_ATC")
 end
 
-function A32nx_CDU_1_BTN_menu()
+function A32nx_PED_MCDUL_BTN_menu()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_MENU")
 end
 
-function A32nx_CDU_1_BTN_airport()
+function A32nx_PED_MCDUL_BTN_airport()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_AIRPORT")
 end
 
-function A32nx_CDU_1_BTN_up()
+function A32nx_PED_MCDUL_BTN_up()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_UP")
 end
 
-function A32nx_CDU_1_BTN_down()
+function A32nx_PED_MCDUL_BTN_down()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_DOWN")
 end
 
-function A32nx_CDU_1_BTN_prevpage()
+function A32nx_PED_MCDUL_BTN_prevpage()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_PREVPAGE")
 end
 
-function A32nx_CDU_1_BTN_nextpage()
+function A32nx_PED_MCDUL_BTN_nextpage()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_NEXTPAGE")
 end
 
-function A32nx_CDU_1_BTN_L1()
+function A32nx_PED_MCDUL_BTN_L1()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L1")
 end
 
-function A32nx_CDU_1_BTN_L2()
+function A32nxPED_MCDUL_BTN_L2()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L2")
 end
 
-function A32nx_CDU_1_BTN_L3()
+function A32nx_PED_MCDUL_BTN_L3()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L3")
 end
 
-function A32nx_CDU_1_BTN_L4()
+function A32nx_PED_MCDUL_BTN_L4()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L4")
 end
 
-function A32nx_CDU_1_BTN_L5()
+function A32nx_PED_MCDUL_BTN_L5()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L5")
 end
 
-function A32nx_CDU_1_BTN_L6()
+function A32nx_PED_MCDUL_BTN_L6()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L6")
 end
 
-function A32nx_CDU_1_BTN_R1()
+function A32nx_PED_MCDUL_BTN_R1()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R1")
 end
 
-function A32nx_CDU_1_BTN_R2()
+function A32nx_PED_MCDUL_BTN_R2()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R2")
 end
 
-function A32nx_CDU_1_BTN_R3()
+function A32nx_PED_MCDUL_BTN_R3()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R3")
 end
 
-function A32nx_CDU_1_BTN_R4()
+function A32nx_PED_MCDUL_BTN_R4()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R4")
 end
 
-function A32nx_CDU_1_BTN_R5()
+function A32nx_PED_MCDUL_BTN_R5()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R5")
 end
 
-function A32nx_CDU_1_BTN_R6()
+function A32nx_PED_MCDUL_BTN_R6()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R6")
 end
 
-function A32nx_CDU_1_BTN_A()
+function A32nx_PED_MCDUL_BTN_A()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_A")
 end
 
-function A32nx_CDU_1_BTN_B()
+function A32nx_PED_MCDUL_BTN_B()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_B")
 end
 
-function A32nx_CDU_1_BTN_C()
+function A32nx_PED_MCDUL_BTN_C()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_C")
 end
 
-function A32nx_CDU_1_BTN_D()
+function A32nx_PED_MCDUL_BTN_D()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_D")
 end
 
-function A32nx_CDU_1_BTN_E()
+function A32nx_PED_MCDUL_BTN_E()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_E")
 end
 
-function A32nx_CDU_1_BTN_F()
+function A32nx_PED_MCDUL_BTN_F()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_F")
 end
 
-function A32nx_CDU_1_BTN_G()
+function A32nx_PED_MCDUL_BTN_G()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_G")
 end
 
-function A32nx_CDU_1_BTN_H()
+function A32nx_PED_MCDUL_BTN_H()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_H")
 end
 
-function A32nx_CDU_1_BTN_I()
+function A32nx_PED_MCDUL_BTN_I()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_I")
 end
 
-function A32nx_CDU_1_BTN_J()
+function A32nx_PED_MCDUL_BTN_J()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_J")
 end
 
-function A32nx_CDU_1_BTN_K()
+function A32nx_PED_MCDUL_BTN_K()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_K")
 end
 
-function A32nx_CDU_1_BTN_L()
+function A32nx_PED_MCDUL_BTN_L()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_L")
 end
 
-function A32nx_CDU_1_BTN_M()
+function A32nx_PED_MCDUL_BTN_M()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_M")
 end
 
-function A32nx_CDU_1_BTN_N()
+function A32nx_PED_MCDUL_BTN_N()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_N")
 end
 
-function A32nx_CDU_1_BTN_O()
+function A32nx_PED_MCDUL_BTN_O()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_O")
 end
 
-function A32nx_CDU_1_BTN_P()
+function A32nx_PED_MCDUL_BTN_P()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_P")
 end
 
-function A32nx_CDU_1_BTN_Q()
+function A32nx_PED_MCDUL_BTN_Q()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_Q")
 end
 
-function A32nx_CDU_1_BTN_R()
+function A32nx_PED_MCDUL_BTN_R()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_R")
 end
 
-function A32nx_CDU_1_BTN_S()
+function A32nx_PED_MCDUL_BTN_S()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_S")
 end
 
-function A32nx_CDU_1_BTN_T()
+function A32nx_PED_MCDUL_BTN_T()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_T")
 end
 
-function A32nx_CDU_1_BTN_U()
+function A32nx_PED_MCDUL_BTN_U()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_U")
 end
 
-function A32nx_CDU_1_BTN_V()
+function A32nx_PED_MCDUL_BTN_V()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_V")
 end
 
-function A32nx_CDU_1_BTN_W()
+function A32nx_PED_MCDUL_BTN_W()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_W")
 end
 
@@ -1972,75 +1978,75 @@ function A32nx_CDU_1_BTN_X()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_X")
 end
 
-function A32nx_CDU_1_BTN_Y()
+function A32nx_PED_MCDUL_BTN_Y()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_Y")
 end
 
-function A32nx_CDU_1_BTN_Z()
+function A32nx_PED_MCDUL_BTN_Z()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_Z")
 end
 
-function A32nx_CDU_1_BTN_1()
+function A32nx_PED_MCDUL_BTN_1()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_1")
 end
 
-function A32nx_CDU_1_BTN_2()
+function A32nx_PED_MCDUL_BTN_2()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_2")
 end
 
-function A32nx_CDU_1_BTN_3()
+function A32nx_PED_MCDUL_BTN_3()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_3")
 end
 
-function A32nx_CDU_1_BTN_4()
+function A32nx_PED_MCDUL_BTN_4()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_4")
 end
 
-function A32nx_CDU_1_BTN_5()
+function A32nx_PED_MCDUL_BTN_5()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_5")
 end
 
-function A32nx_CDU_1_BTN_6()
+function A32nx_PED_MCDUL_BTN_6()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_6")
 end
 
-function A32nx_CDU_1_BTN_7()
+function A32nx_PED_MCDUL_BTN_7()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_7")
 end
 
-function A32nx_CDU_1_BTN_8()
+function A32nx_PED_MCDUL_BTN_8()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_8")
 end
 
-function A32nx_CDU_1_BTN_9()
+function A32nx_PED_MCDUL_BTN_9()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_9")
 end
 
-function A32nx_CDU_1_BTN_0()
+function A32nx_PED_MCDUL_BTN_0()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_0")
 end
 
-function A32nx_CDU_1_BTN_dot()
+function A32nx_PED_MCDUL_BTN_dot()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_DOT")
 end
 
-function A32nx_CDU_1_BTN_plusminus()
+function A32nx_PED_MCDUL_BTN_plusminus()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_PLUSMINUS")
 end
 
-function A32nx_CDU_1_BTN_sp()
+function A32nx_PED_MCDUL_BTN_sp()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_SP")
 end
 
-function A32nx_CDU_1_BTN_div()
+function A32nx_PED_MCDUL_BTN_div()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_DIV")
 end
 
-function A32nx_CDU_1_BTN_ovfy()
+function A32nx_PED_MCDUL_BTN_ovfy()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_OVFY")
 end
 
-function A32nx_CDU_1_BTN_clr()
+function A32nx_PED_MCDUL_BTN_clr()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_CLR")
 end
 
@@ -2048,30 +2054,23 @@ end
 
 -- $$ ENGINES #####################################
 
+function A32nx_PED_ENG_MODE_set(engMode)
+    ipc.control(67017, engMode)
+    ipc.control(67018, engMode)
+    local modeText = {'crnk','norm','strt'}
+    DspShow('ENG1',modeText[engMode + 1 ])
+end
+
 function A32nx_PED_ENG_MODE_crank()
-    ipc.control(67017, 0)
-    ipc.control(67018, 0)
-    DspShow('ENG1','crnk')
+    A32nx_PED_ENG_MODE_set(0)
 end
 
 function A32nx_PED_ENG_MODE_norm()
-    ipc.control(67017, 1)
-    ipc.control(67018, 1)
-    DspShow('ENG1','norm')
+    A32nx_PED_ENG_MODE_set(1)
 end
 
 function A32nx_PED_ENG_MODE_start()
-    ipc.control(67017, 2)
-    ipc.control(67018, 2)
-    DspShow('ENG1','strt')
-end
-
-function A32nx_PED_ENG_1_toggle()
-    if ipc.readUW(0x0892) > 1 then
-        A32nx_PED_ENG_1_on()
-    else
-        A32nx_PED_ENG_1_off()
-    end
+    A32nx_PED_ENG_MODE_set(2)
 end
 
 function A32nx_PED_ENG_1_on()
@@ -2086,11 +2085,11 @@ function A32nx_PED_ENG_1_off()
     DspShow('ENG1','off')
 end
 
-function A32nx_PED_ENG_2_toggle()
-    if ipc.readUW(0x092A) > 1 then
-        A32nx_PED_ENG_2_on()
+function A32nx_PED_ENG_1_toggle()
+    if ipc.readUW(0x0892) > 1 then
+        A32nx_PED_ENG_1_on()
     else
-        A32nx_PED_ENG_2_off()
+        A32nx_PED_ENG_1_off()
     end
 end
 
@@ -2104,6 +2103,14 @@ function A32nx_PED_ENG_2_off()
     ipc.control(67197, 2)
     ipc.control(66302, 0)
     DspShow('ENG2','on')
+end
+
+function A32nx_PED_ENG_2_toggle()
+    if ipc.readUW(0x092A) > 1 then
+        A32nx_PED_ENG_2_on()
+    else
+        A32nx_PED_ENG_2_off()
+    end
 end
 
 function A32nx_PED_ENG_MASTER_on()
