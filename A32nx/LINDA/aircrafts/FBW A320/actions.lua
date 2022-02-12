@@ -626,6 +626,54 @@ function A32nx_OVHD_ELEC_GEN2_toggle()
      end
 end
 
+-- ## Overhead APU ######################################
+
+-- $$ APU Master ------------
+
+function A32nx_OVHD_APU_MASTER_on()
+    ipc.writeLvar('A32NX_OVHD_APU_MASTER_SW_PB_IS_ON', 1)
+    DspShow('APU','on')
+end
+
+function A32nx_OVHD_APU_MASTER_off()
+    ipc.writeLvar('A32NX_OVHD_APU_MASTER_SW_PB_IS_ON', 0)
+    DspShow('APU','off')
+end
+
+function A32nx_OVHD_APU_MASTER_toggle()
+    if ipc.readLvar('A32NX_OVHD_APU_MASTER_SW_PB_IS_ON') > 0 then
+        A32nx_OVHD_APU_MASTER_off()
+    else
+        A32nx_OVHD_APU_MASTER_on()
+    end
+end
+
+-- $$ APU Start ------------
+
+function A32nx_OVHD_APU_START_on()
+    ipc.writeLvar('A32NX_OVHD_APU_START_PB_IS_ON', 1)
+    DspShow('APU','strt')
+end
+
+-- $$ APU Bleed -------------
+
+function A32nx_OVHD_ACON_APUBLEED_on()
+    ipc.writeLvar('A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON', 1)
+    DspShow('BLED','on')
+end
+
+function A32nx_OVHD_ACON_APUBLEED_off()
+    ipc.writeLvar('A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON', 0)
+    DspShow('BLED','off')
+end
+
+function A32nx_OVHD_ACON_APUBLEED_toggle()
+    if ipc.readLvar('A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON') > 0 then
+        A32nx_OVHD_ACON_APUBLEED_off()
+    else
+        A32nx_OVHD_ACON_APUBLEED_on()
+    end
+end
 
 -- ## Overhead Lights & Signs #####################################
 
@@ -879,85 +927,235 @@ function A32nx_OVHD_EXTLT_NOSE_cycle()
     end
 end
 
--- $$ internal
+-- ## Overhead Internal Lights
 
-function A32nx_EmerExitLts_Pos(pos)
-    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position", pos)
-end
-function A32nx_EmerExitLts_off()
-     A32nx_EmerExitLts_Pos(2)
-end
-function A32nx_EmerExitLts_arm()
-     A32nx_EmerExitLts_Pos(1)
-end
-function A32nx_EmerExitLts_on()
-     A32nx_EmerExitLts_Pos(0)
+-- $$ Seat Belt Signs
+function A32nx_OVHD_INTLT_SEATBELT_on()
+    if ipc.readUB(0x341D) == 0 then
+        A32nx_OVHD_INTLT_SEATBELT_toggle()
+    end
+    DspShow('SEAT', 'on')
 end
 
--- $$ Signs
-function A32nx_Seatbelt_on()
-    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 1)
-end
-function A32nx_Seatbelt_off()
-    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_SEATBELT_Position", 0)
-end
-
-function A32nx_NoSmoking_Pos(pos)
-    ipc.writeLvar("L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position", pos)
+function A32nx_OVHD_INTLT_SEATBELT_off()
+    if ipc.readUB(0x341D) == 1 then
+        A32nx_OVHD_INTLT_SEATBELT_toggle()
+    end
+    DspShow('SEAT', 'off')
 end
 
-function A32nx_NoSmoking_off()
-     A32nx_NoSmoking_Pos(2)
+function A32nx_OVHD_INTLT_SEATBELT_toggle()
+    ipc.control(66719)
 end
 
-function A32nx_NoSmoking_auto()
-     A32nx_NoSmoking_Pos(1)
+-- $$ No Smoking Signs
+
+function A32nx_OVHD_INTLT_NOSMOKING_on()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position'
+    ipc.writeLvar(Lvar, 0)
+    DspShow('SMOK', 'on')
 end
 
-function A32nx_NoSmoking_on()
-    A32nx_NoSmoking_Pos(0)
+function A32nx_OVHD_INTLT_NOSMOKING_auto()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position'
+    ipc.writeLvar(Lvar, 1)
+    DspShow('SMOK', 'auto')
 end
 
--- $$ APU
-function A32nx_APU_MASTER_set(apuMaster)
-    ipc.writeLvar("L:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON", APU_MASTERStatus)
+function A32nx_OVHD_INTLT_NOSMOKING_off()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position'
+    ipc.writeLvar(Lvar, 2)
+    DspShow('SMOK', 'off')
 end
 
-function A32nx_APU_MASTER_on()
-    APU_MASTERStatus = 1
-	A32nx_APU_MASTER_set(APU_MASTERStatus)
+function A32nx_OVHD_INTLT_NOSMOKING_cycle()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_NOSMOKING_auto()
+    elseif Lval > 0 then
+        A32nx_OVHD_INTLT_NOSMOKING_on()
+    else
+        A32nx_OVHD_INTLT_NOSMOKING_off()
+    end
 end
 
-function A32nx_APU_MASTER_off()
-    APU_MASTERStatus = 0
-	A32nx_APU_MASTER_set(APU_MASTERStatus)
+function A32nx_OVHD_INTLT_NOSMOKING_toggle()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_NOSMOKING_auto()
+    else
+        A32nx_OVHD_INTLT_NOSMOKING_off()
+    end
 end
 
-function A32nx_APU_MASTER_toggle()
-    APU_MASTERStatus = ipc.readLvar("L:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON")
-    if APU_MASTERStatus >= 1 then APU_MASTERStatus = 0 else APU_MASTERStatus = 1 end
-	A32nx_APU_MASTER_set(APU_MASTERStatus)
+-- $$ Emergency Exit Lighting
+
+function A32nx_OVHD_INTLT_EMEREXIT_on()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position'
+    ipc.writeLvar(Lvar, 0)
+    DspShow('EXIT', 'on')
 end
 
-function A32nx_APU_START_set(apuSTART)
-    ipc.writeLvar("L:A32NX_OVHD_APU_START_PB_IS_ON", APU_STARTStatus)
+function A32nx_OVHD_INTLT_EMEREXIT_arm()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position'
+    ipc.writeLvar(Lvar, 1)
+    DspShow('EXIT', 'auto')
 end
 
-function A32nx_APU_START_on()
-    APU_STARTStatus = 1
-	A32nx_APU_START_set(APU_STARTStatus)
+function A32nx_OVHD_INTLT_EMEREXIT_off()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position'
+    ipc.writeLvar(Lvar, 2)
+    DspShow('EXIT', 'off')
 end
 
-function A32nx_APU_START_off()
-    APU_STARTStatus = 0
-	A32nx_APU_START_set(APU_STARTStatus)
+function A32nx_OVHD_INTLT_EMEREXIT_cycle()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_EMEREXIT_arm()
+    elseif Lval > 0 then
+        A32nx_OVHD_INTLT_EMEREXIT_on()
+    else
+        A32nx_OVHD_INTLT_EMEREXIT_off()
+    end
 end
 
-function A32nx_APU_START_toggle()
-    APU_STARTStatus = ipc.readLvar("L:A32NX_OVHD_APU_START_PB_IS_ON")
-    if APU_STARTStatus >= 1 then APU_STARTStatus = 0 else APU_STARTStatus = 1 end
-	A32nx_APU_START_set(APU_STARTStatus)
+function A32nx_OVHD_INTLT_EMEREXIT_toggle()
+    local Lvar = 'L:XMLVAR_SWITCH_OVHD_INTLT_EMEREXIT_Position'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_EMEREXIT_arm()
+    else
+        A32nx_OVHD_INTLT_EMEREXIT_off()
+    end
 end
+
+-- $$ Annuciator Lighting
+
+function A32nx_OVHD_INTLT_ANNLT_test()
+    local Lvar = 'L:A32NX_OVHD_INTLT_ANN'
+    ipc.writeLvar(Lvar, 0)
+    DspShow('ANLT', 'test')
+end
+
+function A32nx_OVHD_INTLT_ANNLT_brt()
+    local Lvar = 'L:A32NX_OVHD_INTLT_ANN'
+    ipc.writeLvar(Lvar, 1)
+    DspShow('ANLT', 'brt')
+end
+
+function A32nx_OVHD_INTLT_ANNLT_dim()
+    local Lvar = 'L:A32NX_OVHD_INTLT_ANN'
+    ipc.writeLvar(Lvar, 2)
+    DspShow('ANLT', 'dim')
+end
+
+function A32nx_OVHD_INTLT_ANNLT_cycle()
+    local Lvar = 'L:A32NX_OVHD_INTLT_ANN'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_ANNLT_brt()
+    elseif Lval > 0 then
+        A32nx_OVHD_INTLT_ANNLT_test()
+    else
+        A32nx_OVHD_INTLT_ANNLT_dim()
+    end
+end
+
+function A32nx_OVHD_INTLT_ANNLT_toggle()
+    local Lvar = 'L:A32NX_OVHD_INTLT_ANN'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then Lval = 1 end
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_ANNLT_brt()
+    else
+        A32nx_OVHD_INTLT_ANNLT_dim()
+    end
+end
+
+-- $$ Pre/Post Flight
+
+function A32nx_OVHD_INTLT_preflt()
+    A32nx_OVHD_INTLT_SEATBELT_on()
+    A32nx_OVHD_INTLT_NOSMOKING_auto()
+    A32nx_OVHD_INTLT_EMEREXIT_arm()
+end
+
+function A32nx_OVHD_INTLT_postflt()
+    A32nx_OVHD_INTLT_SEATBELT_off()
+    A32nx_OVHD_INTLT_NOSMOKING_off()
+    A32nx_OVHD_INTLT_EMEREXIT_off()
+end
+
+function A32nx_OVHD_INTLT_toggle()
+    A32nx_OVHD_INTLT_SEATBELT_toggle()
+    A32nx_OVHD_INTLT_NOSMOKING_toggle()
+    A32nx_OVHD_INTLT_EMEREXIT_toggle()
+end
+
+-- $$ Cabin Lighting / Dome
+
+-- local variable used to monitor switch position move to initVars
+-- fault in FBW prevents moving switch to OFF position
+
+function A32nx_OVHD_INTLT_DOME_brt()
+    ipc.control(66911, 100)
+	-- frig to rest cabin light state if moved by mouse
+	if A32NX_Dome == 2 or A32NX_Dome == 0 then
+        ipc.control(66579)
+    end
+    A32NX_Dome = 0
+    DspShow('DOME', 'brt')
+end
+
+function A32nx_OVHD_INTLT_DOME_dim()
+    ipc.control(66911, 50)
+    if A32NX_Dome == 2 then
+        ipc.control(66579)
+    end
+    A32NX_Dome = 1
+    DspShow('DOME', 'dim')
+end
+
+function A32nx_OVHD_INTLT_DOME_off()
+    -- move switch to DIM position first
+    A32nx_OVHD_INTLT_DOME_dim()
+    ipc.control(66911, 0)
+    if A32NX_Dome ~= 2 then
+        ipc.control(66579)
+    end
+    A32NX_Dome = 2
+    DspShow('DOME', 'off')
+end
+
+function A32nx_OVHD_INTLT_DOME_cycle()
+    local Lval = A32NX_Dome
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_DOME_dim()
+    elseif Lval > 0 then
+        A32nx_OVHD_INTLT_DOME_brt()
+    else
+        A32nx_OVHD_INTLT_DOME_off()
+    end
+end
+
+function A32nx_OVHD_INTLT_DOME_toggle()
+    local Lval = A32NX_Dome
+    if Lval > 1 then
+        A32nx_OVHD_INTLT_DOME_brt()
+    else
+        A32nx_OVHD_INTLT_DOME_dim()
+    end
+end
+
+-- $$ APU Generator
 
 function A32nx_OVHD_ELEC_APU_GEN_off()
     ipc.control(66707, 0)
@@ -1859,6 +2057,8 @@ end
 function A32nx_PED_ENG_MODE_set(engMode)
     ipc.control(67017, engMode)
     ipc.control(67018, engMode)
+    local modeText = {'crnk','norm','strt'}
+    DspShow('ENG1',modeText[engMode + 1 ])
 end
 
 function A32nx_PED_ENG_MODE_crank()
@@ -1876,29 +2076,52 @@ end
 function A32nx_PED_ENG_1_on()
     ipc.control(67198, 1)
     ipc.control(66300, 0)
+    DspShow('ENG1','on')
 end
 
 function A32nx_PED_ENG_1_off()
     ipc.control(67197, 1)
     ipc.control(66300, 0)
+    DspShow('ENG1','off')
+end
+
+function A32nx_PED_ENG_1_toggle()
+    if ipc.readUW(0x0892) > 1 then
+        A32nx_PED_ENG_1_on()
+    else
+        A32nx_PED_ENG_1_off()
+    end
 end
 
 function A32nx_PED_ENG_2_on()
     ipc.control(67198, 2)
     ipc.control(66301, 0)
+    DspShow('ENG2','on')
 end
 
 function A32nx_PED_ENG_2_off()
     ipc.control(67197, 2)
     ipc.control(66302, 0)
+    DspShow('ENG2','on')
+end
+
+function A32nx_PED_ENG_2_toggle()
+    if ipc.readUW(0x092A) > 1 then
+        A32nx_PED_ENG_2_on()
+    else
+        A32nx_PED_ENG_2_off()
+    end
 end
 
 function A32nx_PED_ENG_MASTER_on()
     ipc.control(66224, 0)
+    DspShow('ENG','on')
 end
 function A32nx_PED_ENG_MASTER_off()
     ipc.control(66531, 0)
+    DspShow('ENG','off')
 end
+
 
 -- $$ TCAS #####################################
 
@@ -2468,7 +2691,7 @@ end
 function InitVars ()
 
 	-- Initialise Custom Event pointers
-	InitEvents()
+	InitCustomEvents()
 
     Airbus = true -- set flag for Airbus MCP2a panels
     P3D = 1 -- flag for imperial altitude conversion
@@ -2488,6 +2711,9 @@ function InitVars ()
     autoBrakeLevel = ipc.readLvar("L:XMLVAR_Autobrakes_Level")
     tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
     chronoLState = 0
+	
+	-- used to control position of DOME light switch
+	A32NX_Dome = 2 -- = off
 
     _loggg('[A3nx] A320nx Variables initialised')
 
@@ -2520,16 +2746,16 @@ end
 
 -----------------------------------------------------------
 
-function InitEvents()
+function InitCustomEvents()
     -- get custom events file offset start pointer
     -- defined in [EVENTS] block in FSUIPC7.INI
-    _loggg('[USER] Checking Event Files Data ************')
+    _loggg('[A32NX] Checking Event Files Data ************')
     n =  ipc.get("EVTNUM")
-    _loggg('[USER] EvtNum=' .. tostring(n))
+    _loggg('[A32NX] EvtNum=' .. tostring(n))
     if n == nil then return end
     for i = 0, tonumber(n) - 1 do
         s = ipc.get("EVTFILE" .. i)
-        _loggg('[USER] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
+        _loggg('[A32NX] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
     end
 
     EvtFile = string.lower("A32nx")
@@ -2547,7 +2773,7 @@ function InitEvents()
             break
         end
     end
-    _loggg('[USER] EvtIdx =' .. tostring(EvtIdx) .. '::' .. f)
+    _loggg('[A32NX] EvtIdx =' .. tostring(EvtIdx) .. '::' .. f)
 
 
     -- defined in [EVENTS] block in FSUIPC7.INI
@@ -2571,7 +2797,7 @@ function InitEvents()
             break
         end
     end
-    _loggg('[USER] EvtIdx1=' .. tostring(EvtIdx) .. '::' .. f)
+    _loggg('[A32NX] EvtIdx1=' .. tostring(EvtIdx) .. '::' .. f)
 
     -- defined in [EVENTS] block in FSUIPC7.INI
     if EvtIdx ~= nil then
@@ -2581,8 +2807,8 @@ function InitEvents()
         EvtPtr2 = 32768 + 256
     end
 
-    _loggg('[USER] EvtPtrs= ' .. EvtPtr .. ' == ' .. EvtPtr2)
-    _loggg('[USER] Checking Event Files Data ************')
+    _loggg('[A32NX] EvtPtrs= ' .. EvtPtr .. ' == ' .. EvtPtr2)
+    _loggg('[A32NX] Checking Event Files Data ************')
 end
 
 -----------------------------------------------------------
