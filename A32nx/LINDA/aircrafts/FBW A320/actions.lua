@@ -44,18 +44,19 @@ function A32nx_GLSD_FCU_LOC_toggle()
     DspShow('LOC','tgl')
 end
 
-function A32nx_FCU_APPR_toggle()
+function A32nx_GLSD_FCU_APPR_toggle()
     ipc.control(EvtPtr + 30)
     DspShow('ATHR','tgl')
 end
 
-function A32nx_FCU_EXPED_toggle()
+function A32nx_GLSD_FCU_EXPED_toggle()
     ipc.control(EvtPtr + 31)
     DspShow ("EXPD", "tgl")
 end
 
 -- $$ SPEED -----------------
-function A32nx_FCU_SPD_inc()
+
+function A32nx_GLSD_FCU_SPD_inc()
     ipc.control(EvtPtr + 5)
     A32NX_DspSPD()
 end
@@ -543,11 +544,12 @@ function A32nx_OVHD_AICE_WINDSHIELD_toggle()
 end
 
 -- ## Overhead Electrics #####################################
+
 -- $$ External Power
+
 function A32nx_OVHD_ELEC_EXTPWR_toggle()
     ipc.control(67090, 0)
 end
-
 
 -- $$ Batteries
 function A32nx_OVHD_ELEC_BAT1_set(bat1Status)
@@ -882,7 +884,7 @@ function A32nx_OVHD_EXTLT_LAND_Both_on()
 end
 
 function A32nx_OVHD_EXTLT_LAND_Both_toggle()
-     A32nx_LOVHD_EXTLT_LAND_L_toggle()
+     A32nx_OVHD_EXTLT_LAND_L_toggle()
      A32nx_OVHD_EXTLT_LAND_R_toggle()
 end
 
@@ -1173,6 +1175,7 @@ function A32nx_OVHD_ELEC_APU_GEN_toggle()
 end
 
 -- $$ APU pneu bleed -------------
+
 function A32nx_OVHD_PNEU_APU_BLEED_set(apuPneyBleed)
     ipc.writeLvar("L:A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON", apuPneyBleed)
 end
@@ -1206,6 +1209,7 @@ end
 -- ## PFD Buttons FD + LS
 
 -- $$ CPT side (L)
+
 function A32nx_GLSD_EFISL_FD_toggle()
     ipc.execCalcCode("1 (>K:TOGGLE_FLIGHT_DIRECTOR, number)")
 end
@@ -1408,7 +1412,7 @@ function A32nx_GLSD_EFISL_BARO_std()
     DspShow('BARO', 'std')
 end
 function A32nx_GLSD_EFISL_BARO_pull()
-    A32nx_BARO_std()
+    A32nx_GLSD_EFISL_BARO_std()
 end
 function A32nx_GLSD_EFISL_BARO_push()
     Lval = ipc.readLvar("L:XMLVAR_Baro1_Mode")
@@ -2125,62 +2129,62 @@ end
 
 -- $$ TCAS #####################################
 
-function A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+function A32nx_PED_TCAS_SWITCH_POS_set(tcasSwitchPos)
     ipc.writeLvar("L:A32NX_SWITCH_TCAS_Position", tcasSwitchPos)
     local tcasMODE = {"STBY","TA","TA/RA"}
     DspShow("TCAS",tcasMODE[tcasSwitchPos + 1 ])
 end
 
-function A32nx_TCAS_SWITCH_POS_stby()
+function A32nx_PED_TCAS_SWITCH_POS_stby()
     tcasSwitchPos = 0
-    A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+    A32nx_PED_TCAS_SWITCH_POS_set(tcasSwitchPos)
 end
 
-function A32nx_TCAS_SWITCH_POS_ta()
+function A32nx_PED_TCAS_SWITCH_POS_ta()
     tcasSwitchPos = 1
-    A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+    A32nx_PED_TCAS_SWITCH_POS_set(tcasSwitchPos)
 end
 
-function A32nx_TCAS_SWITCH_POS_tara()
+function A32nx_PED_TCAS_SWITCH_POS_tara()
     tcasSwitchPos = 2
-    A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+    A32nx_TPED_CAS_SWITCH_POS_set(tcasSwitchPos)
 end
 
-function A32nx_TCAS_SWITCH_POS_inc()
+function A32nx_PED_TCAS_SWITCH_POS_inc()
     tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
     if tcasSwitchPos >= 2 then tcasSwitchPos = 2 else tcasSwitchPos = tcasSwitchPos + 1 end
-	A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+	A32nx_TPED_CAS_SWITCH_POS_set(tcasSwitchPos)
 end
 
-function A32nx_TCAS_SWITCH_POS_dec()
+function A32nx_PED_TCAS_SWITCH_POS_dec()
     tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
     if tcasSwitchPos <= 0 then tcasSwitchPos = 0 else tcasSwitchPos = tcasSwitchPos - 1 end
-	A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+	A32nx_TPED_CAS_SWITCH_POS_set(tcasSwitchPos)
 end
 
-function A32nx_TCAS_SWITCH_POS_cycle()
+function A32nx_PED_TCAS_SWITCH_POS_cycle()
     tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
     if tcasSwitchPos >= 2 then tcasSwitchPos = 0 else tcasSwitchPos = tcasSwitchPos + 1 end
-	A32nx_TCAS_SWITCH_POS_set(tcasSwitchPos)
+	A32nx_PED_TCAS_SWITCH_POS_set(tcasSwitchPos)
 end
 
 -- $ Park Brake
 
-function A32nx_PARK_BRAKE_on()
+function A32nx_PED_PARKBRAKE_on()
     ipc.writeLvar("L:A32NX_PARK_BRAKE_LEVER_POS", 1)
     DspShow('PARK','on')
 end
 
-function A32nx_PARK_BRAKE_off()
+function A32nx_PED_PARKBRAKE_off()
     ipc.writeLvar("L:A32NX_PARK_BRAKE_LEVER_POS", 0)
     DspShow('PARK','off')
 end
 
-function A32nx_PARK_BRAKE_toggle()
+function A32nx_PED_PARKBRAKE_toggle()
     if ipc.readLvar("L:A32NX_PARK_BRAKE_LEVER_POS") > 0 then
-        A32nx_PARK_BRAKE_off()
+        A32nx_PED_PARKBRAKE_off()
     else
-        A32nx_PARK_BRAKE_on()
+        A32nx_PED_PARKBRAKE_on()
     end
 end
 
