@@ -628,6 +628,54 @@ function A32nx_Gen2_toggle()
      end
 end
 
+-- ## Overhead APU ######################################
+
+-- $$ APU Master ------------
+
+function A32nx_OVHD_APU_MASTER_on()
+    ipc.writeLvar('A32NX_OVHD_APU_MASTER_SW_PB_IS_ON', 1)
+    DspShow('APU','on')
+end
+
+function A32nx_OVHD_APU_MASTER_off()
+    ipc.writeLvar('A32NX_OVHD_APU_MASTER_SW_PB_IS_ON', 0)
+    DspShow('APU','off')
+end
+
+function A32nx_OVHD_APU_MASTER_toggle()
+    if ipc.readLvar('A32NX_OVHD_APU_MASTER_SW_PB_IS_ON') > 0 then
+        A32nx_OVHD_APU_MASTER_off()
+    else
+        A32nx_OVHD_APU_MASTER_on()
+    end
+end
+
+-- $$ APU Start ------------
+
+function A32nx_OVHD_APU_START_on()
+    ipc.writeLvar('A32NX_OVHD_APU_START_PB_IS_ON', 1)
+    DspShow('APU','strt')
+end
+
+-- $$ APU Bleed -------------
+
+function A32nx_OVHD_ACON_APUBLEED_on()
+    ipc.writeLvar('A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON', 1)
+    DspShow('BLED','on')
+end
+
+function A32nx_OVHD_ACON_APUBLEED_off()
+    ipc.writeLvar('A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON', 0)
+    DspShow('BLED','off')
+end
+
+function A32nx_OVHD_ACON_APUBLEED_toggle()
+    if ipc.readLvar('A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON') > 0 then
+        A32nx_OVHD_ACON_APUBLEED_off()
+    else
+        A32nx_OVHD_ACON_APUBLEED_on()
+    end
+end
 
 -- ## Overhead Lights & Signs #####################################
 
@@ -917,46 +965,7 @@ function A32nx_NoSmoking_on()
     A32nx_NoSmoking_Pos(0)
 end
 
--- $$ APU
-function A32nx_APU_MASTER_set(apuMaster)
-    ipc.writeLvar("L:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON", APU_MASTERStatus)
-end
-
-function A32nx_APU_MASTER_on()
-    APU_MASTERStatus = 1
-	A32nx_APU_MASTER_set(APU_MASTERStatus)
-end
-
-function A32nx_APU_MASTER_off()
-    APU_MASTERStatus = 0
-	A32nx_APU_MASTER_set(APU_MASTERStatus)
-end
-
-function A32nx_APU_MASTER_toggle()
-    APU_MASTERStatus = ipc.readLvar("L:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON")
-    if APU_MASTERStatus >= 1 then APU_MASTERStatus = 0 else APU_MASTERStatus = 1 end
-	A32nx_APU_MASTER_set(APU_MASTERStatus)
-end
-
-function A32nx_APU_START_set(apuSTART)
-    ipc.writeLvar("L:A32NX_OVHD_APU_START_PB_IS_ON", APU_STARTStatus)
-end
-
-function A32nx_APU_START_on()
-    APU_STARTStatus = 1
-	A32nx_APU_START_set(APU_STARTStatus)
-end
-
-function A32nx_APU_START_off()
-    APU_STARTStatus = 0
-	A32nx_APU_START_set(APU_STARTStatus)
-end
-
-function A32nx_APU_START_toggle()
-    APU_STARTStatus = ipc.readLvar("L:A32NX_OVHD_APU_START_PB_IS_ON")
-    if APU_STARTStatus >= 1 then APU_STARTStatus = 0 else APU_STARTStatus = 1 end
-	A32nx_APU_START_set(APU_STARTStatus)
-end
+-- $$ APU Generator
 
 function A32nx_OVHD_ELEC_APU_GEN_off()
     ipc.control(66707, 0)
