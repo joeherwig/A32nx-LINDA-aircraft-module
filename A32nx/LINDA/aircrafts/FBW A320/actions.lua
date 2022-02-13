@@ -3438,10 +3438,3 @@ function setDimmer(offset, value)
        end
     end
 end
-
-InitVars()
-
--- ## Test & experimental stuff ################
--- $$ Test
-
-
