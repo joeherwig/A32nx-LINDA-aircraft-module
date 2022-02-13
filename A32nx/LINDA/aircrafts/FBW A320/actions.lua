@@ -79,13 +79,13 @@ function A32nx_GLSD_FCU_SPD_decfast()
     end
 end
 
-function A32nx_GLSD_FCU_SPD_selected ()
+function A32nx_GLSD_FCU_SPD_MODE_selected ()
     ipc.control(EvtPtr + 9)
     DspShow ("SPD", "set")
     A32NX_DspSPD()
 end
 
-function A32nx_GLSD_FCU_SPD_managed ()
+function A32nx_GLSD_FCU_SPD_MODE_managed ()
     ipc.control(EvtPtr + 8)
     DspShow ("SPD", "mngd")
     A32NX_DspSPD()
@@ -121,7 +121,7 @@ function A32nx_GLSD_FCU_HDG_decfast()
     end
 end
 
-function A32nx_GLSD_FCU_HDG_selected ()
+function A32nx_GLSD_FCU_HDG_MODE_selected ()
     --ipc.control(65815, 0)
     ipc.control(EvtPtr + 15)
     DspShow ("HDG", "set")
@@ -129,7 +129,7 @@ function A32nx_GLSD_FCU_HDG_selected ()
     A32NX_DspSPD()
 end
 
-function A32nx_GLSD_FCU_HDG_managed ()
+function A32nx_GLSD_FCU_HDG_MODE_managed ()
     --ipc.control(65807,0)
     ipc.control(EvtPtr + 14)
     DspShow ("HDG", "mngd")
@@ -159,14 +159,14 @@ function A32nx_GLSD_FCU_ALT_dec()
     A32NX_DspALT()
 end
 
-function A32nx_GLSD_FCU_ALT_selected ()
+function A32nx_GLSD_FCU_ALT_MODE_selected ()
     --ipc.control(65816)
     ipc.control(EvtPtr + 21)
     DspShow ("ALT", "set")
     A32NX_DspALT()
 end
 
-function A32nx_GLSD_FCU_ALT_managed ()
+function A32nx_GLSD_FCU_ALT_MODE_managed ()
     --ipc.control(65808)
     ipc.control(EvtPtr + 20)
     DspShow ("ALT", "mngd")
@@ -218,21 +218,21 @@ function A32nx_GLSD_FCU_VS_MODE_pull ()
     A32NX_DspVVS ()
 end
 
-function A32nx_GLSD_FCU_VS_selected ()
+function A32nx_GLSD_FCU_VS_MODE_selected ()
     --ipc.control(66101)
     ipc.control(EvtPtr + 28)
     DspShow ("VS", "set")
     A32NX_DspVVS ()
 end
 
-function A32nx_GLSD_FCU_VS_managed ()
+function A32nx_GLSD_FCU_VS_MODE_managed ()
     --ipc.control(66100)
     ipc.control(EvtPtr + 27)
     DspShow ("VS", "mngd")
     A32NX_DspVVS ()
 end
 
-function A32nx_GLSD_FCU_VS_leveloff ()
+function A32nx_GLSD_FCU_VS_MODE_level_off ()
     ipc.control(EvtPtr + 26,0) -- zero rate of climb
     DspShow ("VS", "mngd")
     A32NX_DspVVS ()
@@ -1458,77 +1458,76 @@ end
 
 -- $$ Anti Skid
 
-function A32nx_MPNL_LDG_ANTISKID_on()
+function A32nx_MPNL_ABRK_ANTISKID_on()
     ipc.writeUD(0x0BFD, 1)
     DspShow('SKID','on')
 end
 
-function A32nx_MPNL_LDG_ANTISKID_off()
+function A32nx_MPNL_ABRK_ANTISKID_off()
     ipc.writeUD(0x0BFD, 0)
     DspShow('SKID','off')
 end
 
-function A32nx_MPNL_LDG_ANTISKID_toggle()
+function A32nx_MPNL_ABRK_ANTISKID_toggle()
     if ipc.readUD(0x0BFD) > 0 then
-        A32nx_MPNL_LDG_ANTISKID_off()
+        A32nx_MPNL_ABRK_ANTISKID_off()
     else
-        A32nx_MPNL_LDG_ANTISKID_on()
+        A32nx_MPNL_ABRK_ANTISKID_on()
     end
 end
 
 -- $$ Autobrake ---------------------------------
 
-function A32nx_MPNL_LDG_AUTOBRK_off()
-     A32nx_MPNL_LDG_AUTOBRK_set(0)
+function A32nx_MPNL_ABRK_AUTOBRAKE_off()
+     A32nx_MPNL_ABRK_AUTOBRAKE_set(0)
 end
 
-function A32nx_MPNL_LDG_AUTOBRK_low()
-     A32nx_MPNL_LDG_AUTOBRK_set(1)
+function A32nx_MPNL_ABRK_AUTOBRAKE_low()
+     A32nx_MPNL_ABRK_AUTOBRAKE_set(1)
 end
 
-function A32nx_MPNL_LDG_AUTOBRK_mid()
-     A32nx_MPNL_LDG_AUTOBRK_set(2)
+function A32nx_MPNL_ABRK_AUTOBRAKE_mid()
+     A32nx_MPNL_ABRK_AUTOBRAKE_set(2)
 end
 
-function A32nx_MPNL_LDG_AUTOBRK_max()
-     A32nx_MPNL_LDG_AUTOBRK_set(3)
+function A32nx_MPNL_ABRK_AUTOBRAKE_max()
+     A32nx_MPNL_ABRK_AUTOBRAKE_set(3)
 end
 
-function A32nx_MPNL_LDG_AUTOBRK_LOW_toggle()
-     if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 1 then
-     A32nx_MPNL_LDG_AUTOBRK_AUTOBRK_set(1) else A32nx_MPNL_LDG_AUTOBRK_set(0) end
+function A32nx_MPNL_ABRK_AUTOBRAKE_LOW_toggle()
+     if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 1 then A32nx_AUTOBRAKE_set(1) else A32nx_AUTOBRAKE_set(0) end
 end
 
-function A32nx_MPNL_LDG_AUTOBRK_MID_toggle()
-     if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 2 then A32nx_MPNL_LDG_AUTOBRK_set(2) else A32nx_MPNL_LDG_AUTOBRK_set(0) end
+function A32nx_MPNL_ABRK_AUTOBRAKE_MID_toggle()
+     if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 2 then A32nx_AUTOBRAKE_set(2) else A32nx_AUTOBRAKE_set(0) end
 end
 
-function A32nx_MPNL_LDG_AUTOBRK_MAX_toggle()
-     if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 3 then A32nx_MPNL_LDG_AUTOBRK_set(3) else A32nx_MPNL_LDG_AUTOBRK_set(0) end
+function A32nx_MPNL_ABRK_AUTOBRAKE_MAX_toggle()
+     if ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE") ~= 3 then A32nx_AUTOBRAKE_set(3) else A32nx_AUTOBRAKE_set(0) end
 end
 
-function A32nx_MPNL_LDG_AUTOBRK_set(autoBrakeLevel)
+function A32nx_MPNL_ABRK_AUTOBRAKE_set(autoBrakeLevel)
      ipc.writeLvar("L:A32NX_AUTOBRAKES_ARMED_MODE", autoBrakeLevel)
      local autoBrakeLevelText = {"off","low","mid","max"}
      DspShow ("A-BRK", autoBrakeLevelText[autoBrakeLevel+1])
 end
 
-function A32nx_MPNL_LDG_AUTOBRK_inc()
+function A32nx_MPNL_ABRK_AUTOBRAKE_inc()
      autoBrakeLevel = ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE")
      if autoBrakeLevel >= 3 then autoBrakeLevel = 3 else autoBrakeLevel = autoBrakeLevel + 1 end
-	A32nx_MPNL_LDG_AUTOBRK_set(autoBrakeLevel)
+	A32nx_MPNL_ABRK_AUTOBRAKE_set(autoBrakeLevel)
 end
 
-function A32nx_MPNL_LDG_AUTOBRK_dec()
+function A32nx_MPNL_ABRK_AUTOBRAKE_dec()
      autoBrakeLevel = ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE")
      if autoBrakeLevel <= 0 then autoBrakeLevel = 0 else autoBrakeLevel = autoBrakeLevel - 1 end
-	A32nx_MPNL_LDG_AUTOBRK_set(autoBrakeLevel)
+	A32nx_MPNL_ABRK_AUTOBRAKE_set(autoBrakeLevel)
 end
 
-function A32nx_MPNL_LDG_AUTOBRK_cycle()
+function A32nx_MPNL_ABRK_AUTOBRAKE_cycle()
      autoBrakeLevel = ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE")
      if autoBrakeLevel >= 3 then autoBrakeLevel = 0 else autoBrakeLevel = autoBrakeLevel + 1 end
-	A32nx_MPNL_LDG_AUTOBRK_set(autoBrakeLevel)
+	A32nx_MPNL_ABRK_AUTOBRAKE_set(autoBrakeLevel)
 end
 
 -- $$ Landing Gear Handle
@@ -2128,22 +2127,22 @@ end
 
 -- $$ TCAS / ATC #####################################
 
-function A32nx_PED_TCAS_PWR_on()
+function A32nx_PED_TCAS_on()
     ipc.writeUB(0x0B46, 4)
     DspShow('TCAS','on')
 end
 
-function A32nx_PED_TCAS_PWR_stby()
+function A32nx_PED_TCAS_stby()
     ipc.writeUB(0x0B46, 1)
     DspShow('TCAS','stby')
 end
 
-function A32nx_PED_TCAS_PWR_toggle()
+function A32nx_PED_TCAS_toggle()
     local val = ipc.readUB(0x0B46)
     if val > 1 then
-        A32nx_PED_TCAS_PWR_stby()
+        A32nx_PED_TCAS_stby()
     else
-        A32nx_PED_TCAS_PWR_on()
+        A32nx_PED_TCAS_on()
     end
 end
 
@@ -3438,6 +3437,3 @@ function setDimmer(offset, value)
        end
     end
 end
-
-
-

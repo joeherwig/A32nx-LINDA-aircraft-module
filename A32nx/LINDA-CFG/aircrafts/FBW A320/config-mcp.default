@@ -200,15 +200,15 @@ MCP1 = {
 ["TOGA"] 	= empty  ,
 ["TOGN"] 	= empty  ,
 ["N1"] 		= empty  ,
-["SPD"] 	= A32nx_GLSD_FCU_SPD_managed  ,
+["SPD"] 	= A32nx_GLSD_FCU_SPD_MODE_manged  ,
 ["FLCH"] 	= empty  ,
 ["HDGSEL"] 	= empty  ,
 ["HDGHLD"] 	= empty  ,
 ["ALTHLD"] 	= empty  ,
 ["V/S FPA"] 	= empty  ,
 ["APP"] 	= A32nx_GLSD_FCU_APPR_toggle  ,
-["VNAV"] 	= A32nx_GLSD_FCU_ALT_managed  ,
-["LNAV"] 	= A32nx_GLSD_FCU_HDG_managed  ,
+["VNAV"] 	= A32nx_GLSD_FCU_ALT_MODE_managed  ,
+["LNAV"] 	= A32nx_GLSD_FCU_HDG_MODE_manged  ,
 ["CMDA"] 	= A32nx_GLSD_FCU_AP_1_toggle  ,
 ["CMDB"] 	= A32nx_GLSD_FCU_AP_2_toggle  ,
 ["CMDC"] 	= A32nx_GLSD_FCU_AP_Disconnect  ,
@@ -240,7 +240,7 @@ SPD1 = {
 ["A ++"]	= A32nx_GLSD_FCU_SPD_incfast  ,
 ["A -"]		= A32nx_GLSD_FCU_SPD_dec  ,
 ["A --"]	= A32nx_GLSD_FCU_SPD_decfast  ,
-["PRESS"] 	= A32nx_GLSD_FCU_SPD_selected  ,
+["PRESS"] 	= A32nx_GLSD_FCU_SPD_MODE_selected  ,
 }
 
 -- MCP HDG knob
@@ -250,7 +250,7 @@ HDG1 = {
 ["A ++"]	= A32nx_GLSD_FCU_HDG_incfast  ,
 ["A -"]		= A32nx_GLSD_FCU_HDG_dec  ,
 ["A --"]	= A32nx_GLSD_FCU_HDG_decfast  ,
-["PRESS"] 	= A32nx_GLSD_FCU_HDG_selected  ,
+["PRESS"] 	= A32nx_GLSD_FCU_HDG_MODE_selected  ,
 }
 
 -- MCP ALT knob
@@ -270,7 +270,7 @@ VVS1 = {
 ["A ++"]	= A32nx_GLSD_FCU_VS_inc  ,
 ["A -"]		= A32nx_GLSD_FCU_VS_dec  ,
 ["A --"]	= A32nx_GLSD_FCU_VS_dec  ,
-["PRESS"] 	= A32nx_GLSD_FCU_VS_leveloff  ,
+["PRESS"] 	= A32nx_GLSD_FCU_VS_MODE_leveloff  ,
 }
 
 -- ############################################### --
