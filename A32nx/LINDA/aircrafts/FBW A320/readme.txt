@@ -2,17 +2,23 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 0.10.3
-     Date: 2022-01-17
+  Version: 1.0.0
+     Date: 2022-02-13
    Author: Joe Herwig
-           Andrew Gransden / ScotFlieger (0.9.0 / 0.10.0)
+           Andrew Gransden / ScotFlieger (0.9.0 / 0.10.0 / 1.0.0)
            Falk Scherber (0.8.2)
            Neil Clements (0.4.4 / 0.6.1)
 
 ------------------------------------------------------------------------
-0.10.3
-° fixed nil value for AltStep
-+ added Dome Lights (off, dim, brt)
+1.0.0
+° Renamed nearly all the functions based on the FBW naming conventions. See https://github.com/joeherwig/A32nx-LINDA-aircraft-module/wiki/Contribute#naming-conventions
+  As this causes breaking changes and might require re-assignments / renamings of your configuration i decided to give it a new major version.
+  The community feedback was excellent
+° Merged plenty PRs
++ Added example for Dimmer assignments (display and flood / integ. light brightness.) See Wiki.
++ Added Boeing MCP support. Requires further testing. Feedback via github issues / donations :-) welcome.
+
+-----
 
 0.10.2
 ° fixed EFIS options (CSTR, WPT, VORD, NDB, ARPT, NONE)

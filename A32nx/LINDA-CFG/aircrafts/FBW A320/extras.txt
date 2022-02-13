@@ -1,0 +1,4 @@
+; extra files required by FBW A32NX LINDA module (f=file, d=directory)
+f=A32nx.EVT
+f=A32X-FBW1.EVT
+f=A32X-FBW2.EVT

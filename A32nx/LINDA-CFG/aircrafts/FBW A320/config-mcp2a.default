@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2202052053 (LINDA 4.0.8.195) --
+-- config-mcp2a.lua @ 2202131133 (LINDA 4.1.3.158) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -8,68 +8,53 @@
 EFIS1 = {
 ["ENABLED"] = true  ,
 ["IDENT"]   = "Std"  ,
-["InHg."]   = A32nx_BARO_Mode_InHg  ,
-["hPa ."]   = A32nx_BARO_Mode_HPa  ,
-["FD  ."]   = A32nx_EFIS_L_FD_toggle  ,
-["ILS ."]   = A32nx_EFIS_L_LS_toggle  ,
-["CSTR."]   = A32nx_EFIS_L_cstr  ,
-["WPT ."]   = A32nx_EFIS_L_wpt  ,
-["VORD."]   = A32nx_EFIS_L_vor  ,
-["NDB ."]   = A32nx_EFIS_L_aprt  ,
-["ARPT."]   = A32nx_EFIS_L_aprt  ,
-["ADF1:"]   = A32nx_EFIS_L_NAVAID_1_off  ,
-["ADF1."]   = A32nx_EFIS_L_NAVAID_1_adf  ,
-["VOR1:"]   = A32nx_EFIS_L_NAVAID_1_off  ,
-["VOR1."]   = A32nx_EFIS_L_NAVAID_1_vor  ,
-["ADF2:"]   = A32nx_EFIS_L_NAVAID_2_off  ,
-["ADF2."]   = A32nx_EFIS_L_NAVAID_2_adf  ,
-["VOR2:"]   = A32nx_EFIS_L_NAVAID_2_off  ,
-["VOR2."]   = A32nx_EFIS_L_NAVAID_2_vor  ,
+["InHg."]   = A32nx_GLSD_EFISL_BARO_InHg  ,
+["hPa ."]   = A32nx_GLSD_EFISL_BARO_HPa  ,
+["FD  ."]   = A32nx_GLSD_EFISL_FD_toggle  ,
+["ILS ."]   = A32nx_GLSD_EFISL_LS_toggle  ,
+["CSTR."]   = A32nx_GLSD_EFISL_cstr  ,
+["WPT ."]   = A32nx_GLSD_EFISL_wpt  ,
+["VORD."]   = A32nx_GLSD_EFISL_vor  ,
+["NDB ."]   = A32nx_GLSD_EFISL_ndb  ,
+["ARPT."]   = A32nx_GLSD_EFISL_aprt  ,
+["ADF1:"]   = A32nx_GLSD_EFISL_NAVAID1_off  ,
+["ADF1."]   = A32nx_GLSD_EFISL_NAVAID1_adf  ,
+["VOR1:"]   = A32nx_GLSD_EFISL_NAVAID1_off  ,
+["VOR1."]   = A32nx_GLSD_EFISL_NAVAID1_vor  ,
+["ADF2:"]   = A32nx_GLSD_EFISL_NAVAID2_off  ,
+["ADF2."]   = A32nx_GLSD_EFISL_NAVAID2_adf  ,
+["VOR2:"]   = A32nx_GLSD_EFISL_NAVAID2_off  ,
+["VOR2."]   = A32nx_GLSD_EFISL_NAVAID2_vor  ,
 }
 
 -- AEFIS BARO knob
 BARO1 = {
 ["A SHOW"]  = empty  ,
-["A  +"]    = A32nx_BARO_inc  ,
-["A ++"]    = A32nx_BARO_inc  ,
-["A  -"]    = A32nx_BARO_dec  ,
-["A --"]    = A32nx_BARO_dec  ,
-["PRESS"]   = A32nx_BARO_toggle  ,
-["B SHOW"]  = empty  ,
-["B  +"]    = empty  ,
-["B ++"]    = empty  ,
-["B  -"]    = empty  ,
-["B --"]    = empty  ,
+["A  +"]    = A32nx_GLSD_EFISL_BARO_inc  ,
+["A ++"]    = A32nx_GLSD_EFISL_BARO_inc  ,
+["A  -"]    = A32nx_GLSD_EFISL_BARO_dec  ,
+["A --"]    = A32nx_GLSD_EFISL_BARO_dec  ,
+["PRESS"]   = A32nx_GLSD_BARO_MODE_toggle  ,
 }
 
 -- AEFIS NDM knob
 NDM1 = {
 ["A SHOW"]  = empty  ,
-["A  +"]    = A32nx_MFD_NAV_MODE_1_inc  ,
-["A ++"]    = A32nx_MFD_NAV_MODE_1_inc  ,
-["A  -"]    = A32nx_MFD_NAV_MODE_1_dec  ,
-["A --"]    = A32nx_MFD_NAV_MODE_1_dec  ,
-["PRESS"]   = A32nx_MasterCaution_push  ,
-["B SHOW"]  = Do_nothing  ,
-["B  +"]    = empty  ,
-["B ++"]    = empty  ,
-["B  -"]    = empty  ,
-["B --"]    = empty  ,
+["A  +"]    = A32nx_GLSD_EFISL_NDMODE1_inc  ,
+["A ++"]    = A32nx_GLSD_EFISL_NDMODE1_inc  ,
+["A  -"]    = A32nx_GLSD_EFISL_NDMODE1_dec  ,
+["A --"]    = A32nx_GLSD_EFISL_NDMODE1_dec  ,
+["PRESS"]   = A32nx_GLSD_ATTNL_WARNING_push  ,
 }
 
 -- AEFIS NDR knob
 NDR1 = {
 ["A SHOW"]  = empty  ,
-["A  +"]    = A32nx_MFD_RANGE_1_inc  ,
-["A ++"]    = A32nx_MFD_RANGE_1_inc  ,
-["A  -"]    = A32nx_MFD_RANGE_1_dec  ,
-["A --"]    = A32nx_MFD_RANGE_1_dec  ,
-["PRESS"]   = A32nx_MasterWarning_push  ,
-["B SHOW"]  = empty  ,
-["B  +"]    = empty  ,
-["B ++"]    = empty  ,
-["B  -"]    = empty  ,
-["B --"]    = empty  ,
+["A  +"]    = A32nx_GLSD_EFISL_NDRANGE1_inc  ,
+["A ++"]    = A32nx_GLSD_EFISL_NDRANGE1_inc  ,
+["A  -"]    = A32nx_GLSD_EFISL_NDRANGE1_dec  ,
+["A --"]    = A32nx_GLSD_EFISL_NDRANGE1_dec  ,
+["PRESS"]   = A32nx_GLSD_ATTNL_CAUTION_push  ,
 }
 
 -- ############################################### --
@@ -107,11 +92,6 @@ BARO2 = {
 ["A  -"]    = empty  ,
 ["A --"]    = empty  ,
 ["PRESS"]   = empty  ,
-["B SHOW"]  = empty  ,
-["B  +"]    = empty  ,
-["B ++"]    = empty  ,
-["B  -"]    = empty  ,
-["B --"]    = empty  ,
 }
 
 -- AEFIS NDM knob
@@ -122,11 +102,6 @@ NDM2 = {
 ["A  -"]    = empty  ,
 ["A --"]    = empty  ,
 ["PRESS"]   = empty  ,
-["B SHOW"]  = empty  ,
-["B  +"]    = empty  ,
-["B ++"]    = empty  ,
-["B  -"]    = empty  ,
-["B --"]    = empty  ,
 }
 
 -- AEFIS NDR knob
@@ -137,11 +112,6 @@ NDR2 = {
 ["A  -"]    = empty  ,
 ["A --"]    = empty  ,
 ["PRESS"]   = empty  ,
-["B SHOW"]  = empty  ,
-["B  +"]    = empty  ,
-["B ++"]    = empty  ,
-["B  -"]    = empty  ,
-["B --"]    = empty  ,
 }
 
 -- ############################################### --
@@ -179,11 +149,6 @@ BARO3 = {
 ["A  -"]    = empty  ,
 ["A --"]    = empty  ,
 ["PRESS"]   = empty  ,
-["B SHOW"]  = empty  ,
-["B  +"]    = empty  ,
-["B ++"]    = empty  ,
-["B  -"]    = empty  ,
-["B --"]    = empty  ,
 }
 
 -- AEFIS NDM knob
@@ -194,11 +159,6 @@ NDM3 = {
 ["A  -"]    = empty  ,
 ["A --"]    = empty  ,
 ["PRESS"]   = empty  ,
-["B SHOW"]  = empty  ,
-["B  +"]    = empty  ,
-["B ++"]    = empty  ,
-["B  -"]    = empty  ,
-["B --"]    = empty  ,
 }
 
 -- AEFIS NDR knob
@@ -209,11 +169,6 @@ NDR3 = {
 ["A  -"]    = empty  ,
 ["A --"]    = empty  ,
 ["PRESS"]   = empty  ,
-["B SHOW"]  = empty  ,
-["B  +"]    = empty  ,
-["B ++"]    = empty  ,
-["B  -"]    = empty  ,
-["B --"]    = empty  ,
 }
 
 -- ############################################### --
@@ -224,59 +179,59 @@ NDR3 = {
 MCP1 = {
 ["ENABLED"] 	= true  ,
 ["IDENT"]   	= "FCU"  ,
-["MACH."]   	= A32nx_FCU_SPDMACH_toggle  ,
-["LOC ."]   	= A32nx_FCU_LOC_toggle  ,
-["TRK ."]   	= A32nx_FCU_FPA_MODE_toggle  ,
-["AP1 ."]   	= A32nx_FCU_AP_1_toggle  ,
-["AP2 ."]   	= A32nx_FCU_AP_2_toggle  ,
-["ATHR."]   	= A32nx_FCU_ATHR_toggle  ,
-["EXPD."]   	= A32nx_FCU_EXPED_toggle  ,
-["MTR ."]   	= A32nx_FCU_ALT_STEP_toggle  ,
-["APPR."]   	= A32nx_FCU_APPR_toggle  ,
+["MACH."]   	= A32nx_GLSD_FCU_SPDMACH_toggle  ,
+["LOC ."]   	= A32nx_GLSD_FCU_LOC_toggle  ,
+["TRK ."]   	= A32nx_GLSD_FCU_FPA_MODE_toggle  ,
+["AP1 ."]   	= A32nx_GLSD_FCU_AP_1_toggle  ,
+["AP2 ."]   	= A32nx_GLSD_FCU_AP_2_toggle  ,
+["ATHR."]   	= A32nx_GLSD_FCU_ATHR_toggle  ,
+["EXPD."]   	= A32nx_GLSD_FCU_EXPED_toggle  ,
+["MTR ."]   	= A32nx_GLSD_FCU_ALT_STEP_toggle  ,
+["APPR."]   	= A32nx_GLSD_FCU_APPR_toggle  ,
 }
 
 -- AFCU SPD knob
 SPD1 = {
 ["A SHOW"]  	= empty  ,
-["A  +"]    	= A32nx_FCU_SPD_inc  ,
-["A ++"]    	= A32nx_FCU_SPD_incfast  ,
-["A  -"]    	= A32nx_FCU_SPD_dec  ,
-["A --"]    	= A32nx_FCU_SPD_decfast  ,
-["PRESS"]   	= A32nx_FCU_SPD_MODE_managed  ,
-["PULL"]    	= A32nx_FCU_SPD_MODE_selected  ,
+["A  +"]    	= A32nx_GLSD_FCU_SPD_inc  ,
+["A ++"]    	= A32nx_GLSD_FCU_SPD_incfast  ,
+["A  -"]    	= A32nx_GLSD_FCU_SPD_dec  ,
+["A --"]    	= A32nx_GLSD_FCU_SPD_decfast  ,
+["PRESS"]   	= A32nx_GLSD_FCU_SPD_managed  ,
+["PULL"]    	= A32nx_GLSD_FCU_SPD_selected  ,
 }
 
 -- AFCU HDG knob
 HDG1 = {
 ["A SHOW"]  	= empty  ,
-["A  +"]    	= A32nx_FCU_HDG_inc  ,
-["A ++"]    	= A32nx_FCU_HDG_incfast  ,
-["A  -"]    	= A32nx_FCU_HDG_dec  ,
-["A --"]    	= A32nx_FCU_HDG_decfast  ,
-["PRESS"]   	= A32nx_FCU_HDG_MODE_managed  ,
-["PULL"]    	= A32nx_FCU_HDG_MODE_selected  ,
+["A  +"]    	= A32nx_GLSD_FCU_HDG_inc  ,
+["A ++"]    	= A32nx_GLSD_FCU_SPD_incfast  ,
+["A  -"]    	= A32nx_GLSD_FCU_SPD_dec  ,
+["A --"]    	= A32nx_GLSD_FCU_SPD_decfast  ,
+["PRESS"]   	= A32nx_GLSD_FCU_SPD_managed  ,
+["PULL"]    	= A32nx_GLSD_FCU_HDG_selected  ,
 }
 
 -- AFCU ALT knob
 ALT1 = {
 ["A SHOW"]  	= empty  ,
-["A  +"]    	= A32nx_FCU_ALT_inc  ,
-["A ++"]    	= A32nx_FCU_ALT_inc  ,
-["A  -"]    	= A32nx_FCU_ALT_dec  ,
-["A --"]    	= A32nx_FCU_ALT_dec  ,
-["PRESS"]   	= A32nx_FCU_ALT_MODE_managed  ,
-["PULL"]    	= A32nx_FCU_ALT_MODE_selected  ,
+["A  +"]    	= A32nx_GLSD_FCU_ALT_inc  ,
+["A ++"]    	= A32nx_GLSD_FCU_ALT_inc  ,
+["A  -"]    	= A32nx_GLSD_FCU_ALT_dec  ,
+["A --"]    	= A32nx_GLSD_FCU_ALT_dec  ,
+["PRESS"]   	= A32nx_GLSD_FCU_ALT_managed  ,
+["PULL"]    	= A32nx_GLSD_FCU_HDG_selected  ,
 }
 
 -- AFCU VVS knob
 VVS1 = {
 ["A SHOW"]  	= empty  ,
-["A  +"]    	= A32nx_FCU_VS_inc  ,
-["A ++"]    	= A32nx_FCU_VS_inc  ,
-["A  -"]    	= A32nx_FCU_VS_dec  ,
-["A --"]    	= A32nx_FCU_VS_dec  ,
-["PRESS"]   	= A32nx_FCU_VS_MODE_managed  ,
-["PULL"]    	= A32nx_FCU_ALT_MODE_selected  ,
+["A  +"]    	= A32nx_GLSD_FCU_VS_inc  ,
+["A ++"]    	= A32nx_GLSD_FCU_VS_inc  ,
+["A  -"]    	= A32nx_GLSD_FCU_VS_dec  ,
+["A --"]    	= A32nx_GLSD_FCU_VS_dec  ,
+["PRESS"]   	= A32nx_GLSD_FCU_VS_leveloff  ,
+["PULL"]    	= A32nx_GLSD_FCU_VS_selected  ,
 }
 
 
@@ -419,20 +374,20 @@ USER1 = {
 ["BTN1."]   = VRI_EFIS_MODE_toggle  ,
 ["BTN2."]   = VRI_FCU_MODE_toggle  ,
 ["BTN3."]   = VRI_USER_MODE_toggle  ,
-["BTN4."]   = A32nx_AUTOBRAKE_low_toggle  ,
-["BTN5."]   = A32nx_AUTOBRAKE_mid_toggle  ,
-["BTN6."]   = A32nx_AUTOBRAKE_max_toggle  ,
-["BTN7."]   = A32nx_PARK_BRAKE_toggle  ,
-["BTN8."]   = A32nx_EICAS_TO_CONFIG_press  ,
-["USR1."]   = A32nx_StrobeLts_cycle  ,
-["USR2."]   = A32nx_BeaconLts_toggle  ,
-["USR3."]   = A32nx_NavLts_toggle  ,
-["USR4."]   = A32nx_RwyTurnLts_toggle  ,
-["USR5."]   = A32nx_LandingLts_Both_cycle  ,
-["USR6."]   = A32nx_NoseLts_cycle  ,
-["USR7."]   = empty  ,
-["USR8."]   = empty  ,
-["LAMP."]   = VRI_Light_PANEL_toggle  ,
+["BTN4."]   = A32nx_MPNL_LDG_AUTOBRK_cycle  ,
+["BTN5."]   = A32nx_MPNL_LDG_BRAKEFAN_toggle  ,
+["BTN6."]   = A32nx_MPNL_LDG_ANTISKID_toggle  ,
+["BTN7."]   = A32nx_GLSD_ATTNL_WARNING_push  ,
+["BTN8."]   = A32nx_GLSD_ATTNL_CAUTION_push  ,
+["USR1."]   = A32nx_OVHD_EXTLT_STROBE_cycle  ,
+["USR2."]   = A32nx_OVHD_EXTLT_BEACON_toggle  ,
+["USR3."]   = A32nx_OVHD_EXTLT_NAV_toggle  ,
+["USR4."]   = A32nx_OVHD_EXTLT_RWYTURN_toggle  ,
+["USR5."]   = A32nx_OVHD_EXTLT_LAND_Both_cycle  ,
+["USR6."]   = A32nx_OVHD_EXTLT_NOSE_cycle  ,
+["USR7."]   = A32nx_OVHD_INTLT_DOME_brt  ,
+["USR8."]   = A32nx_OVHD_INTLT_DOME_cycle  ,
+["LAMP."]   = A32nx_OVHD_INTLT_DOME_toggle  ,
 }
 
 -- ############################################### --
@@ -442,19 +397,19 @@ USER1 = {
 -- AUSER block buttons and switches
 USER2 = {
 ["ENABLED"] = true  ,
-["IDENT"]   = "USR2"  ,
-["BTN1."]   = empty  ,
-["BTN2."]   = empty  ,
-["BTN3."]   = empty  ,
-["BTN4."]   = empty  ,
-["BTN5."]   = empty  ,
-["BTN6."]   = VRI_EFIS_MODE_toggle  ,
-["BTN7."]   = VRI_MCP_MODE_toggle  ,
-["BTN8."]   = VRI_USER_MODE_toggle  ,
-["USR1."]   = empty  ,
-["USR2."]   = empty  ,
-["USR3."]   = empty  ,
-["USR4."]   = empty  ,
+["IDENT"]   = "TCAS"  ,
+["BTN1."]   = VRI_EFIS_MODE_toggle  ,
+["BTN2."]   = VRI_FCU_MODE_toggle  ,
+["BTN3."]   = VRI_USER_MODE_toggle  ,
+["BTN4."]   = A32nx_OVHD_ADIRS_1_nav  ,
+["BTN5."]   = A32nx_OVHD_ADIRS_3_nav  ,
+["BTN6."]   = A32nx_OVHD_ADIRS_2_nav  ,
+["BTN7."]   = empty  ,
+["BTN8."]   = empty  ,
+["USR1."]   = A32nx_PED_TCAS_toggle  ,
+["USR2."]   = A32nx_PED_TCAS_ALT_toggle  ,
+["USR3."]   = A32nx_PED_TCAS_TFC_cycle  ,
+["USR4."]   = A32nx_PED_TCAS_MODE_cycle  ,
 ["USR5."]   = empty  ,
 ["USR6."]   = empty  ,
 ["USR7."]   = empty  ,
@@ -469,23 +424,23 @@ USER2 = {
 -- AUSER block buttons and switches
 USER3 = {
 ["ENABLED"] = true  ,
-["IDENT"]   = "USR3"  ,
-["BTN1."]   = empty  ,
-["BTN2."]   = empty  ,
-["BTN3."]   = empty  ,
-["BTN4."]   = empty  ,
-["BTN5."]   = empty  ,
-["BTN6."]   = VRI_EFIS_MODE_toggle  ,
-["BTN7."]   = VRI_MCP_MODE_toggle  ,
-["BTN8."]   = VRI_USER_MODE_toggle  ,
-["USR1."]   = empty  ,
-["USR2."]   = empty  ,
-["USR3."]   = empty  ,
-["USR4."]   = empty  ,
-["USR5."]   = empty  ,
-["USR6."]   = empty  ,
-["USR7."]   = empty  ,
-["USR8."]   = empty  ,
+["IDENT"]   = "Grnd"  ,
+["BTN1."]   = VRI_EFIS_MODE_toggle  ,
+["BTN2."]   = VRI_FCU_MODE_toggle  ,
+["BTN3."]   = VRI_USER_MODE_toggle  ,
+["BTN4."]   = A32nx_PED_ENG_MODE_crank  ,
+["BTN5."]   = A32nx_PED_ENG_MODE_norm  ,
+["BTN6."]   = A32nx_PED_ENG_MODE_start  ,
+["BTN7."]   = empty  ,
+["BTN8."]   = empty  ,
+["USR1."]   = A32nx_OVHD_ELEC_BAT1_toggle  ,
+["USR2."]   = A32nx_OVHD_ELEC_BAT2_toggle  ,
+["USR3."]   = A32nx_OVHD_APU_MASTER_toggle  ,
+["USR4."]   = A32nx_OVHD_APU_START_on  ,
+["USR5."]   = A32nx_OVHD_ACON_APUBLEED_toggle  ,
+["USR6."]   = A32nx_OVHD_ELEC_EXTPWR_toggle  ,
+["USR7."]   = A32NX_OVHD_FUEL_PUMP_ALL_on  ,
+["USR8."]   = A32NX_OVHD_FUEL_PUMP_ALL_off  ,
 ["LAMP."]   = Default_LAMP_toggle  ,
 }
 
