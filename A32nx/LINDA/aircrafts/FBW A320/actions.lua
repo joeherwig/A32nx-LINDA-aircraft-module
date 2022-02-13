@@ -2858,8 +2858,8 @@ function InitVars ()
     BaroRef = 1
     BaroMode = 1
 
-    A32nx_BARO_Mode_HPa()
-    A32nx_BARO_qnh()
+    A32nx_GLSD_EFISL_BARO_HPa()
+    A32nx_GLSD_EFISL_BARO_qnh()
 
     mfd1MODE = 0
     mfd1Range = 0
