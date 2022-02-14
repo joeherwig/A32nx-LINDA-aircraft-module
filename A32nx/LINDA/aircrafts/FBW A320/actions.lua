@@ -127,7 +127,7 @@ function A32nx_GLSD_FCU_HDG_selected ()
     ipc.control(EvtPtr + 15)
     DspShow ("HDG", "set")
     ipc.sleep(200)
-    A32NX_DspSPD()
+    A32NX_DspHDG()
 end
 
 function A32nx_GLSD_FCU_HDG_managed ()
@@ -135,7 +135,7 @@ function A32nx_GLSD_FCU_HDG_managed ()
     ipc.control(EvtPtr + 14)
     DspShow ("HDG", "mngd")
     ipc.sleep(200)
-    A32NX_DspSPD()
+    A32NX_DspHDG()
 end
 
 -- $$ ALTITUDE -----------------
