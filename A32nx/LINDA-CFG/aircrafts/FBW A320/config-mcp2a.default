@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2202131133 (LINDA 4.1.3.158) --
+-- config-mcp2a.lua @ 2202141440 (LINDA 4.1.3.168) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -197,19 +197,19 @@ SPD1 = {
 ["A ++"]    	= A32nx_GLSD_FCU_SPD_incfast  ,
 ["A  -"]    	= A32nx_GLSD_FCU_SPD_dec  ,
 ["A --"]    	= A32nx_GLSD_FCU_SPD_decfast  ,
-["PRESS"]   	= A32nx_GLSD_FCU_SPD_MODE_manged  ,
-["PULL"]    	= A32nx_GLSD_FCU_SPD_MODE_selected  ,
+["PRESS"]   	= A32nx_GLSD_FCU_SPD_managed  ,
+["PULL"]    	= A32nx_GLSD_FCU_SPD_selected  ,
 }
 
 -- AFCU HDG knob
 HDG1 = {
 ["A SHOW"]  	= empty  ,
 ["A  +"]    	= A32nx_GLSD_FCU_HDG_inc  ,
-["A ++"]    	= A32nx_GLSD_FCU_HDG_incfast  ,
-["A  -"]    	= A32nx_GLSD_FCU_HDG_dec  ,
-["A --"]    	= A32nx_GLSD_FCU_HDG_decfast  ,
-["PRESS"]   	= A32nx_GLSD_FCU_HDG_MODE_manged  ,
-["PULL"]    	= A32nx_GLSD_FCU_HDG_MODE_selected  ,
+["A ++"]    	= A32nx_GLSD_FCU_SPD_incfast  ,
+["A  -"]    	= A32nx_GLSD_FCU_SPD_dec  ,
+["A --"]    	= A32nx_GLSD_FCU_SPD_decfast  ,
+["PRESS"]   	= A32nx_GLSD_FCU_SPD_managed  ,
+["PULL"]    	= A32nx_GLSD_FCU_HDG_selected  ,
 }
 
 -- AFCU ALT knob
@@ -219,8 +219,8 @@ ALT1 = {
 ["A ++"]    	= A32nx_GLSD_FCU_ALT_inc  ,
 ["A  -"]    	= A32nx_GLSD_FCU_ALT_dec  ,
 ["A --"]    	= A32nx_GLSD_FCU_ALT_dec  ,
-["PRESS"]   	= A32nx_GLSD_FCU_ALT_MODE_managed  ,
-["PULL"]    	= A32nx_GLSD_FCU_HDG_MODE_selected  ,
+["PRESS"]   	= A32nx_GLSD_FCU_ALT_managed  ,
+["PULL"]    	= A32nx_GLSD_FCU_HDG_selected  ,
 }
 
 -- AFCU VVS knob
@@ -230,8 +230,8 @@ VVS1 = {
 ["A ++"]    	= A32nx_GLSD_FCU_VS_inc  ,
 ["A  -"]    	= A32nx_GLSD_FCU_VS_dec  ,
 ["A --"]    	= A32nx_GLSD_FCU_VS_dec  ,
-["PRESS"]   	= A32nx_GLSD_FCU_VS_MODE_leveloff  ,
-["PULL"]    	= A32nx_GLSD_FCU_VS_MODE_selected  ,
+["PRESS"]   	= A32nx_GLSD_FCU_VS_leveloff  ,
+["PULL"]    	= A32nx_GLSD_FCU_VS_selected  ,
 }
 
 
@@ -305,7 +305,7 @@ VVS2 = {
 
 -- AFCU block buttons and switches
 MCP3 = {
-["ENABLED"] 	= false  ,
+["ENABLED"] 	= true  ,
 ["IDENT"]   	= "FCU1"  ,
 ["MACH."]   	= empty  ,
 ["LOC ."]   	= empty  ,
