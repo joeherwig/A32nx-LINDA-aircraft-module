@@ -2577,7 +2577,7 @@ end
 function A32NX_AP_INFO ()
     if _MCP2() then
         -- FD
-        if ipc.readLvar('A32NX_MPL_FD') == 0 then
+        if ipc.readLvar('AUTOPILOT_FLIGHT_DIRECTOR_ACTIVE') == 0 then
             DspFD(0)
         else
             DspFD(1)
@@ -2588,25 +2588,7 @@ function A32NX_AP_INFO ()
         else
             DspAT(1)
         end
-        -- LNAV
-        if ipc.readLvar('A32NX_AP_HDGmode_setDisp') == 1 then
-            DspLNAV_on ()
-        else
-            DspLNAV_off ()
-            A32NX_DspHDGmode(A32NX_HDGmode_Dot())
-        end
-        -- VNAV
-        if ipc.readLvar('AP_AP_ALT_Mode') == 1 then
-            DspVNAV_on ()
-            A32NX_DspALTmode(true)
-        else
-            DspVNAV_off ()
-            A32NX_DspALTmode(false)
-        end
         local Var, str1, str2
-        -- A/THR
-        Var = ipc.readLvar('A32NX_AP_ATHR')
-        DspAT(Var)
         -- AP1
         Var = ipc.readLvar('A32NX_AUTOPILOT_1_ACTIVE')
         if Var == 1 then
