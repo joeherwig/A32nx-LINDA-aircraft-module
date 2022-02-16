@@ -2668,7 +2668,7 @@ function A32NX_AP_INFO ()
     -- ALT/VVS DspE to avoid cursor flicker
     A32NX_DspE()
     -- AP VALUES --
-    --A32NX_DspSPD ()
+    A32NX_DspSPD ()
     A32NX_DspHDG ()
     A32NX_DspALT ()
     A32NX_DspVVS ()
