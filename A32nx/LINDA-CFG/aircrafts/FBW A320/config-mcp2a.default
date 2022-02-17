@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2202162147 (LINDA 4.1.4.201) --
+-- config-mcp2a.lua @ 2202171215 (LINDA 4.1.4.201) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -242,7 +242,7 @@ VVS1 = {
 -- AFCU block buttons and switches
 MCP2 = {
 ["ENABLED"] 	= true  ,
-["IDENT"]   	= "FCU1"  ,
+["IDENT"]   	= "Dspl"  ,
 ["MACH."]   	= empty  ,
 ["LOC ."]   	= empty  ,
 ["TRK ."]   	= empty  ,
@@ -257,34 +257,34 @@ MCP2 = {
 -- AFCU SPD knob
 SPD2 = {
 ["A SHOW"]  	= empty  ,
-["A  +"]    	= empty  ,
-["A ++"]    	= empty  ,
-["A  -"]    	= empty  ,
-["A --"]    	= empty  ,
-["PRESS"]   	= empty  ,
-["PULL"]    	= empty  ,
+["A  +"]    	= A32nx_CKPT_INTLT_INTEG_inc  ,
+["A ++"]    	= A32nx_CKPT_INTLT_INTEG_inc  ,
+["A  -"]    	= A32nx_CKPT_INTLT_INTEG_dec  ,
+["A --"]    	= A32nx_CKPT_INTLT_INTEG_dec  ,
+["PRESS"]   	= A32nx_CKPT_INTLT_INTEG_90  ,
+["PULL"]    	= A32nx_CKPT_INTLT_INTEG_50  ,
 }
 
 -- AFCU HDG knob
 HDG2 = {
 ["A SHOW"]  	= empty  ,
-["A  +"]    	= empty  ,
-["A ++"]    	= empty  ,
-["A  -"]    	= empty  ,
-["A --"]    	= empty  ,
-["PRESS"]   	= empty  ,
-["PULL"]    	= empty  ,
+["A  +"]    	= A32nx_CKPT_INTLT_FLOOD_inc  ,
+["A ++"]    	= A32nx_CKPT_INTLT_FLOOD_inc  ,
+["A  -"]    	= A32nx_CKPT_INTLT_FLOOD_dec  ,
+["A --"]    	= A32nx_CKPT_INTLT_FLOOD_dec  ,
+["PRESS"]   	= A32nx_CKPT_INTLT_FLOOD_90  ,
+["PULL"]    	= A32nx_CKPT_INTLT_FLOOD_50  ,
 }
 
 -- AFCU ALT knob
 ALT2 = {
 ["A SHOW"]  	= empty  ,
-["A  +"]    	= empty  ,
-["A ++"]    	= empty  ,
-["A  -"]    	= empty  ,
-["A --"]    	= empty  ,
-["PRESS"]   	= empty  ,
-["PULL"]    	= empty  ,
+["A  +"]    	= A32nx_CKPT_INTLT_DSPLYS_inc  ,
+["A ++"]    	= A32nx_CKPT_INTLT_DSPLYS_inc  ,
+["A  -"]    	= A32nx_CKPT_INTLT_DSPLYS_dec  ,
+["A --"]    	= A32nx_CKPT_INTLT_DSPLYS_dec  ,
+["PRESS"]   	= A32NX_CKPT_INTLT_DSPLYS_90  ,
+["PULL"]    	= A32NX_CKPT_INTLT_DSPLYS_50  ,
 }
 
 -- AFCU VVS knob
