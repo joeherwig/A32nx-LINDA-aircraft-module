@@ -2349,6 +2349,169 @@ function A32nx_PED_MCDUL_BTN_clr()
     ipc.activateHvar("H:A320_Neo_CDU_1_BTN_CLR")
 end
 
+-- ## Cockpit Internal Lighting
+
+function A32nx_CKPT_INTLT_reset()
+    A32NX_CKPT_INTLT_INTEG = 50
+    A32NX_CKPT_INTLT_DSPLYS = 50
+    A32NX_CKPT_INTLT_FLOOD = 50
+end
+
+-- $$ Integral Panel Lighting
+
+function A32nx_CKPT_INTLT_INTEG_set(val)
+    if val == nil then val = 75 end
+    A32NX_CKPT_INTLT_INTEG = val
+    A32nx_CKPT_INTLT_set(86, val) --ovhd
+    A32nx_CKPT_INTLT_set(84, val) --glsd
+    A32nx_CKPT_INTLT_set(85, val) --ped
+    A32nx_CKPT_INTLT_set(87, val) --glsd lcd
+    DspShow('INTG',tostring(val))
+end
+
+function A32nx_CKPT_INTLT_INTEG_inc()
+    if A32NX_CKPT_INTLT_INTEG == nil then
+        A32NX_CKPT_INTLT_INTEG = 75
+    end
+    local val = A32NX_CKPT_INTLT_INTEG + 5
+    if val > 100 then val = 99 end
+    A32NX_CKPT_INTLT_INTEG = val
+    A32nx_CKPT_INTLT_INTEG_set(val)
+end
+
+function A32nx_CKPT_INTLT_INTEG_dec()
+    if A32NX_CKPT_INTLT_INTEG == nil then
+        A32NX_CKPT_INTLT_INTEG = 75
+    end
+    local val = A32NX_CKPT_INTLT_INTEG - 5
+    if val < 1 then val = 1 end
+    A32NX_CKPT_INTLT_INTEG = val
+    A32nx_CKPT_INTLT_INTEG_set(val)
+end
+
+function A32nx_CKPT_INTLT_INTEG_90()
+    local val = 90
+    A32NX_CKPT_INTLT_INTEG = val
+    A32nx_CKPT_INTLT_INTEG_set(val)
+end
+
+function A32nx_CKPT_INTLT_INTEG_50()
+    local val = 50
+    A32NX_CKPT_INTLT_INTEG = val
+    A32nx_CKPT_INTLT_INTEG_set(val)
+end
+
+function A32nx_CKPT_INTLT_INTEG_10()
+    local val = 10
+    A32NX_CKPT_INTLT_INTEG = val
+    A32nx_CKPT_INTLT_INTEG_set(val)
+end
+
+-- $$ Cockpit Flood Lights
+
+function A32nx_CKPT_INTLT_FLOOD_set(val)
+    if val == nil then val = 75 end
+    A32NX_CKPT_INTLT_FLOOD = val
+    A32nx_CKPT_INTLT_set(83, val) --
+    A32nx_CKPT_INTLT_set(76, val) --
+    A32nx_CKPT_INTLT_set(8, val) --
+    A32nx_CKPT_INTLT_set(9, val) --
+    A32nx_CKPT_INTLT_set(10, val) --
+    A32nx_CKPT_INTLT_set(11, val) --
+    DspShow('FLOD',tostring(val))
+end
+
+function A32nx_CKPT_INTLT_FLOOD_inc()
+    if A32NX_CKPT_INTLT_FLOOD == nil then
+        A32NX_CKPT_INTLT_FLOOD = 75
+    end
+    local val = A32NX_CKPT_INTLT_FLOOD + 5
+    if val > 100 then val = 99 end
+    A32NX_CKPT_INTLT_FLOOD = val
+    A32nx_CKPT_INTLT_FLOOD_set(val)
+end
+
+function A32nx_CKPT_INTLT_FLOOD_dec()
+    if A32NX_CKPT_INTLT_FLOOD == nil then
+        A32NX_CKPT_INTLT_FLOOD = 75
+    end
+    local val = A32NX_CKPT_INTLT_FLOOD - 5
+    if val < 1 then val = 1 end
+    A32NX_CKPT_INTLT_FLOOD = val
+    A32nx_CKPT_INTLT_FLOOD_set(val)
+end
+
+function A32nx_CKPT_INTLT_FLOOD_90()
+    local val = 90
+    A32NX_CKPT_INTLT_FLOOD = val
+    A32nx_CKPT_INTLT_FLOOD_set(val)
+end
+
+function A32nx_CKPT_INTLT_FLOOD_50()
+    local val = 50
+    A32NX_CKPT_INTLT_FLOOD = val
+   A32nx_CKPT_INTLT_FLOOD_set(val)
+end
+
+function A32nx_CKPT_INTLT_FLOOD_10()
+    local val = 10
+    A32NX_CKPT_INTLT_FLOOD = val
+    A32nx_CKPT_INTLT_FLOOD_set(val)
+end
+
+-- $$ PFD/ND/ECAM Displays
+
+function A32NX_CKPT_INTLT_DSPLYS_set(val)
+    if val == nil then val = 75 end
+    A32NX_CKPT_INTLT_DSPLYS = val
+    A32nx_CKPT_INTLT_set(88, val) --
+    A32nx_CKPT_INTLT_set(89, val) --
+    A32nx_CKPT_INTLT_set(90, val) --
+    A32nx_CKPT_INTLT_set(91, val) --
+    A32nx_CKPT_INTLT_set(92, val) --
+    A32nx_CKPT_INTLT_set(93, val) --
+    A32nx_CKPT_INTLT_set(95, val) --
+    DspShow('DSPL',tostring(val))
+end
+
+function A32nx_CKPT_INTLT_DSPLYS_inc()
+    if A32NX_CKPT_INTLT_DSPLYS == nil then
+        A32NX_CKPT_INTLT_DSPLYS = 75
+    end
+    local val = A32NX_CKPT_INTLT_DSPLYS + 5
+    if val > 100 then val = 99 end
+    A32NX_CKPT_INTLT_DSPLYS = val
+    A32NX_CKPT_INTLT_DSPLYS_set(val)
+end
+
+function A32nx_CKPT_INTLT_DSPLYS_dec()
+    if A32NX_CKPT_INTLT_DSPLYS == nil then
+        A32NX_CKPT_INTLT_DSPLYS = 75
+    end
+    local val = A32NX_CKPT_INTLT_DSPLYS - 5
+    if val < 1 then val = 1 end
+    A32NX_CKPT_INTLT_DSPLYS = val
+    A32NX_CKPT_INTLT_DSPLYS_set(val)
+end
+
+function A32NX_CKPT_INTLT_DSPLYS_90()
+    local val = 90
+    A32NX_CKPT_INTLT_DSPLYS = val
+    A32NX_CKPT_INTLT_DSPLYS_set(val)
+end
+
+function A32NX_CKPT_INTLT_DSPLYS_50()
+    local val = 50
+    A32NX_CKPT_INTLT_DSPLYS = val
+    A32NX_CKPT_INTLT_DSPLYS_set(val)
+end
+
+function A32NX_CKPT_INTLT_DSPLYS_10()
+    local val = 10
+    A32NX_CKPT_INTLT_DSPLYS = val
+    A32NX_CKPT_INTLT_DSPLYS_set(val)
+end
+
 -- ## System functions ################################
 
 -- $$ DO NOT USE OR CHANGE
@@ -2364,8 +2527,15 @@ function InitVars ()
     BaroRef = 1
     BaroMode = 1
 
-    A32nx_GLSD_EFISL_BARO_HPa()
+    -- Barometer Unit setting
+	A32nx_GLSD_EFISL_BARO_HPa()
     A32nx_GLSD_EFISL_BARO_qnh()
+	-- Internal Cockpit Lighting Dimmer values
+    A32NX_CKPT_INTLT_INTEG = 50
+    A32NX_CKPT_INTLT_DSPLYS = 50
+    A32NX_CKPT_INTLT_FLOOD = 50	
+	-- used to control position of DOME light switch
+	A32NX_Dome = 2 -- = off
 
     mfd1MODE = 0
     mfd1Range = 0
@@ -2377,17 +2547,13 @@ function InitVars ()
     tcasSwitchPos = ipc.readLvar("L:A32NX_SWITCH_TCAS_Position")
     chronoLState = 0
 
-	-- used to control position of DOME light switch
-	A32NX_Dome = 2 -- = off
-
-    _loggg('[A3nx] A320nx Variables initialised')
-
 	nd_mode = 1 -- default ND mode
 	baro_mode = 1  -- default BARO mode is hPa
 	auto_brk = 0
     AutoDisplay = false -- override automatic display updates (SPD/HDG/ALT/VVS_
-    --DSP_MODE_one ()
-    EcamTxt = 1
+    DSP_MODE_one ()
+    
+	EcamTxt = 1
     OnVar = 16 -- change this for initial brightness of displays. 0 to 20
     --TestCnt = 0
     TestVar = ""
@@ -2404,6 +2570,7 @@ function InitVars ()
     A32NX_ALT_Zero = '0'
     A32NX_Dot = string.char(7)
     A32NX_NoDot = ' '
+    _loggg('[A3nx] A320nx Variables initialised')
 end
 
 -----------------------------------------------------------
@@ -3307,6 +3474,18 @@ function A32NX_DispFlaps_MCP1 ()
     else
         APchange = true
     end
+end
+
+-- Internal Cockpit Dimmer Light control
+
+function A32nx_CKPT_INTLT_set(dim, val)
+    if (val < 0) or (val > 100) then
+        val = 50
+    end
+    local cmd = tostring(val) .. ' max 100 min ' .. tostring(dim) ..
+        ' (>K:2:LIGHT_POTENTIOMETER_SET)'
+    _logggg('code=' .. cmd, dlVerb, dlKeep)
+    ipc.execCalcCode(cmd)
 end
 
 function setDimmer(offset, value)
