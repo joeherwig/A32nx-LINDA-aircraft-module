@@ -707,17 +707,22 @@ end
 
 -- $$ Landing Lights
 
-function A32nx_OVHD_EXTLT_LAND_L_Pos(pos)
-    ipc.writeLvar("L:LIGHTING_LANDING_2", pos)
-end
 function A32nx_OVHD_EXTLT_LAND_L_retract()
-     A32nx_OVHD_EXTLT_LAND_L_Pos(2)
+    ipc.writeLvar("L:LIGHTING_LANDING_2", 1)
+    ipc.sleep(50)
+    ipc.writeLvar("L:LANDING_2_Retracted", 1)
+    ipc.sleep(50)
+    ipc.writeLvar("L:LIGHTING_LANDING_2", 2)
 end
+
 function A32nx_OVHD_EXTLT_LAND_L_off()
-     A32nx_OVHD_EXTLT_LAND_L_Pos(1)
+    ipc.writeLvar("L:LANDING_2_Retracted", 0)
+    ipc.writeLvar("L:LIGHTING_LANDING_2", 1)
 end
+
 function A32nx_OVHD_EXTLT_LAND_L_on()
-     A32nx_OVHD_EXTLT_LAND_L_Pos(0)
+    ipc.writeLvar("L:LANDING_2_Retracted", 0)
+    ipc.writeLvar("L:LIGHTING_LANDING_2", 0)
 end
 
 function A32nx_OVHD_EXTLT_LAND_L_toggle()
@@ -731,29 +736,33 @@ function A32nx_OVHD_EXTLT_LAND_L_toggle()
 end
 
 function A32nx_OVHD_EXTLT_LAND_L_cycle()
-    local Lvar = "L:LIGHTING_LANDING_3"
+    local Lvar = "L:LIGHTING_LANDING_2"
     local Lval = ipc.readLvar(Lvar)
-    if Lval > 0 then
-        A32nx_OVHD_EXTLT_LAND_L_Pos(Lval - 1)
+    if Lval == 2 then
+        A32nx_OVHD_EXTLT_LAND_L_off()
+    elseif Lval == 1 then
+        A32nx_OVHD_EXTLT_LAND_L_on()
     else
         A32nx_OVHD_EXTLT_LAND_L_retract()
     end
 end
 
-function A32nx_OVHD_EXTLT_LAND_R_Pos(pos)
-    ipc.writeLvar("L:LIGHTING_LANDING_3", pos)
-end
-
 function A32nx_OVHD_EXTLT_LAND_R_retract()
-     A32nx_OVHD_EXTLT_LAND_R_Pos(2)
+    ipc.writeLvar("L:LIGHTING_LANDING_3", 1)
+    ipc.sleep(50)
+    ipc.writeLvar("L:LANDING_3_Retracted", 1)
+    ipc.sleep(50)
+    ipc.writeLvar("L:LIGHTING_LANDING_3", 2)
 end
 
 function A32nx_OVHD_EXTLT_LAND_R_off()
-     A32nx_OVHD_EXTLT_LAND_R_Pos(1)
+    ipc.writeLvar("L:LANDING_3_Retracted", 0)
+    ipc.writeLvar("L:LIGHTING_LANDING_3", 1)
 end
 
 function A32nx_OVHD_EXTLT_LAND_R_on()
-    A32nx_OVHD_EXTLT_LAND_R_Pos(0)
+    ipc.writeLvar("L:LANDING_3_Retracted", 0)
+    ipc.writeLvar("L:LIGHTING_LANDING_3", 0)
 end
 
 function A32nx_OVHD_EXTLT_LAND_R_toggle()
@@ -769,8 +778,10 @@ end
 function A32nx_OVHD_EXTLT_LAND_R_cycle()
     local Lvar = "L:LIGHTING_LANDING_3"
     local Lval = ipc.readLvar(Lvar)
-    if Lval > 0 then
-        A32nx_OVHD_EXTLT_LAND_R_Pos(Lval - 1)
+    if Lval == 2 then
+        A32nx_OVHD_EXTLT_LAND_R_off()
+    elseif Lval == 1 then
+        A32nx_OVHD_EXTLT_LAND_R_on()
     else
         A32nx_OVHD_EXTLT_LAND_R_retract()
     end
