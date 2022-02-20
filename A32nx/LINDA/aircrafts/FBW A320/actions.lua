@@ -14,7 +14,6 @@ function A32nx_GLSD_FCU_SPDMACH_toggle()
 end
 
 function A32nx_GLSD_FCU_AP_1_toggle()
-    DspShow('PARK',EvtPtr)
     ipc.control(EvtPtr + 0)
     DspShow('AP1','tgl')
 end
