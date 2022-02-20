@@ -1,0 +1,89 @@
+-- config-cdu2.lua @ 2202152037 (LINDA 4.1.3.198) --
+
+-- ############################################### --
+-- ## CDU2
+-- ############################################### --
+
+-- LSKEYS block buttons and switches
+CDU2KEYS = { 
+["IDENT"]	= "CDU"  ,
+["LSKL1"]   = A32nx_PED_MCDUL_BTN_L1  ,
+["LSKL2"]   = A32nx_PED_MCDUL_BTN_L2  ,
+["LSKL3"]   = A32nx_PED_MCDUL_BTN_L3  ,
+["LSKL4"]   = A32nx_PED_MCDUL_BTN_L4  ,
+["LSKL5"]   = A32nx_PED_MCDUL_BTN_L5  ,
+["LSKL6"]   = A32nx_PED_MCDUL_BTN_L6  ,
+
+["LSKR1"]   = A32nx_PED_MCDUL_BTN_R1  ,
+["LSKR2"]   = A32nx_PED_MCDUL_BTN_R2  ,
+["LSKR3"]   = A32nx_PED_MCDUL_BTN_R3  ,
+["LSKR4"]   = A32nx_PED_MCDUL_BTN_R4  ,
+["LSKR5"]   = A32nx_PED_MCDUL_BTN_R5  ,
+["LSKR6"]   = A32nx_PED_MCDUL_BTN_R6  ,
+
+["FUN11"]   = A32nx_PED_MCDUL_BTN_dir  ,
+["FUN12"]   = A32nx_PED_MCDUL_BTN_prog  ,
+["FUN13"]   = A32nx_PED_MCDUL_BTN_perf  ,
+["FUN14"]   = A32nx_PED_MCDUL_BTN_init  ,
+["FUN15"]   = A32nx_PED_MCDUL_BTN_data  ,
+["FUN16"]   = A32nx_PED_MCDUL_BTN_menu  ,
+
+["FUN21"]   = A32nx_PED_MCDUL_BTN_fpln  ,
+["FUN22"]   = A32nx_PED_MCDUL_BTN_rad  ,
+["FUN23"]   = A32nx_PED_MCDUL_BTN_fuel  ,
+["FUN24"]   = A32nx_PED_MCDUL_BTN_sec  ,
+["FUN25"]   = A32nx_PED_MCDUL_BTN_atc  ,
+["FUN26"]   = A32nx_PED_MCDUL_BTN_airport  ,
+
+["FUN31"]   = A32nx_PED_MCDUL_BTN_prevpage  ,
+["FUN32"]   = A32nx_PED_MCDUL_BTN_up  ,
+
+["FUN41"]   = A32nx_PED_MCDUL_BTN_nextpage  ,
+["FUN42"]   = A32nx_PED_MCDUL_BTN_down  ,
+
+["KEY1"]   = A32nx_PED_MCDUL_BTN_1  ,
+["KEY2"]   = A32nx_PED_MCDUL_BTN_2  ,
+["KEY3"]   = A32nx_PED_MCDUL_BTN_3  ,
+["KEY4"]   = A32nx_PED_MCDUL_BTN_4  ,
+["KEY5"]   = A32nx_PED_MCDUL_BTN_5  ,
+["KEY6"]   = A32nx_PED_MCDUL_BTN_6  ,
+["KEY7"]   = A32nx_PED_MCDUL_BTN_7  ,
+["KEY8"]   = A32nx_PED_MCDUL_BTN_8  ,
+["KEY9"]   = A32nx_PED_MCDUL_BTN_9  ,
+["KEY."]   = A32nx_PED_MCDUL_BTN_dot  ,
+["KEY0"]   = A32nx_PED_MCDUL_BTN_0  ,
+["KEY+"]   = A32nx_PED_MCDUL_BTN_plusminus  ,
+
+["KEYA"]   = A32nx_PED_MCDUL_BTN_A  ,
+["KEYB"]   = A32nx_PED_MCDUL_BTN_B  ,
+["KEYC"]   = A32nx_PED_MCDUL_BTN_C  ,
+["KEYD"]   = A32nx_PED_MCDUL_BTN_D  ,
+["KEYE"]   = A32nx_PED_MCDUL_BTN_E  ,
+["KEYF"]   = A32nx_PED_MCDUL_BTN_F  ,
+["KEYG"]   = A32nx_PED_MCDUL_BTN_G  ,
+["KEYH"]   = A32nx_PED_MCDUL_BTN_H  ,
+["KEYI"]   = A32nx_PED_MCDUL_BTN_I  ,
+["KEYJ"]   = A32nx_PED_MCDUL_BTN_J  ,
+["KEYK"]   = A32nx_PED_MCDUL_BTN_K  ,
+["KEYL"]   = A32nx_PED_MCDUL_BTN_L  ,
+["KEYM"]   = A32nx_PED_MCDUL_BTN_M  ,
+["KEYN"]   = A32nx_PED_MCDUL_BTN_N  ,
+["KEYO"]   = A32nx_PED_MCDUL_BTN_O  ,
+["KEYP"]   = A32nx_PED_MCDUL_BTN_P  ,
+["KEYQ"]   = A32nx_PED_MCDUL_BTN_Q  ,
+["KEYR"]   = A32nx_PED_MCDUL_BTN_R  ,
+["KEYS"]   = A32nx_PED_MCDUL_BTN_S  ,
+["KEYT"]   = A32nx_PED_MCDUL_BTN_T  ,
+["KEYU"]   = A32nx_PED_MCDUL_BTN_U  ,
+["KEYV"]   = A32nx_PED_MCDUL_BTN_V  ,
+["KEYW"]   = A32nx_PED_MCDUL_BTN_W  ,
+["KEYX"]   = A32nx_PED_MCDUL_BTN_X  ,
+["KEYY"]   = A32nx_PED_MCDUL_BTN_Y  ,
+["KEYZ"]   = A32nx_PED_MCDUL_BTN_Z  ,
+["KEYSP"]   = A32nx_PED_MCDUL_BTN_div  ,
+["KEYDEL"]   = A32nx_PED_MCDUL_BTN_sp  ,
+["KEYSL"]   = A32nx_PED_MCDUL_BTN_ovfy  ,
+["KEYCLR"]   = A32nx_PED_MCDUL_BTN_clr  ,
+
+}
+

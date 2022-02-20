@@ -1,4 +1,4 @@
--- config-mcp2a.lua @ 2202171215 (LINDA 4.1.4.201) --
+-- config-mcp2a.lua @ 2202141440 (LINDA 4.1.3.168) --
 
 -- ############################################### --
 -- ## EFIS block mode1
@@ -34,7 +34,7 @@ BARO1 = {
 ["A ++"]    = A32nx_GLSD_EFISL_BARO_inc  ,
 ["A  -"]    = A32nx_GLSD_EFISL_BARO_dec  ,
 ["A --"]    = A32nx_GLSD_EFISL_BARO_dec  ,
-["PRESS"]   = A32nx_GLSD_EFISL_BARO_toggle  ,
+["PRESS"]   = A32nx_GLSD_BARO_MODE_toggle  ,
 }
 
 -- AEFIS NDM knob
@@ -205,10 +205,10 @@ SPD1 = {
 HDG1 = {
 ["A SHOW"]  	= empty  ,
 ["A  +"]    	= A32nx_GLSD_FCU_HDG_inc  ,
-["A ++"]    	= A32nx_GLSD_FCU_HDG_incfast  ,
-["A  -"]    	= A32nx_GLSD_FCU_HDG_dec  ,
-["A --"]    	= A32nx_GLSD_FCU_HDG_decfast  ,
-["PRESS"]   	= A32nx_GLSD_FCU_HDG_managed  ,
+["A ++"]    	= A32nx_GLSD_FCU_SPD_incfast  ,
+["A  -"]    	= A32nx_GLSD_FCU_SPD_dec  ,
+["A --"]    	= A32nx_GLSD_FCU_SPD_decfast  ,
+["PRESS"]   	= A32nx_GLSD_FCU_SPD_managed  ,
 ["PULL"]    	= A32nx_GLSD_FCU_HDG_selected  ,
 }
 
@@ -220,7 +220,7 @@ ALT1 = {
 ["A  -"]    	= A32nx_GLSD_FCU_ALT_dec  ,
 ["A --"]    	= A32nx_GLSD_FCU_ALT_dec  ,
 ["PRESS"]   	= A32nx_GLSD_FCU_ALT_managed  ,
-["PULL"]    	= A32nx_GLSD_FCU_ALT_selected  ,
+["PULL"]    	= A32nx_GLSD_FCU_HDG_selected  ,
 }
 
 -- AFCU VVS knob
@@ -242,7 +242,7 @@ VVS1 = {
 -- AFCU block buttons and switches
 MCP2 = {
 ["ENABLED"] 	= true  ,
-["IDENT"]   	= "Dspl"  ,
+["IDENT"]   	= "FCU1"  ,
 ["MACH."]   	= empty  ,
 ["LOC ."]   	= empty  ,
 ["TRK ."]   	= empty  ,
@@ -257,34 +257,34 @@ MCP2 = {
 -- AFCU SPD knob
 SPD2 = {
 ["A SHOW"]  	= empty  ,
-["A  +"]    	= A32nx_CKPT_INTLT_INTEG_inc  ,
-["A ++"]    	= A32nx_CKPT_INTLT_INTEG_inc  ,
-["A  -"]    	= A32nx_CKPT_INTLT_INTEG_dec  ,
-["A --"]    	= A32nx_CKPT_INTLT_INTEG_dec  ,
-["PRESS"]   	= A32nx_CKPT_INTLT_INTEG_90  ,
-["PULL"]    	= A32nx_CKPT_INTLT_INTEG_50  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 -- AFCU HDG knob
 HDG2 = {
 ["A SHOW"]  	= empty  ,
-["A  +"]    	= A32nx_CKPT_INTLT_FLOOD_inc  ,
-["A ++"]    	= A32nx_CKPT_INTLT_FLOOD_inc  ,
-["A  -"]    	= A32nx_CKPT_INTLT_FLOOD_dec  ,
-["A --"]    	= A32nx_CKPT_INTLT_FLOOD_dec  ,
-["PRESS"]   	= A32nx_CKPT_INTLT_FLOOD_90  ,
-["PULL"]    	= A32nx_CKPT_INTLT_FLOOD_50  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 -- AFCU ALT knob
 ALT2 = {
 ["A SHOW"]  	= empty  ,
-["A  +"]    	= A32nx_CKPT_INTLT_DSPLYS_inc  ,
-["A ++"]    	= A32nx_CKPT_INTLT_DSPLYS_inc  ,
-["A  -"]    	= A32nx_CKPT_INTLT_DSPLYS_dec  ,
-["A --"]    	= A32nx_CKPT_INTLT_DSPLYS_dec  ,
-["PRESS"]   	= A32NX_CKPT_INTLT_DSPLYS_90  ,
-["PULL"]    	= A32NX_CKPT_INTLT_DSPLYS_50  ,
+["A  +"]    	= empty  ,
+["A ++"]    	= empty  ,
+["A  -"]    	= empty  ,
+["A --"]    	= empty  ,
+["PRESS"]   	= empty  ,
+["PULL"]    	= empty  ,
 }
 
 -- AFCU VVS knob

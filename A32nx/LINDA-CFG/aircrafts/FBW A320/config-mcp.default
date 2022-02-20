@@ -1,0 +1,528 @@
+-- config-mcp.lua @ 2202141445 (LINDA 4.1.3.168) --
+
+-- ############################################### --
+-- ## EFIS block mode1
+-- ############################################### --
+
+-- EFIS block buttons and switches
+EFIS1 = {
+["ENABLED"]		= true  ,
+["IDENT"]		= "GPS"  ,
+["FPV"] 		= A32nx_GLSD_ATTNL_WARNING_push  ,
+["MTR"] 		= A32nx_GLSD_ATTNL_CAUTION_push  ,
+["WX"] 			= empty  ,
+["STA"] 		= A32nx_GLSD_EFISL_cstr  ,
+["WPT"] 		= A32nx_GLSD_EFISL_wpt  ,
+["ARPT"] 		= A32nx_GLSD_EFISL_aprt  ,
+["DATA"] 		= A32nx_GLSD_EFISL_vor  ,
+["POS"] 		= A32nx_GLSD_EFISL_ndb  ,
+["TERR"] 		= empty  ,
+["ADF1"] 		= A32nx_GLSD_EFISL_NAVAID1_adf  ,
+["ADF2"] 		= A32nx_GLSD_EFISL_NAVAID2_adf  ,
+["VOR1"] 		= A32nx_GLSD_EFISL_NAVAID1_vor  ,
+["VOR2"] 		= A32nx_GLSD_EFISL_NAVAID2_vor  ,
+}
+
+-- EFIS MINS knob
+MINS1 = {
+["A SHOW"]		= GPS_PAGE_show  ,
+["A +"]			= GPS_PAGE_inc  ,
+["A ++"]		= GPS_PAGE_inc  ,
+["A -"]			= GPS_PAGE_dec  ,
+["A --"]		= GPS_PAGE_dec  ,
+["PRESS"] 		= KNOB_MODE_toggle  ,
+}
+
+-- EFIS BARO knob
+BARO1 = {
+["A SHOW"]		= empty  ,
+["A +"]			= A32nx_GLSD_EFISL_BARO_inc  ,
+["A ++"]		= A32nx_GLSD_EFISL_BARO_inc  ,
+["A -"]			= A32nx_GLSD_EFISL_BARO_dec  ,
+["A --"]		= A32nx_GLSD_EFISL_BARO_dec  ,
+["PRESS"] 		= A32nx_GLSD_BARO_MODE_toggle  ,
+}
+
+-- EFIS CTR knob
+CTR1 = {
+["A SHOW"]		= empty  ,
+["A +"]			= A32nx_GLSD_EFISL_NDMODE1_inc  ,
+["A ++"]		= A32nx_GLSD_EFISL_NDMODE1_inc  ,
+["A -"]			= A32nx_GLSD_EFISL_NDMODE1_dec  ,
+["A --"]		= A32nx_GLSD_EFISL_NDMODE1_dec  ,
+["PRESS"] 		= A32nx_GLSD_EFISL_NDMODE1_arc  ,
+}
+
+-- EFIS TFC knob
+TFC1 = {
+["A SHOW"]		= empty  ,
+["A +"]			= A32nx_GLSD_EFISL_NDRANGE1_inc  ,
+["A ++"]		= A32nx_GLSD_EFISL_NDRANGE1_inc  ,
+["A -"]			= A32nx_GLSD_EFISL_NDRANGE1_dec  ,
+["A --"]		= A32nx_GLSD_EFISL_NDRANGE1_dec  ,
+["PRESS"] 		= A32nx_GLSD_EFISL_NDRANGE1_40  ,
+}
+
+-- ############################################### --
+-- ## EFIS block mode2
+-- ############################################### --
+
+-- EFIS block buttons and switches
+EFIS2 = {
+["ENABLED"]		= true  ,
+["IDENT"]		= "EFB"  ,
+["FPV"] 		= empty  ,
+["MTR"] 		= empty  ,
+["WX"] 			= empty  ,
+["STA"] 		= empty  ,
+["WPT"] 		= empty  ,
+["ARPT"] 		= empty  ,
+["DATA"] 		= empty  ,
+["POS"] 		= empty  ,
+["TERR"] 		= empty  ,
+["ADF1"] 		= empty  ,
+["ADF2"] 		= empty  ,
+["VOR1"] 		= empty  ,
+["VOR2"] 		= empty  ,
+}
+
+-- EFIS MINS knob
+MINS2 = {
+["A SHOW"]		= empty  ,
+["A +"]			= empty  ,
+["A ++"]		= empty  ,
+["A -"]			= empty  ,
+["A --"]		= empty  ,
+["PRESS"] 		= empty  ,
+}
+
+-- EFIS BARO knob
+BARO2 = {
+["A SHOW"]		= empty  ,
+["A +"]			= empty  ,
+["A ++"]		= empty  ,
+["A -"]			= empty  ,
+["A --"]		= empty  ,
+["PRESS"] 		= empty  ,
+}
+
+-- EFIS CTR knob
+CTR2 = {
+["A SHOW"]		= empty  ,
+["A +"]			= empty  ,
+["A ++"]		= empty  ,
+["A -"]			= empty  ,
+["A --"]		= empty  ,
+["PRESS"] 		= empty  ,
+}
+
+-- EFIS TFC knob
+TFC2 = {
+["A SHOW"]		= empty  ,
+["A +"]			= EFB_ZOOM_out  ,
+["A ++"]		= EFB_ZOOM_out  ,
+["A -"]			= EFB_ZOOM_in  ,
+["A --"]		= EFB_ZOOM_in  ,
+["PRESS"] 		= empty  ,
+}
+
+-- ############################################### --
+-- ## EFIS block mode3
+-- ############################################### --
+
+-- EFIS block buttons and switches
+EFIS3 = {
+["ENABLED"]		= false  ,
+["IDENT"]		= "WXR"  ,
+["FPV"] 		= RXP_WX500_TRACK_L  ,
+["MTR"] 		= RXP_WX500_TRACK_R  ,
+["WX"] 			= RXP_WX500_POPUP_TOGGLE  ,
+["STA"] 		= empty  ,
+["WPT"] 		= empty  ,
+["ARPT"] 		= empty  ,
+["DATA"] 		= weather_OAT  ,
+["POS"] 		= empty  ,
+["TERR"] 		= empty  ,
+["ADF1"] 		= RXP_WX500_SUBMODE_DN  ,
+["ADF2"] 		= RXP_WX500_RANGE_DN  ,
+["VOR1"] 		= RXP_WX500_SUBMODE_UP  ,
+["VOR2"] 		= RXP_WX500_RANGE_UP  ,
+}
+
+-- EFIS MINS knob
+MINS3 = {
+["A SHOW"]		= empty  ,
+["A +"]			= RXP_WX500_BRT_INC  ,
+["A ++"]		= RXP_WX500_BRT_INC  ,
+["A -"]			= RXP_WX500_BRT_DEC  ,
+["A --"]		= RXP_WX500_BRT_DEC  ,
+["PRESS"] 		= empty  ,
+}
+
+-- EFIS BARO knob
+BARO3 = {
+["A SHOW"]		= empty  ,
+["A +"]			= RXP_WX500_GAIN_INC  ,
+["A ++"]		= RXP_WX500_GAIN_INC  ,
+["A -"]			= RXP_WX500_GAIN_DEC  ,
+["A --"]		= RXP_WX500_GAIN_DEC  ,
+["PRESS"] 		= empty  ,
+}
+
+-- EFIS CTR knob
+CTR3 = {
+["A SHOW"]		= empty  ,
+["A +"]			= RXP_WX500_MAIN_MODE_NEXT  ,
+["A ++"]		= RXP_WX500_MAIN_MODE_NEXT  ,
+["A -"]			= RXP_WX500_MAIN_MODE_PREV  ,
+["A --"]		= RXP_WX500_MAIN_MODE_PREV  ,
+["PRESS"] 		= empty  ,
+}
+
+-- EFIS TFC knob
+TFC3 = {
+["A SHOW"]		= empty  ,
+["A +"]			= RXP_WX500_TILT_INC  ,
+["A ++"]		= RXP_WX500_TILT_INC  ,
+["A -"]			= RXP_WX500_TILT_DEC  ,
+["A --"]		= RXP_WX500_TILT_DEC  ,
+["PRESS"] 		= RXP_WX500_TILT_ZERO  ,
+}
+
+-- ############################################### --
+-- ## MCP block mode1
+-- ############################################### --
+
+-- MCP block buttons and switches
+MCP1 = {
+["ENABLED"]	= true  ,
+["IDENT"]	= "MCP1"  ,
+["TOGA"] 	= empty  ,
+["TOGN"] 	= empty  ,
+["N1"] 		= empty  ,
+["SPD"] 	= A32nx_GLSD_FCU_SPD_managed  ,
+["FLCH"] 	= empty  ,
+["HDGSEL"] 	= empty  ,
+["HDGHLD"] 	= empty  ,
+["ALTHLD"] 	= empty  ,
+["V/S FPA"] 	= empty  ,
+["APP"] 	= A32nx_GLSD_FCU_APPR_toggle  ,
+["VNAV"] 	= A32nx_GLSD_FCU_ALT_managed  ,
+["LNAV"] 	= A32nx_GLSD_FCU_HDG_managed  ,
+["CMDA"] 	= A32nx_GLSD_FCU_AP_1_toggle  ,
+["CMDB"] 	= A32nx_GLSD_FCU_AP_2_toggle  ,
+["CMDC"] 	= A32nx_GLSD_FCU_AP_Disconnect  ,
+["LOC"] 	= A32nx_GLSD_FCU_LOC_toggle  ,
+["CWSA"] 	= empty  ,
+["CWSB"] 	= DSP_MODE_toggle  ,
+["A/T UP"] 	= A32nx_GLSD_FCU_ATHR_toggle  ,
+["A/T DN"] 	= A32nx_GLSD_FCU_ATHR_Disconnect  ,
+["F/D UP"] 	= empty  ,
+["F/D DN"] 	= empty  ,
+["MASTER UP"] 	= empty  ,
+["MASTER DN"] 	= empty  ,
+}
+
+-- MCP CRS knob
+CRS1 = {
+["A SHOW"]	= empty  ,
+["A +"]		= empty  ,
+["A ++"]	= empty  ,
+["A -"]		= empty  ,
+["A --"]	= empty  ,
+["PRESS"] 	= empty  ,
+}
+
+-- MCP SPD knob
+SPD1 = {
+["A SHOW"]	= empty  ,
+["A +"]		= A32nx_GLSD_FCU_SPD_inc  ,
+["A ++"]	= A32nx_GLSD_FCU_SPD_incfast  ,
+["A -"]		= A32nx_GLSD_FCU_SPD_dec  ,
+["A --"]	= A32nx_GLSD_FCU_SPD_decfast  ,
+["PRESS"] 	= A32nx_GLSD_FCU_SPD_selected  ,
+}
+
+-- MCP HDG knob
+HDG1 = {
+["A SHOW"]	= empty  ,
+["A +"]		= A32nx_GLSD_FCU_HDG_inc  ,
+["A ++"]	= A32nx_GLSD_FCU_HDG_incfast  ,
+["A -"]		= A32nx_GLSD_FCU_HDG_dec  ,
+["A --"]	= A32nx_GLSD_FCU_HDG_decfast  ,
+["PRESS"] 	= A32nx_GLSD_FCU_HDG_selected  ,
+}
+
+-- MCP ALT knob
+ALT1 = {
+["A SHOW"]	= empty  ,
+["A +"]		= A32nx_GLSD_FCU_ALT_inc  ,
+["A ++"]	= A32nx_GLSD_FCU_ALT_inc  ,
+["A -"]		= A32nx_GLSD_FCU_ALT_dec  ,
+["A --"]	= A32nx_GLSD_FCU_ALT_dec  ,
+["PRESS"] 	= A32nx_GLSD_FCU_ALT_selected  ,
+}
+
+-- MCP VVS knob
+VVS1 = {
+["A SHOW"]	= empty  ,
+["A +"]		= A32nx_GLSD_FCU_VS_inc  ,
+["A ++"]	= A32nx_GLSD_FCU_VS_inc  ,
+["A -"]		= A32nx_GLSD_FCU_VS_dec  ,
+["A --"]	= A32nx_GLSD_FCU_VS_dec  ,
+["PRESS"] 	= A32nx_GLSD_FCU_VS_leveloff  ,
+}
+
+-- ############################################### --
+-- ## MCP block mode2
+-- ############################################### --
+
+-- MCP block buttons and switches
+MCP2 = {
+["ENABLED"]	= true  ,
+["IDENT"]	= "MCP2"  ,
+["TOGA"] 	= empty  ,
+["TOGN"] 	= empty  ,
+["N1"] 		= empty  ,
+["SPD"] 	= empty  ,
+["FLCH"] 	= empty  ,
+["HDGSEL"] 	= empty  ,
+["HDGHLD"] 	= empty  ,
+["ALTHLD"] 	= empty  ,
+["V/S FPA"] 	= empty  ,
+["APP"] 	= empty  ,
+["VNAV"] 	= empty  ,
+["LNAV"] 	= empty  ,
+["CMDA"] 	= empty  ,
+["CMDB"] 	= empty  ,
+["CMDC"] 	= empty  ,
+["LOC"] 	= empty  ,
+["CWSA"] 	= empty  ,
+["CWSB"] 	= DSP_MODE_toggle  ,
+["A/T UP"] 	= empty  ,
+["A/T DN"] 	= empty  ,
+["F/D UP"] 	= empty  ,
+["F/D DN"] 	= empty  ,
+["MASTER UP"] 	= empty  ,
+["MASTER DN"] 	= empty  ,
+}
+
+-- MCP CRS knob
+CRS2 = {
+["A SHOW"]	= empty  ,
+["A +"]		= empty  ,
+["A ++"]	= empty  ,
+["A -"]		= empty  ,
+["A --"]	= empty  ,
+["PRESS"] 	= empty  ,
+}
+
+-- MCP SPD knob
+SPD2 = {
+["A SHOW"]	= empty  ,
+["A +"]		= empty  ,
+["A ++"]	= empty  ,
+["A -"]		= empty  ,
+["A --"]	= empty  ,
+["PRESS"] 	= empty  ,
+}
+
+-- MCP HDG knob
+HDG2 = {
+["A SHOW"]	= empty  ,
+["A +"]		= empty  ,
+["A ++"]	= empty  ,
+["A -"]		= empty  ,
+["A --"]	= empty  ,
+["PRESS"] 	= empty  ,
+}
+
+-- MCP ALT knob
+ALT2 = {
+["A SHOW"]	= empty  ,
+["A +"]		= empty  ,
+["A ++"]	= empty  ,
+["A -"]		= empty  ,
+["A --"]	= empty  ,
+["PRESS"] 	= empty  ,
+}
+
+-- MCP VVS knob
+VVS2 = {
+["A SHOW"]	= empty  ,
+["A +"]		= empty  ,
+["A ++"]	= empty  ,
+["A -"]		= empty  ,
+["A --"]	= empty  ,
+["PRESS"] 	= empty  ,
+}
+
+-- ############################################### --
+-- ## MCP block mode3
+-- ############################################### --
+
+-- MCP block buttons and switches
+MCP3 = {
+["ENABLED"]	= false  ,
+["IDENT"]	= "MCP3"  ,
+["TOGA"] 	= empty  ,
+["TOGN"] 	= empty  ,
+["N1"] 		= empty  ,
+["SPD"] 	= empty  ,
+["FLCH"] 	= empty  ,
+["HDGSEL"] 	= empty  ,
+["HDGHLD"] 	= empty  ,
+["ALTHLD"] 	= empty  ,
+["V/S FPA"] 	= empty  ,
+["APP"] 	= empty  ,
+["VNAV"] 	= empty  ,
+["LNAV"] 	= empty  ,
+["CMDA"] 	= empty  ,
+["CMDB"] 	= empty  ,
+["CMDC"] 	= empty  ,
+["LOC"] 	= empty  ,
+["CWSA"] 	= empty  ,
+["CWSB"] 	= DSP_MODE_toggle  ,
+["A/T UP"] 	= empty  ,
+["A/T DN"] 	= empty  ,
+["F/D UP"] 	= empty  ,
+["F/D DN"] 	= empty  ,
+["MASTER UP"] 	= empty  ,
+["MASTER DN"] 	= empty  ,
+}
+
+-- MCP CRS knob
+CRS3 = {
+["A SHOW"]	= empty  ,
+["A +"]		= empty  ,
+["A ++"]	= empty  ,
+["A -"]		= empty  ,
+["A --"]	= empty  ,
+["PRESS"] 	= empty  ,
+}
+
+-- MCP SPD knob
+SPD3 = {
+["A SHOW"]	= empty  ,
+["A +"]		= empty  ,
+["A ++"]	= empty  ,
+["A -"]		= empty  ,
+["A --"]	= empty  ,
+["PRESS"] 	= empty  ,
+}
+
+-- MCP HDG knob
+HDG3 = {
+["A SHOW"]	= empty  ,
+["A +"]		= empty  ,
+["A ++"]	= empty  ,
+["A -"]		= empty  ,
+["A --"]	= empty  ,
+["PRESS"] 	= empty  ,
+}
+
+-- MCP ALT knob
+ALT3 = {
+["A SHOW"]	= empty  ,
+["A +"]		= empty  ,
+["A ++"]	= empty  ,
+["A -"]		= empty  ,
+["A --"]	= empty  ,
+["PRESS"] 	= empty  ,
+}
+
+-- MCP VVS knob
+VVS3 = {
+["A SHOW"]	= empty  ,
+["A +"]		= empty  ,
+["A ++"]	= empty  ,
+["A -"]		= empty  ,
+["A --"]	= empty  ,
+["PRESS"] 	= empty  ,
+}
+
+-- ############################################### --
+-- ## USER block mode1
+-- ############################################### --
+
+-- USER block buttons and switches
+USER1 = {
+["ENABLED"]	= true  ,
+["IDENT"]	= "Lght"  ,
+["0"] 		= A32nx_OVHD_EXTLT_STROBE_cycle  ,
+["1"] 		= A32nx_OVHD_EXTLT_BEACON_toggle  ,
+["2"] 		= A32nx_OVHD_EXTLT_NAV_toggle  ,
+["3"] 		= A32nx_OVHD_EXTLT_LAND_Both_cycle  ,
+["4"] 		= A32nx_OVHD_EXTLT_NOSE_cycle  ,
+["5"] 		= VRI_EFIS_MODE_toggle  ,
+["6"] 		= VRI_MCP_MODE_toggle  ,
+["7"] 		= VRI_USER_MODE_toggle  ,
+}
+
+-- ############################################### --
+-- ## USER block mode2
+-- ############################################### --
+
+-- USER block buttons and switches
+USER2 = {
+["ENABLED"]	= true  ,
+["IDENT"]	= "TCAS"  ,
+["0"] 		= A32nx_PED_TCAS_PWR_toggle  ,
+["1"] 		= A32nx_PED_TCAS_ALT_toggle  ,
+["2"] 		= A32nx_PED_TCAS_TFC_cycle  ,
+["3"] 		= A32nx_PED_TCAS_MODE_cycle  ,
+["4"] 		= empty  ,
+["5"] 		= VRI_EFIS_MODE_toggle  ,
+["6"] 		= VRI_MCP_MODE_toggle  ,
+["7"] 		= VRI_USER_MODE_toggle  ,
+}
+
+-- ############################################### --
+-- ## USER block mode3
+-- ############################################### --
+
+-- USER block buttons and switches
+USER3 = {
+["ENABLED"]	= true  ,
+["IDENT"]	= "Grnd"  ,
+["0"] 		= A32nx_OVHD_ELEC_EXTPWR_toggle  ,
+["1"] 		= A32nx_OVHD_ELEC_BAT1_toggle  ,
+["2"] 		= A32nx_OVHD_ELEC_BAT2_toggle  ,
+["3"] 		= A32nx_OVHD_APU_MASTER_toggle  ,
+["4"] 		= A32nx_OVHD_APU_START_on  ,
+["5"] 		= VRI_EFIS_MODE_toggle  ,
+["6"] 		= VRI_MCP_MODE_toggle  ,
+["7"] 		= VRI_USER_MODE_toggle  ,
+}
+
+-- ############################################### --
+-- ## RADIOS block mode1
+-- ############################################### --
+
+-- RADIOS block buttons and switches
+RADIOS = {
+["COM1 Select"]	= empty  ,
+["COM2 Select"]	= empty  ,
+["COM1 Swap"]	= empty  ,
+["COM2 Swap"]	= empty  ,
+["COMs Mode"]	= Radios_COM_AUDIO_toggle  ,
+
+["NAV1 Select"]	= empty  ,
+["NAV2 Select"]	= empty  ,
+["NAV1 Swap"]	= empty  ,
+["NAV2 Swap"]	= empty  ,
+["NAVs Mode"]	= Radios_NAV_AUDIO_toggle  ,
+
+["ADF1 Select"]	= empty  ,
+["ADF2 Select"]	= empty  ,
+["ADFs Mode"]	= Radios_ADF_AUDIO_toggle  ,
+
+["DME1 Select"]	= empty  ,
+["DME2 Select"]	= empty  ,
+["DMEs Mode"]	= Radios_DME_AUDIO_toggle  ,
+
+["XPND Select"]	= empty  ,
+["XPND Swap"]	= empty  ,
+["XPND Mode"]	= Transponder_MODE_toggle  ,
+}
+

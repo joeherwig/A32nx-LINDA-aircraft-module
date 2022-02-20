@@ -14,7 +14,6 @@ function A32nx_GLSD_FCU_SPDMACH_toggle()
 end
 
 function A32nx_GLSD_FCU_AP_1_toggle()
-    DspShow('PARK',EvtPtr)
     ipc.control(EvtPtr + 0)
     DspShow('AP1','tgl')
 end
@@ -364,6 +363,7 @@ end
 function A32nx_GLSD_EFISR_FD_toggle()
     ipc.execCalcCode("2 (>K:TOGGLE_FLIGHT_DIRECTOR, number)")
 end
+
 
 function A32nx_GLSD_EFISR_LS_toggle()
     ipc.activateHvar("H:A320_Neo_PFD_BTN_LS_2")
@@ -1235,8 +1235,8 @@ function A32nx_OVHD_ADIRS_1_off()
 end
 
 function A32nx_OVHD_ADIRS_1_nav()
-     adirs1Knob = 1
-	A32nx_OVHD_ADIRS_1_set(adirs1Knob)
+    adirs1Knob = 1
+    A32nx_OVHD_ADIRS_1_set(adirs1Knob)
 end
 
 function A32nx_OVHD_ADIRS_1_att()
