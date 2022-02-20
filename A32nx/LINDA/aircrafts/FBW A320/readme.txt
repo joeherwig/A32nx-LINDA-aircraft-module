@@ -2,14 +2,18 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 1.0.0
-     Date: 2022-02-13
-   Author: Joe Herwig
-           Andrew Gransden / ScotFlieger (0.9.0 / 0.10.0 / 1.0.0)
+  Version: 1.0.1
+     Date: 2022-02-20
+   Author: Joe Herwig / Andrew Gransden
            Falk Scherber (0.8.2)
            Neil Clements (0.4.4 / 0.6.1)
 
 ------------------------------------------------------------------------
+1.0.1
+° Fixed some FCU Display functions.
+° added dimmer functions for buttons/encoders (10%, 50%, 90%, inc, dec, reset)
+° reordered the function blocks
+
 1.0.0
 ° Renamed nearly all the functions based on the FBW naming conventions. See https://github.com/joeherwig/A32nx-LINDA-aircraft-module/wiki/Contribute#naming-conventions
   As this causes breaking changes and might require re-assignments / renamings of your configuration i decided to give it a new major version.
