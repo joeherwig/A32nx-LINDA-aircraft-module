@@ -787,21 +787,17 @@ function A32nx_OVHD_EXTLT_LAND_R_cycle()
     end
 end
 
-function A32nx_OVHD_EXTLT_LAND_Both_Pos(pos)
-    A32nx_OVHD_EXTLT_LAND_L_Pos(pos)
-    A32nx_OVHD_EXTLT_LAND_R_Pos(pos)
-end
 function A32nx_OVHD_EXTLT_LAND_Both_retract()
-     A32nx_OVHD_EXTLT_LAND_L_Pos(2)
-     A32nx_OVHD_EXTLT_LAND_R_Pos(2)
+     A32nx_OVHD_EXTLT_LAND_L_retract()
+     A32nx_OVHD_EXTLT_LAND_R_retract()
 end
 function A32nx_OVHD_EXTLT_LAND_Both_off()
-     A32nx_OVHD_EXTLT_LAND_L_Pos(1)
-     A32nx_OVHD_EXTLT_LAND_R_Pos(1)
+     A32nx_OVHD_EXTLT_LAND_L_off()
+     A32nx_OVHD_EXTLT_LAND_R_off()
 end
 function A32nx_OVHD_EXTLT_LAND_Both_on()
-     A32nx_OVHD_EXTLT_LAND_L_Pos(0)
-     A32nx_OVHD_EXTLT_LAND_R_Pos(0)
+     A32nx_OVHD_EXTLT_LAND_L_on()
+     A32nx_OVHD_EXTLT_LAND_R_on()
 end
 
 function A32nx_OVHD_EXTLT_LAND_Both_toggle()
@@ -2544,7 +2540,7 @@ function InitVars ()
 	-- Internal Cockpit Lighting Dimmer values
     A32NX_CKPT_INTLT_INTEG = 50
     A32NX_CKPT_INTLT_DSPLYS = 50
-    A32NX_CKPT_INTLT_FLOOD = 50	
+    A32NX_CKPT_INTLT_FLOOD = 50
 	-- used to control position of DOME light switch
 	A32NX_Dome = 2 -- = off
 
@@ -2563,7 +2559,7 @@ function InitVars ()
 	auto_brk = 0
     AutoDisplay = false -- override automatic display updates (SPD/HDG/ALT/VVS_
     DSP_MODE_one ()
-    
+
 	EcamTxt = 1
     OnVar = 16 -- change this for initial brightness of displays. 0 to 20
     --TestCnt = 0

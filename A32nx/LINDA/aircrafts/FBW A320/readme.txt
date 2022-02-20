@@ -2,13 +2,16 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 1.0.1
+  Version: 1.0.2
      Date: 2022-02-20
    Author: Joe Herwig / Andrew Gransden
            Falk Scherber (0.8.2)
            Neil Clements (0.4.4 / 0.6.1)
 
 ------------------------------------------------------------------------
+1.0.2
+° fixed landing light retraction
+
 1.0.1
 ° Fixed some FCU Display functions.
 ° added dimmer functions for buttons/encoders (10%, 50%, 90%, inc, dec, reset)
