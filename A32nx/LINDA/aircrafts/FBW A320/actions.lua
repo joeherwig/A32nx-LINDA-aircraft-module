@@ -2594,7 +2594,7 @@ function InitCustomEvents()
     _loggg('[A32NX] EvtNum=' .. tostring(n))
     if n == nil then return end
     for i = 0, tonumber(n) - 1 do
-        s = ipc.get("EVTFILE" .. i)
+        s = ipc.get("EVTFILE" .. tostring(i))
         _loggg('[A32NX] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
     end
 
@@ -2607,10 +2607,13 @@ function InitCustomEvents()
     end
     f = ''
     for i = 0, EvtCnt - 1 do
-        f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
-        if f == EvtFile then
-            EvtIdx = i
-            break
+        ef = ipc.get("EVTFILE" .. tostring(i))
+        if ef ~= nil then
+            f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
+            if f == EvtFile then
+                EvtIdx = i
+                break
+            end
         end
     end
     _loggg('[A32NX] EvtIdx =' .. tostring(EvtIdx) .. '::' .. f)
@@ -2631,10 +2634,13 @@ function InitCustomEvents()
     end
     f = ''
     for i = 0, EvtCnt - 1 do
-        f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
-        if f == EvtFile then
-            EvtIdx = i
-            break
+        ef = ipc.get("EVTFILE" .. tostring(i))
+        if ef ~= nil then
+            f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
+            if f == EvtFile then
+                EvtIdx = i
+                break
+            end
         end
     end
     _loggg('[A32NX] EvtIdx1=' .. tostring(EvtIdx) .. '::' .. f)
