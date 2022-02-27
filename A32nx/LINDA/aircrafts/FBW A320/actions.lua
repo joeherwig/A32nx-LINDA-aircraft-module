@@ -2590,9 +2590,15 @@ function InitCustomEvents()
     -- get custom events file offset start pointer
     -- defined in [EVENTS] block in FSUIPC7.INI
     _loggg('[A32NX] Checking Event Files Data ************')
+    
+	-- initialise default Event Pointers 0 and 1
+	EvtPtr = 32768
+    EvtPtr1 = EvtPtr + 256
+	
     n =  ipc.get("EVTNUM")
     _loggg('[A32NX] EvtNum=' .. tostring(n))
     if n == nil then return end
+	
     for i = 0, tonumber(n) - 1 do
         s = ipc.get("EVTFILE" .. tostring(i))
         _loggg('[A32NX] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
@@ -2600,8 +2606,6 @@ function InitCustomEvents()
 
     EvtFile = string.lower("A32nx")
     EvtCnt = ipc.get("EVTNUM")
-    EvtPtr = 32768
-    EvtPtr1 = EvtPtr + 256
     if EvtCnt == nil then
         EvtCnt = 0
     end
