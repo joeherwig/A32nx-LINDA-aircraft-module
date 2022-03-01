@@ -1078,6 +1078,30 @@ function A32nx_OVHD_INTLT_DOME_toggle()
     end
 end
 
+-- ## Overhead Oxygen
+
+function A32nx_OVHD_OXY_CREWSUPPLY_on()
+    Lvar = "PUSH_OVHD_OXYGEN_CREW"
+    ipc.writeLvar(Lvar, 0)
+    DspShow('COXY','on')
+end
+
+function A32nx_OVHD_OXY_CREWSUPPLY_off()
+    Lvar = "PUSH_OVHD_OXYGEN_CREW"
+    ipc.writeLvar(Lvar, 1)
+    DspShow('COXY','off')
+end
+
+function A32nx_OVHD_OXY_CREWSUPPLY_toggle()
+    Lvar = "PUSH_OVHD_OXYGEN_CREW"
+    Lval = ipc.readLvar(Lvar)
+    if Lval > 0 then
+        A32nx_OVHD_OXY_CREWSUPPLY_on()
+    else
+        A32nx_OVHD_OXY_CREWSUPPLY_off()
+    end
+end
+
 -- ## Overhead Calls #####################################
 
 function A32nx_OVHD_CALLS_all()
