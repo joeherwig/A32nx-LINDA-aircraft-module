@@ -140,27 +140,25 @@ end
 -- $$ Altitude
 
 function A32nx_GLSD_FCU_ALT_inc()
-    --ipc.control(65892,1)
-    ipc.control(EvtPtr + 17)
+    local alt = A32NX_getALTValue()
     local AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
-    local altVar = ipc.readUD(0x0798)/65536 * 3.2808399
-    local alt = round(altVar/AltStep)*AltStep + AltStep
+    if AltStep == nil then AltStep = 1000 end
+    local alt = alt + AltStep
     if alt > 49000 then alt = 49000 end
-    setALTValue(alt)
-    ipc.control(66124, getALTValue())
-    A32NX_DspALT()
+    DspALT(alt/100)
+    ipc.control(EvtPtr + 17)
+    ipc.sleep(50)
 end
 
 function A32nx_GLSD_FCU_ALT_dec()
-    --ipc.control(65893,1)
-    ipc.control(EvtPtr + 18)
+    local alt = A32NX_getALTValue()
     local AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
-    local altVar = ipc.readUD(0x0798)/65536 * 3.2808399
-    local alt = round(altVar/AltStep)*AltStep - AltStep
+    if AltStep == nil then AltStep = 1000 end
+    local alt = alt - AltStep
     if (alt < 100) then alt = 100 end
-    setALTValue(alt)
-    ipc.control(66124, getALTValue())
-    A32NX_DspALT()
+    DspALT(alt)
+    ipc.control(EvtPtr + 18)
+    ipc.sleep(50)
 end
 
 function A32nx_GLSD_FCU_ALT_selected ()
@@ -3119,12 +3117,28 @@ end
 -----------------------------------------------------------
 
 function A32NX_DspALT ()
-    A32NX_alt = getALTValue()
-    _logggg('alt=' .. tostring(A32NX_alt))
+    A32NX_alt = A32NX_getALTValue()
     if A32NX_alt == nil then return end
     if _MCP1() then return end
     DspALT(A32NX_alt/100)
     A32NX_DspALTmode()
+end
+
+-----------------------------------------------------------
+
+function A32NX_getALTValue ()
+local alt
+	alt = round(ipc.readUD(0x0798) / 65536)
+    alt = round(round(alt * 3.2808399)/10) * 10
+    return alt
+end
+
+-----------------------------------------------------------
+
+function A32NX_setALTValue (value)
+local alt
+    alt = (value / 3.2808399) * 65536
+	ipc.writeUD(0x07D4, alt)
 end
 
 -----------------------------------------------------------
