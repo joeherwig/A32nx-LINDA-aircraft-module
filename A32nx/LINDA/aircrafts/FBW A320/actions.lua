@@ -2179,6 +2179,30 @@ function A32nx_PED_TCAS_ALT_toggle()
     A32nx_PED_XPDR_ALT_toggle()
 end
 
+-- ## RADAR
+
+-- $$ Predictive Wind Shear (PWS)
+
+function A32nx_PED_RDR_PWS_off()
+    ipc.writeLvar("L:A32NX_SWITCH_RADAR_PWS_Position", 0)
+    DspShow('PWS', 'off')
+end
+
+function A32nx_PED_RDR_PWS_auto()
+    ipc.writeLvar("L:A32NX_SWITCH_RADAR_PWS_Position", 1)
+    DspShow('PWS', 'auto')
+end
+
+function A32nx_PED_RDR_PWS_toggle()
+    local pos = ipc.readLvar("L:A32NX_SWITCH_RADAR_PWS_Position")
+    if pos == nil then return end
+    if pos == 0 then
+        A32nx_PED_RDR_PWS_auto()
+    else
+        A32nx_PED_RDR_PWS_off()
+    end
+end
+
 -- ## ECAM #####################################
 
 function A32nx_PED_ECAM_TOCONFIG_press()
