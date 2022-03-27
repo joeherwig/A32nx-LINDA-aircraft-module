@@ -718,11 +718,13 @@ end
 function A32nx_OVHD_EXTLT_LAND_L_off()
     ipc.writeLvar("L:LANDING_2_Retracted", 0)
     ipc.writeLvar("L:LIGHTING_LANDING_2", 1)
+    ipc.control(66060, 2)
 end
 
 function A32nx_OVHD_EXTLT_LAND_L_on()
     ipc.writeLvar("L:LANDING_2_Retracted", 0)
     ipc.writeLvar("L:LIGHTING_LANDING_2", 0)
+    ipc.control(66059, 2)
 end
 
 function A32nx_OVHD_EXTLT_LAND_L_toggle()
@@ -758,11 +760,13 @@ end
 function A32nx_OVHD_EXTLT_LAND_R_off()
     ipc.writeLvar("L:LANDING_3_Retracted", 0)
     ipc.writeLvar("L:LIGHTING_LANDING_3", 1)
+    ipc.control(66060, 3)
 end
 
 function A32nx_OVHD_EXTLT_LAND_R_on()
     ipc.writeLvar("L:LANDING_3_Retracted", 0)
     ipc.writeLvar("L:LIGHTING_LANDING_3", 0)
+    ipc.control(66059, 3)
 end
 
 function A32nx_OVHD_EXTLT_LAND_R_toggle()
