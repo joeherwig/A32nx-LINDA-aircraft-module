@@ -2140,7 +2140,7 @@ function A32nx_PED_TCAS_TFC_abv()
 end
 
 function A32nx_PED_TCAS_TFC_blw()
-    A32nx_PED_XPDR_TCAS_TFC_blw(
+    A32nx_PED_XPDR_TCAS_TFC_blw()
 end
 
 function A32nx_PED_TCAS_TFC_inc()
