@@ -2770,27 +2770,34 @@ function InitCustomEvents()
     -- get custom events file offset start pointer
     -- defined in [EVENTS] block in FSUIPC7.INI
     _loggg('[A32NX] Checking Event Files Data ************')
+    
+	-- initialise default Event Pointers 0 and 1
+	EvtPtr = 32768
+    EvtPtr1 = EvtPtr + 256
+	
     n =  ipc.get("EVTNUM")
     _loggg('[A32NX] EvtNum=' .. tostring(n))
     if n == nil then return end
+	
     for i = 0, tonumber(n) - 1 do
-        s = ipc.get("EVTFILE" .. i)
+        s = ipc.get("EVTFILE" .. tostring(i))
         _loggg('[A32NX] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
     end
 
     EvtFile = string.lower("A32nx")
     EvtCnt = ipc.get("EVTNUM")
-    EvtPtr = 32768
-    EvtPtr1 = EvtPtr + 256
     if EvtCnt == nil then
         EvtCnt = 0
     end
     f = ''
     for i = 0, EvtCnt - 1 do
-        f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
-        if f == EvtFile then
-            EvtIdx = i
-            break
+        ef = ipc.get("EVTFILE" .. tostring(i))
+        if ef ~= nil then
+            f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
+            if f == EvtFile then
+                EvtIdx = i
+                break
+            end
         end
     end
     _loggg('[A32NX] EvtIdx =' .. tostring(EvtIdx) .. '::' .. f)
@@ -2811,10 +2818,13 @@ function InitCustomEvents()
     end
     f = ''
     for i = 0, EvtCnt - 1 do
-        f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
-        if f == EvtFile then
-            EvtIdx = i
-            break
+        ef = ipc.get("EVTFILE" .. tostring(i))
+        if ef ~= nil then
+            f = string.lower(ipc.get("EVTFILE" .. tostring(i)))
+            if f == EvtFile then
+                EvtIdx = i
+                break
+            end
         end
     end
     _loggg('[A32NX] EvtIdx1=' .. tostring(EvtIdx) .. '::' .. f)
