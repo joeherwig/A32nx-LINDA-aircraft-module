@@ -156,7 +156,7 @@ function A32nx_GLSD_FCU_ALT_dec()
     if AltStep == nil then AltStep = 1000 end
     local alt = alt - AltStep
     if (alt < 100) then alt = 100 end
-    DspALT(alt)
+    DspALT(alt/100)
     ipc.control(EvtPtr + 18)
     ipc.sleep(50)
 end
