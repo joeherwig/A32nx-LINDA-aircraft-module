@@ -290,7 +290,7 @@ end
 
 function A32nx_GLSD_EFISL_NDMODE1_inc()
      mfd1MODE = ipc.readLvar("L:A32NX_EFIS_L_ND_MODE")
-     if mfd1MODE >= 5 then mfd1MODE = 5 else mfd1MODE = mfd1MODE + 1 end
+     if mfd1MODE >= 4 then mfd1MODE = 4 else mfd1MODE = mfd1MODE + 1 end
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", mfd1MODE)
 end
 
