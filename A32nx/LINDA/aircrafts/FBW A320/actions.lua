@@ -2288,12 +2288,13 @@ end
 function A32nx_PED_ECAM_cond()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_COND")
      eicasEcam2Page = 8
+     DspShow('ECAM','cond')
 end
 
 function A32nx_PED_ECAM_door()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_DOOR")
      eicasEcam2Page = 9
-     DspShow('ECAM','cond')
+     DspShow('ECAM','door')
 end
 
 function A32nx_PED_ECAM_wheel()
