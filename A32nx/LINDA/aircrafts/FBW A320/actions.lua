@@ -691,7 +691,7 @@ end
 
 function A32nx_OVHD_EXTLT_NAV_off()
     ipc.execCalcCode("0 0 (>K:2:NAV_LIGHTS_SET)")
-    DspShow('NAV','on')
+    DspShow('NAV','off')
 end
 
 function A32nx_OVHD_EXTLT_NAV_toggle()
