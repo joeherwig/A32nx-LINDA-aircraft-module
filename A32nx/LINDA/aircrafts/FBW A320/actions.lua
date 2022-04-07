@@ -1,8 +1,8 @@
 -- FLYBYWIRE A32NX
--- Module version 1.0.1
--- Feb 2022
+-- Module version 1.0.3
+-- Apr 2022
 
--- Tested with FlyByWire A32NX Development version
+-- Tested with FlyByWire A32NX Development/Experimental version
 
 -- ## Glareshield - FCU  ##################################
 
