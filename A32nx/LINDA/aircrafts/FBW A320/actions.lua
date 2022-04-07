@@ -266,26 +266,31 @@ end
 function A32nx_GLSD_EFISL_NDMODE1_ls()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 0)
      mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
+     DspShow('NDM','ls')
 end
 
 function A32nx_GLSD_EFISL_NDMODE1_vor()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 1)
      mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
+     DspShow('NDM','vor')
 end
 
 function A32nx_GLSD_EFISL_NDMODE1_nav()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 2)
      mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
+     DspShow('NDM','nav')
 end
 
 function A32nx_GLSD_EFISL_NDMODE1_arc()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 3)
      mfd1MODE = ipc.readLvar("L:A32NX_EFIS_L_ND_MODE")
+     DspShow('NDM','arc')
 end
 
 function A32nx_GLSD_EFISL_NDMODE1_plan()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_MODE", 4)
      mfd1MODE = ipc.readLvar("A32NX_EFIS_L_ND_MODE")
+     DspShow('NDM','plan')
 end
 
 function A32nx_GLSD_EFISL_NDMODE1_inc()
@@ -305,31 +310,37 @@ end
 function A32nx_GLSD_EFISL_NDRANGE1_10()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 0)
      mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
+     DspShow('NDR','10')
 end
 
 function A32nx_GLSD_EFISL_NDRANGE1_20()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 1)
      mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
+     DspShow('NDR','20')
 end
 
 function A32nx_GLSD_EFISL_NDRANGE1_40()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 2)
      mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
+     DspShow('NDR','40')
 end
 
 function A32nx_GLSD_EFISL_NDRANGE1_80()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 3)
      mfd1Range = ipc.readLvar("L:A32NX_EFIS_L_ND_RANGE")
+     DspShow('NDR','80')
 end
 
 function A32nx_GLSD_EFISL_NDRANGE1_160()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 4)
      mfd1Range = ipc.readLvar("A32NX_EFIS_L_ND_RANGE")
+     DspShow('NDR','160')
 end
 
 function A32nx_GLSD_EFISL_NDRANGE1_320()
      ipc.writeLvar("L:A32NX_EFIS_L_ND_RANGE", 5)
      mfd1Range = ipc.readLvar("L:A32NX_EFIS_L_ND_RANGE")
+     DspShow('NDR','320')
 end
 
 function A32nx_GLSD_EFISL_NDRANGE1_inc()
@@ -440,6 +451,7 @@ function A32nx_GLSD_EFISL_BARO_push()
         A32nx_GLSD_EFISL_BARO_qfe()
     end
 end
+
 function A32nx_GLSD_EFISL_BARO_toggle()
     Lval = ipc.readLvar("L:XMLVAR_Baro1_Mode")
     if Lval > 1 then
@@ -591,14 +603,17 @@ end
 
 function A32nx_OVHD_EXTLT_STROBE_auto()
     ipc.execCalcCode("1 (>L:LIGHTING_STROBE_0) 1 (>L:STROBE_0_Auto) 1 0 r (>K:2:STROBES_SET)")
+    DspShow('STRB','auto')
 end
 
 function A32nx_OVHD_EXTLT_STROBE_on()
     ipc.execCalcCode("0 (>L:LIGHTING_STROBE_0) 0 (>L:STROBE_0_Auto) 1 0 r (>K:2:STROBES_SET)")
+    DspShow('STRB','on')
 end
 
 function A32nx_OVHD_EXTLT_STROBE_off()
     ipc.execCalcCode("2 (>L:LIGHTING_STROBE_0) 0 (>L:STROBE_0_Auto) 0 0 r (>K:2:STROBES_SET)")
+    DspShow('STRB','off')
 end
 
 function A32nx_OVHD_EXTLT_STROBE_toggle()
@@ -627,10 +642,12 @@ end
 
 function A32nx_OVHD_EXTLT_BEACON_on()
     ipc.execCalcCode("0 1 (>K:2:BEACON_LIGHTS_SET)")
+    DspShow('BCN','on')
 end
 
 function A32nx_OVHD_EXTLT_BEACON_off()
     ipc.execCalcCode("0 0 (>K:2:BEACON_LIGHTS_SET)")
+    DspShow('BCN','off')
 end
 
 function A32nx_OVHD_EXTLT_BEACON_toggle()
@@ -647,10 +664,12 @@ end
 
 function A32nx_OVHD_EXTLT_WING_on()
     ipc.execCalcCode("0 1 (>K:2:WING_LIGHTS_SET)")
+    DspShow('WING','on')
 end
 
 function A32nx_OVHD_EXTLT_WING_off()
     ipc.execCalcCode("0 0 (>K:2:WING_LIGHTS_SET)")
+    DspShow('WING','off')
 end
 
 function A32nx_OVHD_EXTLT_WING_toggle()
@@ -667,10 +686,12 @@ end
 
 function A32nx_OVHD_EXTLT_NAV_on()
     ipc.execCalcCode("0 1 (>K:2:NAV_LIGHTS_SET)")
+    DspShow('NAV','on')
 end
 
 function A32nx_OVHD_EXTLT_NAV_off()
     ipc.execCalcCode("0 0 (>K:2:NAV_LIGHTS_SET)")
+    DspShow('NAV','off')
 end
 
 function A32nx_OVHD_EXTLT_NAV_toggle()
@@ -687,10 +708,12 @@ end
 
 function A32nx_OVHD_EXTLT_RWYTURN_on()
     ipc.execCalcCode("1 s0 (>L:LIGHTING_TAXI_2) 2 l0 (>K:2:TAXI_LIGHTS_SET) 3 l0 (>K:2:TAXI_LIGHTS_SET)")
+    DspShow('RWYT','on')
 end
 
 function A32nx_OVHD_EXTLT_RWYTURN_off()
     ipc.execCalcCode("0 s0 (>L:LIGHTING_TAXI_2) 2 l0 (>K:2:TAXI_LIGHTS_SET) 3 l0 (>K:2:TAXI_LIGHTS_SET)")
+    DspShow('RWYT','off')
 end
 
 function A32nx_OVHD_EXTLT_RWYTURN_toggle()
@@ -711,18 +734,21 @@ function A32nx_OVHD_EXTLT_LAND_L_retract()
     ipc.writeLvar("L:LANDING_2_Retracted", 1)
     ipc.sleep(50)
     ipc.writeLvar("L:LIGHTING_LANDING_2", 2)
+    DspShow('LNDL','retr')
 end
 
 function A32nx_OVHD_EXTLT_LAND_L_off()
     ipc.writeLvar("L:LANDING_2_Retracted", 0)
     ipc.writeLvar("L:LIGHTING_LANDING_2", 1)
     ipc.control(66060, 2)
+    DspShow('LNDL','off')
 end
 
 function A32nx_OVHD_EXTLT_LAND_L_on()
     ipc.writeLvar("L:LANDING_2_Retracted", 0)
     ipc.writeLvar("L:LIGHTING_LANDING_2", 0)
     ipc.control(66059, 2)
+    DspShow('LNDL','on')
 end
 
 function A32nx_OVHD_EXTLT_LAND_L_toggle()
@@ -753,18 +779,21 @@ function A32nx_OVHD_EXTLT_LAND_R_retract()
     ipc.writeLvar("L:LANDING_3_Retracted", 1)
     ipc.sleep(50)
     ipc.writeLvar("L:LIGHTING_LANDING_3", 2)
+    DspShow('LNDR','retr')
 end
 
 function A32nx_OVHD_EXTLT_LAND_R_off()
     ipc.writeLvar("L:LANDING_3_Retracted", 0)
     ipc.writeLvar("L:LIGHTING_LANDING_3", 1)
     ipc.control(66060, 3)
+    DspShow('LNDR','off')
 end
 
 function A32nx_OVHD_EXTLT_LAND_R_on()
     ipc.writeLvar("L:LANDING_3_Retracted", 0)
     ipc.writeLvar("L:LIGHTING_LANDING_3", 0)
     ipc.control(66059, 3)
+    DspShow('LNDR','on')
 end
 
 function A32nx_OVHD_EXTLT_LAND_R_toggle()
@@ -789,21 +818,19 @@ function A32nx_OVHD_EXTLT_LAND_R_cycle()
     end
 end
 
-function A32nx_OVHD_EXTLT_LAND_Both_Pos(pos)
-    A32nx_OVHD_EXTLT_LAND_L_Pos(pos)
-    A32nx_OVHD_EXTLT_LAND_R_Pos(pos)
-end
 function A32nx_OVHD_EXTLT_LAND_Both_retract()
-     A32nx_OVHD_EXTLT_LAND_L_Pos(2)
-     A32nx_OVHD_EXTLT_LAND_R_Pos(2)
+     A32nx_OVHD_EXTLT_LAND_L_retract()
+     A32nx_OVHD_EXTLT_LAND_R_retract()
 end
+
 function A32nx_OVHD_EXTLT_LAND_Both_off()
-     A32nx_OVHD_EXTLT_LAND_L_Pos(1)
-     A32nx_OVHD_EXTLT_LAND_R_Pos(1)
+     A32nx_OVHD_EXTLT_LAND_L_off()
+     A32nx_OVHD_EXTLT_LAND_R_off()
 end
+
 function A32nx_OVHD_EXTLT_LAND_Both_on()
-     A32nx_OVHD_EXTLT_LAND_L_Pos(0)
-     A32nx_OVHD_EXTLT_LAND_R_Pos(0)
+     A32nx_OVHD_EXTLT_LAND_L_on()
+     A32nx_OVHD_EXTLT_LAND_R_on()
 end
 
 function A32nx_OVHD_EXTLT_LAND_Both_toggle()
@@ -820,14 +847,17 @@ end
 
 function A32nx_OVHD_EXTLT_NOSE_to()
     ipc.execCalcCode("0 (>L:LIGHTING_LANDING_1) 1 1 r (>K:2:LANDING_LIGHTS_SET) 0 1 r (>K:2:TAXI_LIGHTS_SET)")
+    DspShow('NOSE','to')
 end
 
 function A32nx_OVHD_EXTLT_NOSE_taxi()
     ipc.execCalcCode("1 (>L:LIGHTING_LANDING_1) 0 1 r (>K:2:LANDING_LIGHTS_SET) 1 1 r (>K:2:TAXI_LIGHTS_SET)")
+    DspShow('NOSE','taxi')
 end
 
 function A32nx_OVHD_EXTLT_NOSE_off()
     ipc.execCalcCode("2 (>L:LIGHTING_LANDING_1) 0 1 r (>K:2:LANDING_LIGHTS_SET) 0 1 r (>K:2:TAXI_LIGHTS_SET)")
+    DspShow('NOSE','off')
 end
 
 function A32nx_OVHD_EXTLT_NOSE_toggle()
@@ -1108,6 +1138,7 @@ end
 
 function A32nx_OVHD_CALLS_all()
     ipc.writeLvar("L:PUSH_OVHD_CALLS_ALL", 1)
+    DspShow('CALL','all')
 end
 
 -- ## Overhead Fuel ######################################
@@ -1730,10 +1761,12 @@ end
 
 function A32nx_PED_SPOILERARM_on ()
     ipc.control(66068, 1)
+    DspShow('SARM','on')
 end
 
 function A32nx_PED_SPOILERARM_off ()
     ipc.control(66068, 0)
+    DspShow('SARM','off')
 end
 
 -- $$ Engines
@@ -2207,81 +2240,96 @@ end
 
 function A32nx_PED_ECAM_TOCONFIG_press()
      ipc.writeLvar("L:A32NX_BTN_TOCONFIG", 1)
-
+     DspShow('TOCG','pres')
 end
 
 function A32nx_PED_ECAM_eng()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_ENG")
      eicasEcam2Page = 1
+     DspShow('ECAM','eng')
 end
 
 function A32nx_PED_ECAM_bleed()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_BLEED")
      eicasEcam2Page = 2
+     DspShow('ECAM','bled')
 end
 
 function A32nx_PED_ECAM_press()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_PRESS")
      eicasEcam2Page = 3
+     DspShow('ECAM','pres')
 end
 
 function A32nx_PED_ECAM_elec()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_ELEC")
      eicasEcam2Page = 4
+     DspShow('ECAM','elec')
 end
 
 function A32nx_PED_ECAM_hyd()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_HYD")
      eicasEcam2Page = 5
+     DspShow('ECAM','hyd')
 end
 
 function A32nx_PED_ECAM_fuel()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_FUEL")
      eicasEcam2Page = 6
+     DspShow('ECAM','fuel')
 end
 
 function A32nx_PED_ECAM_apu()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_APU")
      eicasEcam2Page = 7
+     DspShow('ECAM','apu')
 end
 
 function A32nx_PED_ECAM_cond()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_COND")
      eicasEcam2Page = 8
+     DspShow('ECAM','cond')
 end
 
 function A32nx_PED_ECAM_door()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_DOOR")
      eicasEcam2Page = 9
+     DspShow('ECAM','door')
 end
 
 function A32nx_PED_ECAM_wheel()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_WHEEL")
      eicasEcam2Page = 10
+     DspShow('ECAM','whel')
 end
 
 function A32nx_PED_ECAM_fctl()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_FTCL")
      eicasEcam2Page = 11
+     DspShow('ECAM','fctl')
 end
 
 function A32nx_PED_ECAM_sts()
      ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_STS")
      eicasEcam2Page = 12
+     DspShow('ECAM','sts')
 end
 
 function A32nx_PED_ECAM_ALL_press()
     ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 1)
+     DspShow('ECAM','all')
 end
 
 function A32nx_PED_ECAM_ALL_release()
     ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 0)
+     DspShow('ECAM','off')
 end
 
 function A32nx_PED_ECAM_next()
     ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 1)
     ipc.sleep(250)
     ipc.writeLvar("L:A32NX_ECAM_ALL_Push_IsDown", 0)
+     DspShow('ECAM','next')
 end
 
 -- ## MCDU left #####################################
@@ -2750,7 +2798,7 @@ function InitVars ()
 	-- Internal Cockpit Lighting Dimmer values
     A32NX_CKPT_INTLT_INTEG = 50
     A32NX_CKPT_INTLT_DSPLYS = 50
-    A32NX_CKPT_INTLT_FLOOD = 50	
+    A32NX_CKPT_INTLT_FLOOD = 50
 	-- used to control position of DOME light switch
 	A32NX_Dome = 2 -- = off
 
@@ -2769,7 +2817,7 @@ function InitVars ()
 	auto_brk = 0
     AutoDisplay = false -- override automatic display updates (SPD/HDG/ALT/VVS_
     DSP_MODE_one ()
-    
+
 	EcamTxt = 1
     OnVar = 16 -- change this for initial brightness of displays. 0 to 20
     --TestCnt = 0
@@ -2796,15 +2844,15 @@ function InitCustomEvents()
     -- get custom events file offset start pointer
     -- defined in [EVENTS] block in FSUIPC7.INI
     _loggg('[A32NX] Checking Event Files Data ************')
-    
+
 	-- initialise default Event Pointers 0 and 1
 	EvtPtr = 32768
     EvtPtr1 = EvtPtr + 256
-	
+
     n =  ipc.get("EVTNUM")
     _loggg('[A32NX] EvtNum=' .. tostring(n))
     if n == nil then return end
-	
+
     for i = 0, tonumber(n) - 1 do
         s = ipc.get("EVTFILE" .. tostring(i))
         _loggg('[A32NX] EVTFILE ' .. tostring(i) .. '==' .. tostring(s))
