@@ -2083,9 +2083,9 @@ function A32nx_MPNL_LDG_AUTOBRK_MAX_toggle()
 end
 
 function A32nx_MPNL_LDG_AUTOBRK_set(autoBrakeLevel)
-     ipc.writeLvar("L:A32NX_AUTOBRAKES_ARMED_MODE", autoBrakeLevel)
+     ipc.writeLvar("L:A32NX_AUTOBRAKES_ARMED_MODE_SET", autoBrakeLevel)
      local autoBrakeLevelText = {"off","low","mid","max"}
-     DspShow ("A-BRK", autoBrakeLevelText[autoBrakeLevel+1])
+     DspShow ("ABRK", autoBrakeLevelText[autoBrakeLevel+1])
 end
 
 function A32nx_MPNL_LDG_AUTOBRK_inc()
@@ -2103,7 +2103,7 @@ end
 function A32nx_MPNL_LDG_AUTOBRK_cycle()
      autoBrakeLevel = ipc.readLvar("L:A32NX_AUTOBRAKES_ARMED_MODE")
      if autoBrakeLevel >= 3 then autoBrakeLevel = 0 else autoBrakeLevel = autoBrakeLevel + 1 end
-	A32nx_MPNL_LDG_AUTOBK_set(autoBrakeLevel)
+	A32nx_MPNL_LDG_AUTOBRK_set(autoBrakeLevel)
 end
 
 -- $$ Landing Gear Handle
