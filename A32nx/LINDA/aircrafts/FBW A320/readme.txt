@@ -2,15 +2,30 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 1.0.2
-     Date: 2022-02-20
+  Version: 1.0.4
+     Date: 2022-09-24
    Author: Joe Herwig / Andrew Gransden
            Falk Scherber (0.8.2)
            Neil Clements (0.4.4 / 0.6.1)
 
 ------------------------------------------------------------------------
+1.0.4
+° Fixed the FCU rotaries by switching to execCalcCode to work in Experimental Version.
+known-issues: 
+😔 HDG Display and SPD Display not yet working. Didn't get the right LVAR from experimental version
+
+1.0.3
++ Rework Transponder/TCAS Switches
++ Fixed InitCustomEvents() operation
++ Added Overhead Crew Only Supply Button
++ Fixed Landing Lights not illuminating
++ Improved VRi FCU Altitude INC/DEC
++ Added Radar PWS Switch
++ Fixed error in VRi FCU Altitude DEC
++ Added missing VRI FCU DspShow calls
+
 1.0.2
-° fixed landing light retraction
++ Improved landing light animation
 
 1.0.1
 ° Fixed some FCU Display functions.
