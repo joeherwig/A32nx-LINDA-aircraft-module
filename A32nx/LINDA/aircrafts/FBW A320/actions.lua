@@ -1,6 +1,11 @@
 -- FLYBYWIRE A32NX
+<<<<<<< HEAD
 -- Module version 1.0.4
 -- 2022-09-24
+=======
+-- Module version 1.0.3
+-- Apr 2022
+>>>>>>> 62cb0eef4d2099210c1dc14749fcc3c91977cd5e
 
 -- Tested with FlyByWire A32NX Development/Experimental version
 
@@ -145,7 +150,11 @@ function A32nx_GLSD_FCU_ALT_inc()
     local alt = alt + AltStep
     if alt > 49000 then alt = 49000 end
     DspALT(alt/100)
+<<<<<<< HEAD
     ipc.execCalcCode("(>K:A32NX.FCU_ALT_INC)")
+=======
+    ipc.control(EvtPtr + 17)
+>>>>>>> 62cb0eef4d2099210c1dc14749fcc3c91977cd5e
     ipc.sleep(50)
 end
 
@@ -156,7 +165,11 @@ function A32nx_GLSD_FCU_ALT_dec()
     local alt = alt - AltStep
     if (alt < 100) then alt = 100 end
     DspALT(alt/100)
+<<<<<<< HEAD
     ipc.execCalcCode("(>K:A32NX.FCU_ALT_DEC)")
+=======
+    ipc.control(EvtPtr + 18)
+>>>>>>> 62cb0eef4d2099210c1dc14749fcc3c91977cd5e
     ipc.sleep(50)
 end
 
@@ -1391,6 +1404,424 @@ end
 function A32nx_OVHD_ADIRS_3_set(adirs1Knob)
      ipc.writeLvar("L:A32NX_OVHD_ADIRS_IR_3_MODE_SELECTOR_KNOB", adirs1Knob)
      DspShow ("ADR3", adirs1Knob)
+end
+
+-- $$ ADIRS IR 1
+
+function A32nx_OVHD_ADIRS_IR1_PB_on()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_1_PB_IS_ON', 1)
+    DspShow('IR1','on')
+end
+
+function A32nx_OVHD_ADIRS_IR1_PB_off()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_1_PB_IS_ON', 0)
+    DspShow('IR1','off')
+end
+
+function A32nx_OVHD_ADIRS_IR1_PB_toggle()
+    local Lvar = 'L:A32NX_OVHD_ADIRS_IR_1_PB_IS_ON'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_ADIRS_IR1_PB_off()
+    else
+        A32nx_OVHD_ADIRS_IR1_PB_on()
+    end
+end
+
+-- $$ ADIRS IR 3
+
+function A32nx_OVHD_ADIRS_IR3_PB_on()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_3_PB_IS_ON', 1)
+    DspShow('IR3','on')
+end
+
+function A32nx_OVHD_ADIRS_IR3_PB_off()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_3_PB_IS_ON', 0)
+    DspShow('IR3','off')
+end
+
+function A32nx_OVHD_ADIRS_IR3_PB_toggle()
+    local Lvar = 'L:A32NX_OVHD_ADIRS_IR_3_PB_IS_ON'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_ADIRS_IR3_PB_off()
+    else
+        A32nx_OVHD_ADIRS_IR3_PB_on()
+    end
+end
+
+-- $$ ADIRS IR 2
+
+function A32nx_OVHD_ADIRS_IR2_PB_on()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_2_PB_IS_ON', 1)
+    DspShow('IR2','on')
+end
+
+function A32nx_OVHD_ADIRS_IR2_PB_off()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_2_PB_IS_ON', 0)
+    DspShow('IR2','off')
+end
+
+function A32nx_OVHD_ADIRS_IR2_PB_toggle()
+    local Lvar = 'L:A32NX_OVHD_ADIRS_IR_2_PB_IS_ON'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_ADIRS_IR2_PB_off()
+    else
+        A32nx_OVHD_ADIRS_IR2_PB_on()
+    end
+end
+
+-- $$ ADIRS ADIR 1
+
+function A32nx_OVHD_ADIRS_ADIR1_PB_on()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_1_PB_IS_ON', 1)
+    DspShow('ADR1','on')
+end
+
+function A32nx_OVHD_ADIRS_ADIR1_PB_off()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_1_PB_IS_ON', 0)
+    DspShow('ADR1','off')
+end
+
+function A32nx_OVHD_ADIRS_ADIR1_PB_toggle()
+    local Lvar = 'L:A32NX_OVHD_ADIRS_ADR_1_PB_IS_ON'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_ADIRS_ADIR1_PB_off()
+    else
+        A32nx_OVHD_ADIRS_ADIR1_PB_on()
+    end
+end
+
+-- $$ ADIRS ADIR 3
+
+function A32nx_OVHD_ADIRS_ADIR3_PB_on()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_3_PB_IS_ON', 1)
+    DspShow('ADR3','on')
+end
+
+function A32nx_OVHD_ADIRS_ADIR3_PB_off()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_3_PB_IS_ON', 0)
+    DspShow('ADR3','off')
+end
+
+function A32nx_OVHD_ADIRS_ADIR3_PB_toggle()
+    local Lvar = 'L:A32NX_OVHD_ADIRS_ADR_3_PB_IS_ON'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_ADIRS_ADIR3_PB_off()
+    else
+        A32nx_OVHD_ADIRS_ADIR3_PB_on()
+    end
+end
+
+function A32nx_OVHD_ADIRS_ADIR2_PB_on()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_2_PB_IS_ON', 1)
+    DspShow('ADR2','on')
+end
+
+function A32nx_OVHD_ADIRS_ADIR2_PB_off()
+    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_2_PB_IS_ON', 0)
+    DspShow('ADR2','off')
+end
+
+function A32nx_OVHD_ADIRS_ADIR2_PB_toggle()
+    local Lvar = 'L:A32NX_OVHD_ADIRS_ADR_2_PB_IS_ON'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_ADIRS_ADIR2_PB_off()
+    else
+        A32nx_OVHD_ADIRS_ADIR2_PB_on()
+    end
+end
+
+-- ## Overhead FLT CTL - CAPT ##############################
+
+-- $$ ELAC 1
+
+function A32nx_OVHD_FLTCTL_ELAC_1_on()
+    ipc.writeLvar('L:A32NX_FBW_ELAC_SWITCH:1', 1)
+    DspShow('ELC1', 'on')
+end
+
+function A32nx_OVHD_FLTCTL_ELAC_1_off()
+    ipc.writeLvar('L:A32NX_FBW_ELAC_SWITCH:1', 0)
+    DspShow('ELC1', 'off')
+end
+
+function A32nx_OVHD_FLTCTL_ELAC_1_toggle()
+    local Lvar = 'L:A32NX_FBW_ELAC_SWITCH:1'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_FLTCTL_ELAC_1_off()
+    else
+        A32nx_OVHD_FLTCTL_ELAC_1_on()
+    end
+end
+
+-- $$ SEC 1
+
+function A32nx_OVHD_FLTCTL_SEC_1_on()
+    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:1', 1)
+    DspShow('SEC1', 'on')
+end
+
+function A32nx_OVHD_FLTCTL_SEC_1_off()
+    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:1', 0)
+    DspShow('SEC1', 'off')
+end
+
+function A32nx_OVHD_FLTCTL_SEC_1_toggle()
+    local Lvar = 'L:A32NX_FBW_SEC_SWITCH:1'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_FLTCTL_SEC_1_off()
+    else
+        A32nx_OVHD_FLTCTL_SEC_1_on()
+    end
+end
+
+-- $$ FAC 1
+
+function A32nx_OVHD_FLTCTL_FAC_1_on()
+    ipc.writeLvar('L:A32NX_FBW_FAC_SWITCH:1', 1)
+    DspShow('FAC1', 'on')
+end
+
+function A32nx_OVHD_FLTCTL_FAC_1_off()
+    ipc.writeLvar('L:A32NX_FBW_FAC_SWITCH:1', 0)
+    DspShow('FAC1', 'off')
+end
+
+function A32nx_OVHD_FLTCTL_FAC_1_toggle()
+    local Lvar = 'L:A32NX_FBW_FAC_SWITCH:1'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_FLTCTL_FAC_1_off()
+    else
+        A32nx_OVHD_FLTCTL_FAC_1_on()
+    end
+end
+
+-- ## Overhead FLT CTL - FO #######################
+
+-- $$ ELAC 2
+
+function A32nx_OVHD_FLTCTL_ELAC_2_on()
+    ipc.writeLvar('L:A32NX_FBW_ELAC_SWITCH:2', 1)
+    DspShow('ELC2', 'on')
+end
+
+function A32nx_OVHD_FLTCTL_ELAC_2_off()
+    ipc.writeLvar('L:A32NX_FBW_ELAC_SWITCH:2', 0)
+    DspShow('ELC2', 'off')
+end
+
+function A32nx_OVHD_FLTCTL_ELAC_2_toggle()
+    local Lvar = 'L:A32NX_FBW_ELAC_SWITCH:2'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_FLTCTL_ELAC_2_off()
+    else
+        A32nx_OVHD_FLTCTL_ELAC_2_on()
+    end
+end
+
+-- $$ SEC 2
+
+function A32nx_OVHD_FLTCTL_SEC_2_on()
+    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:2', 1)
+    DspShow('SEC2', 'on')
+end
+
+function A32nx_OVHD_FLTCTL_SEC_2_off()
+    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:2', 0)
+    DspShow('SEC2', 'off')
+end
+
+function A32nx_OVHD_FLTCTL_SEC_2_toggle()
+    local Lvar = 'L:A32NX_FBW_SEC_SWITCH:2'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_FLTCTL_SEC_2_off()
+    else
+        A32nx_OVHD_FLTCTL_SEC_2_on()
+    end
+end
+
+-- $$ SEC 3
+
+function A32nx_OVHD_FLTCTL_SEC_3_on()
+    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:3', 1)
+    DspShow('SEC3', 'on')
+end
+
+function A32nx_OVHD_FLTCTL_SEC_3_off()
+    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:3', 0)
+    DspShow('SEC3', 'off')
+end
+
+function A32nx_OVHD_FLTCTL_SEC_3_toggle()
+    local Lvar = 'L:A32NX_FBW_SEC_SWITCH:3'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_FLTCTL_SEC_3_off()
+    else
+        A32nx_OVHD_FLTCTL_SEC_3_on()
+    end
+end
+
+-- $$ FAC 2
+
+function A32nx_OVHD_FLTCTL_FAC_2_on()
+    ipc.writeLvar('L:A32NX_FBW_FAC_SWITCH:2', 1)
+    DspShow('FAC2', 'on')
+end
+
+function A32nx_OVHD_FLTCTL_FAC_2_off()
+    ipc.writeLvar('L:A32NX_FBW_FAC_SWITCH:2', 0)
+    DspShow('FAC2', 'off')
+end
+
+function A32nx_OVHD_FLTCTL_FAC_2_toggle()
+    local Lvar = 'L:A32NX_FBW_FAC_SWITCH:2'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_FLTCTL_FAC_2_off()
+    else
+        A32nx_OVHD_FLTCTL_FAC_2_on()
+    end
+end
+
+-- ## Overhead GPWS ##########################
+
+-- $$ TERR
+
+function A32nx_OVHD_GPWS_TERR_on()
+    ipc.writeLvar('L:A32NX_GPWS_TERR_OFF', 0)
+    DspShow('TERR', 'on')
+end
+
+function A32nx_OVHD_GPWS_TERR_off()
+    ipc.writeLvar('L:A32NX_GPWS_TERR_OFF', 1)
+    DspShow('TERR', 'off')
+end
+
+function A32nx_OVHD_GPWS_TERR_toggle()
+    local Lvar = 'L:A32NX_GPWS_TERR_OFF'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_GPWS_TERR_on()
+    else
+        A32nx_OVHD_GPWS_TERR_off()
+    end
+end
+
+-- $$ SYS
+
+function A32nx_OVHD_GPWS_SYS_on()
+    ipc.writeLvar('L:A32NX_GPWS_SYS_OFF', 0)
+    DspShow('SYS', 'on')
+end
+
+function A32nx_OVHD_GPWS_SYS_off()
+    ipc.writeLvar('L:A32NX_GPWS_SYS_OFF', 1)
+    DspShow('SYS', 'off')
+end
+
+function A32nx_OVHD_GPWS_SYS_toggle()
+    local Lvar = 'L:A32NX_GPWS_SYS_OFF'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_GPWS_SYS_on()
+    else
+        A32nx_OVHD_GPWS_SYS_off()
+    end
+end
+
+-- $$ GS MODE
+
+function A32nx_OVHD_GPWS_GS_on()
+    ipc.writeLvar('L:A32NX_GPWS_GS_OFF', 0)
+    DspShow('GS', 'on')
+end
+
+function A32nx_OVHD_GPWS_GS_off()
+    ipc.writeLvar('L:A32NX_GPWS_GS_OFF', 1)
+    DspShow('GS', 'off')
+end
+
+function A32nx_OVHD_GPWS_GS_toggle()
+    local Lvar = 'L:A32NX_GPWS_GS_OFF'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_GPWS_GS_on()
+    else
+        A32nx_OVHD_GPWS_GS_off()
+    end
+end
+
+-- $$ FLAP MODE
+
+function A32nx_OVHD_GPWS_FLAP_on()
+    ipc.writeLvar('L:A32NX_GPWS_FLAP_OFF', 0)
+    DspShow('FLAP', 'on')
+end
+
+function A32nx_OVHD_GPWS_FLAP_off()
+    ipc.writeLvar('L:A32NX_GPWS_FLAP_OFF', 1)
+    DspShow('FLAP', 'off')
+end
+
+function A32nx_OVHD_GPWS_FLAP_toggle()
+    local Lvar = 'L:A32NX_GPWS_FLAP_OFF'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_GPWS_FLAP_on()
+    else
+        A32nx_OVHD_GPWS_FLAP_off()
+    end
+end
+
+-- $$ LDG FLAP 3
+
+function A32nx_OVHD_GPWS_FLAP3_on()
+    ipc.writeLvar('L:A32NX_GPWS_FLAPS3', 0)
+    DspShow('FLP3', 'on')
+end
+
+function A32nx_OVHD_GPWS_FLAP3_off()
+    ipc.writeLvar('L:A32NX_GPWS_FLAPS3', 1)
+    DspShow('FLP3', 'off')
+end
+
+function A32nx_OVHD_GPWS_FLAP3_toggle()
+    local Lvar = 'L:A32NX_GPWS_FLAPS3'
+    local Lval = ipc.readLvar(Lvar)
+    if Lval == nil then return end
+    if Lval > 0 then
+        A32nx_OVHD_GPWS_FLAP3_on()
+    else
+        A32nx_OVHD_GPWS_FLAP3_off()
+    end
 end
 
 -- ## Overhead AntiIce #####################################
