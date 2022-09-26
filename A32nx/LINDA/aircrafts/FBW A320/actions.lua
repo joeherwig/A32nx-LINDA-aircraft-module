@@ -3583,7 +3583,7 @@ end
 -----------------------------------------------------------
 
 function A32NX_DspHDG ()
-    A32NX_hdg = ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA")
+    A32NX_hdg = ipc.readLvar("A32NX_AUTOPILOT_HEADING_SELECTED")
     A32NX_hdg_dashes = ipc.readLvar("A32NX_FCU_HDG_MANAGED_DASHES")
     A32NX_hdg_dot = ipc.readLvar('A32NX_FCU_HDG_MANAGED_DOT')
 
