@@ -1,44 +1,35 @@
 -- FLYBYWIRE A32NX
-<<<<<<< HEAD
--- Module version 1.0.4
--- 2022-09-24
-=======
 -- Module version 1.0.3
 -- Apr 2022
->>>>>>> 62cb0eef4d2099210c1dc14749fcc3c91977cd5e
 
 -- Tested with FlyByWire A32NX Development/Experimental version
 
 -- ## Glareshield - FCU  ##################################
 
 -- $$ Autopilot Buttons
-function init()
-    bat1Status = 0
-
-end
 
 function A32nx_GLSD_FCU_SPDMACH_toggle()
-    ipc.control(EvtPtr + 10)
+    ipc.exeCalcCode("(>H:A320_Neo_FCU_SPEED_TOGGLE_SPEED_MACH)")
     DspShow('MACH','tgl')
 end
 
 function A32nx_GLSD_FCU_AP_1_toggle()
-    ipc.control(EvtPtr + 0)
+    ipc.execCalcCode("(>H:A320_Neo_FCU_AP_1_PUSH)")
     DspShow('AP1','tgl')
 end
 
 function A32nx_GLSD_FCU_AP_2_toggle()
-    ipc.control(EvtPtr + 1)
+    ipc.execCalcCode("(>H:A320_Neo_FCU_AP_2_PUSH)")
     DspShow('AP2','tgl')
 end
 
 function A32nx_GLSD_FCU_AP_Disconnect()
-    ipc.control(EvtPtr + 2)
+    ipc.execCalcCode("(>K:A32NX.FCU_AP_DISCONNECT_PUSH)")
     DspShow('AP','disc')
 end
 
 function A32nx_GLSD_FCU_ATHR_toggle()
-    ipc.control(EvtPtr + 3)
+    ipc.execCalcCode("(>K:AUTO_THROTTLE_ARM)")
     DspShow('ATHR','tgl')
 end
 
@@ -48,54 +39,54 @@ function A32nx_GLSD_FCU_ATHR_Disconnect()
 end
 
 function A32nx_GLSD_FCU_LOC_toggle()
-    ipc.control(EvtPtr + 29)
+    ipc.execCalcCode("(>H:A320_Neo_FCU_LOC_PUSH)")
     DspShow('LOC','tgl')
 end
 
 function A32nx_GLSD_FCU_APPR_toggle()
-    ipc.control(EvtPtr + 30)
+    ipc.execCalcCode("(>H:A320_Neo_FCU_APPR_PUSH)")
     DspShow('ATHR','tgl')
 end
 
 function A32nx_GLSD_FCU_EXPED_toggle()
-    ipc.control(EvtPtr + 31)
+    ipc.execCalcCode("(>H:A320_Neo_FCU_EXPED_PUSH)")
     DspShow ("EXPD", "tgl")
 end
 
 -- $$ Speed
 
 function A32nx_GLSD_FCU_SPD_inc()
-    ipc.execCalcCode("(>K:A32NX.FCU_SPD_INC)")
+    ipc.execCalcCode("(L:XMLVAR_AirSpeedIsInMach) if{ 1 (>K:AP_MACH_VAR_INC) } els{ 1 (>K:AP_SPD_VAR_INC) } (>H:A320_Neo_CDU_AP_INC_SPEED)")
     A32NX_DspSPD()
 end
 
 function A32nx_GLSD_FCU_SPD_incfast()
     for i = 1, 5, 1 do
-    ipc.execCalcCode("(>K:A32NX.FCU_SPD_INC)")
+        ipc.execCalcCode("(L:XMLVAR_AirSpeedIsInMach) if{ 1 (>K:AP_MACH_VAR_INC) } els{ 1 (>K:AP_SPD_VAR_INC) } (>H:A320_Neo_CDU_AP_INC_SPEED)")
         A32NX_DspSPD()
     end
 end
 
 function A32nx_GLSD_FCU_SPD_dec()
-    ipc.execCalcCode("(>K:A32NX.FCU_SPD_DEC)")
+    ipc.execCalcCode("(L:XMLVAR_AirSpeedIsInMach) if{ 1 (>K:AP_MACH_VAR_DEC) } els{ 1 (>K:AP_SPD_VAR_DEC) } (>H:A320_Neo_CDU_AP_DEC_SPEED)")
     A32NX_DspSPD()
 end
 
 function A32nx_GLSD_FCU_SPD_decfast()
     for i = 1, 5, 1 do
-    ipc.execCalcCode("(>K:A32NX.FCU_SPD_DEC)")
+        ipc.execCalcCode("(L:XMLVAR_AirSpeedIsInMach) if{ 1 (>K:AP_MACH_VAR_DEC) } els{ 1 (>K:AP_SPD_VAR_DEC) } (>H:A320_Neo_CDU_AP_DEC_SPEED)")
         A32NX_DspSPD()
     end
 end
 
 function A32nx_GLSD_FCU_SPD_selected ()
-    ipc.execCalcCode("(>K:A32NX.FCU_SPD_PULL)")
+    ipc.execCalcCode("(>H:A320_Neo_FCU_SPEED_PULL)")
     DspShow ("SPD", "set")
     A32NX_DspSPD()
 end
 
 function A32nx_GLSD_FCU_SPD_managed ()
-    ipc.execCalcCode("(>K:A32NX.FCU_SPD_PUSH)")
+    ipc.execCalcCode("(>H:A320_Neo_FCU_SPEED_PUSH)")
     DspShow ("SPD", "mngd")
     A32NX_DspSPD()
 end
@@ -130,7 +121,6 @@ function A32nx_GLSD_FCU_HDG_selected ()
     ipc.execCalcCode("(>K:A32NX.FCU_HDG_PULL)")
     DspShow ("HDG", "set")
     ipc.sleep(200)
-    DspHDG ()
     A32NX_DspHDG()
 end
 
@@ -144,43 +134,23 @@ end
 -- $$ Altitude
 
 function A32nx_GLSD_FCU_ALT_inc()
-    local alt = A32NX_getALTValue()
-    local AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
-    if AltStep == nil then AltStep = 1000 end
-    local alt = alt + AltStep
-    if alt > 49000 then alt = 49000 end
-    DspALT(alt/100)
-<<<<<<< HEAD
-    ipc.execCalcCode("(>K:A32NX.FCU_ALT_INC)")
-=======
-    ipc.control(EvtPtr + 17)
->>>>>>> 62cb0eef4d2099210c1dc14749fcc3c91977cd5e
+    ipc.execCalcCode("(A:AUTOPILOT ALTITUDE LOCK VAR:3, feet) (L:XMLVAR_Autopilot_Altitude_Increment) + (A:AUTOPILOT ALTITUDE LOCK VAR:3, feet) (L:XMLVAR_Autopilot_Altitude_Increment) % - 49000 min (>K:2:AP_ALT_VAR_SET_ENGLISH) (>H:AP_KNOB_Up) (>H:A320_Neo_CDU_AP_INC_ALT)")
     ipc.sleep(50)
 end
 
 function A32nx_GLSD_FCU_ALT_dec()
-    local alt = A32NX_getALTValue()
-    local AltStep = ipc.readLvar("L:XMLVAR_Autopilot_Altitude_Increment")
-    if AltStep == nil then AltStep = 1000 end
-    local alt = alt - AltStep
-    if (alt < 100) then alt = 100 end
-    DspALT(alt/100)
-<<<<<<< HEAD
-    ipc.execCalcCode("(>K:A32NX.FCU_ALT_DEC)")
-=======
-    ipc.control(EvtPtr + 18)
->>>>>>> 62cb0eef4d2099210c1dc14749fcc3c91977cd5e
+    ipc.execCalcCode("(A:AUTOPILOT ALTITUDE LOCK VAR:3, feet) (L:XMLVAR_Autopilot_Altitude_Increment) - (L:XMLVAR_Autopilot_Altitude_Increment) (A:AUTOPILOT ALTITUDE LOCK VAR:3, feet) (L:XMLVAR_Autopilot_Altitude_Increment) % - (L:XMLVAR_Autopilot_Altitude_Increment) % + 100 max (>K:2:AP_ALT_VAR_SET_ENGLISH) (>H:AP_KNOB_Down) (>H:A320_Neo_CDU_AP_DEC_ALT)")
     ipc.sleep(50)
 end
 
 function A32nx_GLSD_FCU_ALT_selected ()
-    ipc.execCalcCode("(>K:A32NX.FCU_ALT_PULL)")
+    ipc.execCalcCode("(>H:A320_Neo_FCU_ALT_PULL) (>H:A320_Neo_CDU_MODE_SELECTED_ALTITUDE)")
     DspShow ("ALT", "set")
     A32NX_DspALT()
 end
 
 function A32nx_GLSD_FCU_ALT_managed ()
-    ipc.execCalcCode("(>K:A32NX.FCU_ALT_PUSH)")
+    ipc.execCalcCode("(>H:A320_Neo_FCU_ALT_PUSH) (>H:A320_Neo_CDU_MODE_MANAGED_ALTITUDE)")
     DspShow ("ALT", "mngd")
     A32NX_DspALT()
 end
@@ -207,12 +177,12 @@ end
 -- $$ Vertical Speed
 
 function A32nx_GLSD_FCU_VS_inc()
-    ipc.execCalcCode("(>K:A32NX.FCU_VS_INC)")
+        ipc.execCalcCode(" (L:A32NX_TRK_FPA_MODE_ACTIVE, bool) 1 == if{ (>H:A320_Neo_FCU_AP_DEC_FPA) } els{ 3 (>K:AP_VS_VAR_DEC) (>H:A320_Neo_FCU_VS_DEC) }")
     A32NX_DspVVS ()
 end
 
 function A32nx_GLSD_FCU_VS_dec()
-    ipc.execCalcCode("(>K:A32NX.FCU_VS_DEC)")
+    ipc.execCalcCode(" (L:A32NX_TRK_FPA_MODE_ACTIVE, bool) 1 == if{ (>H:A320_Neo_FCU_AP_INC_FPA) } els{ 3 (>K:AP_VS_VAR_INC) (>H:A320_Neo_FCU_VS_INC) }")
     A32NX_DspVVS ()
 end
 
@@ -260,11 +230,15 @@ end
 -- $$ Warn / Caution
 
 function A32nx_GLSD_ATTNL_WARNING_push ()
-    ipc.writeLvar("L:A32NX_MASTER_WARNING")
+    ipc.execCalcCode("0 (>L:A32NX_MASTER_WARNING) 1 (>L:PUSH_AUTOPILOT_MASTERAWARN_L) ")
+    ipc.sleep(200)
+    ipc.execCalcCode("0 (>L:PUSH_AUTOPILOT_MASTERAWARN_L)")
 end
 
 function A32nx_GLSD_ATTNL_CAUTION_push ()
-    ipc.writeLvar("L:A32NX_MASTER_CAUTION")
+    ipc.execCalcCode("0 (>L:A32NX_MASTER_CAUTION) 1 (>L:PUSH_AUTOPILOT_MASTERCAUT_L) ")
+    ipc.sleep(200)
+    ipc.execCalcCode("0 (>L:PUSH_AUTOPILOT_MASTERCAUT_L)")
 end
 
 -- ## Glareshield - EFIS
@@ -1406,424 +1380,6 @@ function A32nx_OVHD_ADIRS_3_set(adirs1Knob)
      DspShow ("ADR3", adirs1Knob)
 end
 
--- $$ ADIRS IR 1
-
-function A32nx_OVHD_ADIRS_IR1_PB_on()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_1_PB_IS_ON', 1)
-    DspShow('IR1','on')
-end
-
-function A32nx_OVHD_ADIRS_IR1_PB_off()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_1_PB_IS_ON', 0)
-    DspShow('IR1','off')
-end
-
-function A32nx_OVHD_ADIRS_IR1_PB_toggle()
-    local Lvar = 'L:A32NX_OVHD_ADIRS_IR_1_PB_IS_ON'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_ADIRS_IR1_PB_off()
-    else
-        A32nx_OVHD_ADIRS_IR1_PB_on()
-    end
-end
-
--- $$ ADIRS IR 3
-
-function A32nx_OVHD_ADIRS_IR3_PB_on()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_3_PB_IS_ON', 1)
-    DspShow('IR3','on')
-end
-
-function A32nx_OVHD_ADIRS_IR3_PB_off()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_3_PB_IS_ON', 0)
-    DspShow('IR3','off')
-end
-
-function A32nx_OVHD_ADIRS_IR3_PB_toggle()
-    local Lvar = 'L:A32NX_OVHD_ADIRS_IR_3_PB_IS_ON'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_ADIRS_IR3_PB_off()
-    else
-        A32nx_OVHD_ADIRS_IR3_PB_on()
-    end
-end
-
--- $$ ADIRS IR 2
-
-function A32nx_OVHD_ADIRS_IR2_PB_on()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_2_PB_IS_ON', 1)
-    DspShow('IR2','on')
-end
-
-function A32nx_OVHD_ADIRS_IR2_PB_off()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_IR_2_PB_IS_ON', 0)
-    DspShow('IR2','off')
-end
-
-function A32nx_OVHD_ADIRS_IR2_PB_toggle()
-    local Lvar = 'L:A32NX_OVHD_ADIRS_IR_2_PB_IS_ON'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_ADIRS_IR2_PB_off()
-    else
-        A32nx_OVHD_ADIRS_IR2_PB_on()
-    end
-end
-
--- $$ ADIRS ADIR 1
-
-function A32nx_OVHD_ADIRS_ADIR1_PB_on()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_1_PB_IS_ON', 1)
-    DspShow('ADR1','on')
-end
-
-function A32nx_OVHD_ADIRS_ADIR1_PB_off()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_1_PB_IS_ON', 0)
-    DspShow('ADR1','off')
-end
-
-function A32nx_OVHD_ADIRS_ADIR1_PB_toggle()
-    local Lvar = 'L:A32NX_OVHD_ADIRS_ADR_1_PB_IS_ON'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_ADIRS_ADIR1_PB_off()
-    else
-        A32nx_OVHD_ADIRS_ADIR1_PB_on()
-    end
-end
-
--- $$ ADIRS ADIR 3
-
-function A32nx_OVHD_ADIRS_ADIR3_PB_on()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_3_PB_IS_ON', 1)
-    DspShow('ADR3','on')
-end
-
-function A32nx_OVHD_ADIRS_ADIR3_PB_off()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_3_PB_IS_ON', 0)
-    DspShow('ADR3','off')
-end
-
-function A32nx_OVHD_ADIRS_ADIR3_PB_toggle()
-    local Lvar = 'L:A32NX_OVHD_ADIRS_ADR_3_PB_IS_ON'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_ADIRS_ADIR3_PB_off()
-    else
-        A32nx_OVHD_ADIRS_ADIR3_PB_on()
-    end
-end
-
-function A32nx_OVHD_ADIRS_ADIR2_PB_on()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_2_PB_IS_ON', 1)
-    DspShow('ADR2','on')
-end
-
-function A32nx_OVHD_ADIRS_ADIR2_PB_off()
-    ipc.writeLvar('L:A32NX_OVHD_ADIRS_ADR_2_PB_IS_ON', 0)
-    DspShow('ADR2','off')
-end
-
-function A32nx_OVHD_ADIRS_ADIR2_PB_toggle()
-    local Lvar = 'L:A32NX_OVHD_ADIRS_ADR_2_PB_IS_ON'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_ADIRS_ADIR2_PB_off()
-    else
-        A32nx_OVHD_ADIRS_ADIR2_PB_on()
-    end
-end
-
--- ## Overhead FLT CTL - CAPT ##############################
-
--- $$ ELAC 1
-
-function A32nx_OVHD_FLTCTL_ELAC_1_on()
-    ipc.writeLvar('L:A32NX_FBW_ELAC_SWITCH:1', 1)
-    DspShow('ELC1', 'on')
-end
-
-function A32nx_OVHD_FLTCTL_ELAC_1_off()
-    ipc.writeLvar('L:A32NX_FBW_ELAC_SWITCH:1', 0)
-    DspShow('ELC1', 'off')
-end
-
-function A32nx_OVHD_FLTCTL_ELAC_1_toggle()
-    local Lvar = 'L:A32NX_FBW_ELAC_SWITCH:1'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_FLTCTL_ELAC_1_off()
-    else
-        A32nx_OVHD_FLTCTL_ELAC_1_on()
-    end
-end
-
--- $$ SEC 1
-
-function A32nx_OVHD_FLTCTL_SEC_1_on()
-    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:1', 1)
-    DspShow('SEC1', 'on')
-end
-
-function A32nx_OVHD_FLTCTL_SEC_1_off()
-    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:1', 0)
-    DspShow('SEC1', 'off')
-end
-
-function A32nx_OVHD_FLTCTL_SEC_1_toggle()
-    local Lvar = 'L:A32NX_FBW_SEC_SWITCH:1'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_FLTCTL_SEC_1_off()
-    else
-        A32nx_OVHD_FLTCTL_SEC_1_on()
-    end
-end
-
--- $$ FAC 1
-
-function A32nx_OVHD_FLTCTL_FAC_1_on()
-    ipc.writeLvar('L:A32NX_FBW_FAC_SWITCH:1', 1)
-    DspShow('FAC1', 'on')
-end
-
-function A32nx_OVHD_FLTCTL_FAC_1_off()
-    ipc.writeLvar('L:A32NX_FBW_FAC_SWITCH:1', 0)
-    DspShow('FAC1', 'off')
-end
-
-function A32nx_OVHD_FLTCTL_FAC_1_toggle()
-    local Lvar = 'L:A32NX_FBW_FAC_SWITCH:1'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_FLTCTL_FAC_1_off()
-    else
-        A32nx_OVHD_FLTCTL_FAC_1_on()
-    end
-end
-
--- ## Overhead FLT CTL - FO #######################
-
--- $$ ELAC 2
-
-function A32nx_OVHD_FLTCTL_ELAC_2_on()
-    ipc.writeLvar('L:A32NX_FBW_ELAC_SWITCH:2', 1)
-    DspShow('ELC2', 'on')
-end
-
-function A32nx_OVHD_FLTCTL_ELAC_2_off()
-    ipc.writeLvar('L:A32NX_FBW_ELAC_SWITCH:2', 0)
-    DspShow('ELC2', 'off')
-end
-
-function A32nx_OVHD_FLTCTL_ELAC_2_toggle()
-    local Lvar = 'L:A32NX_FBW_ELAC_SWITCH:2'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_FLTCTL_ELAC_2_off()
-    else
-        A32nx_OVHD_FLTCTL_ELAC_2_on()
-    end
-end
-
--- $$ SEC 2
-
-function A32nx_OVHD_FLTCTL_SEC_2_on()
-    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:2', 1)
-    DspShow('SEC2', 'on')
-end
-
-function A32nx_OVHD_FLTCTL_SEC_2_off()
-    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:2', 0)
-    DspShow('SEC2', 'off')
-end
-
-function A32nx_OVHD_FLTCTL_SEC_2_toggle()
-    local Lvar = 'L:A32NX_FBW_SEC_SWITCH:2'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_FLTCTL_SEC_2_off()
-    else
-        A32nx_OVHD_FLTCTL_SEC_2_on()
-    end
-end
-
--- $$ SEC 3
-
-function A32nx_OVHD_FLTCTL_SEC_3_on()
-    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:3', 1)
-    DspShow('SEC3', 'on')
-end
-
-function A32nx_OVHD_FLTCTL_SEC_3_off()
-    ipc.writeLvar('L:A32NX_FBW_SEC_SWITCH:3', 0)
-    DspShow('SEC3', 'off')
-end
-
-function A32nx_OVHD_FLTCTL_SEC_3_toggle()
-    local Lvar = 'L:A32NX_FBW_SEC_SWITCH:3'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_FLTCTL_SEC_3_off()
-    else
-        A32nx_OVHD_FLTCTL_SEC_3_on()
-    end
-end
-
--- $$ FAC 2
-
-function A32nx_OVHD_FLTCTL_FAC_2_on()
-    ipc.writeLvar('L:A32NX_FBW_FAC_SWITCH:2', 1)
-    DspShow('FAC2', 'on')
-end
-
-function A32nx_OVHD_FLTCTL_FAC_2_off()
-    ipc.writeLvar('L:A32NX_FBW_FAC_SWITCH:2', 0)
-    DspShow('FAC2', 'off')
-end
-
-function A32nx_OVHD_FLTCTL_FAC_2_toggle()
-    local Lvar = 'L:A32NX_FBW_FAC_SWITCH:2'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_FLTCTL_FAC_2_off()
-    else
-        A32nx_OVHD_FLTCTL_FAC_2_on()
-    end
-end
-
--- ## Overhead GPWS ##########################
-
--- $$ TERR
-
-function A32nx_OVHD_GPWS_TERR_on()
-    ipc.writeLvar('L:A32NX_GPWS_TERR_OFF', 0)
-    DspShow('TERR', 'on')
-end
-
-function A32nx_OVHD_GPWS_TERR_off()
-    ipc.writeLvar('L:A32NX_GPWS_TERR_OFF', 1)
-    DspShow('TERR', 'off')
-end
-
-function A32nx_OVHD_GPWS_TERR_toggle()
-    local Lvar = 'L:A32NX_GPWS_TERR_OFF'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_GPWS_TERR_on()
-    else
-        A32nx_OVHD_GPWS_TERR_off()
-    end
-end
-
--- $$ SYS
-
-function A32nx_OVHD_GPWS_SYS_on()
-    ipc.writeLvar('L:A32NX_GPWS_SYS_OFF', 0)
-    DspShow('SYS', 'on')
-end
-
-function A32nx_OVHD_GPWS_SYS_off()
-    ipc.writeLvar('L:A32NX_GPWS_SYS_OFF', 1)
-    DspShow('SYS', 'off')
-end
-
-function A32nx_OVHD_GPWS_SYS_toggle()
-    local Lvar = 'L:A32NX_GPWS_SYS_OFF'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_GPWS_SYS_on()
-    else
-        A32nx_OVHD_GPWS_SYS_off()
-    end
-end
-
--- $$ GS MODE
-
-function A32nx_OVHD_GPWS_GS_on()
-    ipc.writeLvar('L:A32NX_GPWS_GS_OFF', 0)
-    DspShow('GS', 'on')
-end
-
-function A32nx_OVHD_GPWS_GS_off()
-    ipc.writeLvar('L:A32NX_GPWS_GS_OFF', 1)
-    DspShow('GS', 'off')
-end
-
-function A32nx_OVHD_GPWS_GS_toggle()
-    local Lvar = 'L:A32NX_GPWS_GS_OFF'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_GPWS_GS_on()
-    else
-        A32nx_OVHD_GPWS_GS_off()
-    end
-end
-
--- $$ FLAP MODE
-
-function A32nx_OVHD_GPWS_FLAP_on()
-    ipc.writeLvar('L:A32NX_GPWS_FLAP_OFF', 0)
-    DspShow('FLAP', 'on')
-end
-
-function A32nx_OVHD_GPWS_FLAP_off()
-    ipc.writeLvar('L:A32NX_GPWS_FLAP_OFF', 1)
-    DspShow('FLAP', 'off')
-end
-
-function A32nx_OVHD_GPWS_FLAP_toggle()
-    local Lvar = 'L:A32NX_GPWS_FLAP_OFF'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_GPWS_FLAP_on()
-    else
-        A32nx_OVHD_GPWS_FLAP_off()
-    end
-end
-
--- $$ LDG FLAP 3
-
-function A32nx_OVHD_GPWS_FLAP3_on()
-    ipc.writeLvar('L:A32NX_GPWS_FLAPS3', 0)
-    DspShow('FLP3', 'on')
-end
-
-function A32nx_OVHD_GPWS_FLAP3_off()
-    ipc.writeLvar('L:A32NX_GPWS_FLAPS3', 1)
-    DspShow('FLP3', 'off')
-end
-
-function A32nx_OVHD_GPWS_FLAP3_toggle()
-    local Lvar = 'L:A32NX_GPWS_FLAPS3'
-    local Lval = ipc.readLvar(Lvar)
-    if Lval == nil then return end
-    if Lval > 0 then
-        A32nx_OVHD_GPWS_FLAP3_on()
-    else
-        A32nx_OVHD_GPWS_FLAP3_off()
-    end
-end
-
 -- ## Overhead AntiIce #####################################
 
 function A32nx_OVHD_AICE_WING_toggle()
@@ -2091,7 +1647,7 @@ function A32nx_MPNL_LDG_AUTOBRK_MAX_toggle()
 end
 
 function A32nx_MPNL_LDG_AUTOBRK_set(autoBrakeLevel)
-     ipc.writeLvar("L:A32NX_AUTOBRAKES_ARMED_MODE", autoBrakeLevel)
+     ipc.writeLvar("L:A32NX_AUTOBRAKES_ARMED_MODE_SET", autoBrakeLevel)
      local autoBrakeLevelText = {"off","low","mid","max"}
      DspShow ("A-BRK", autoBrakeLevelText[autoBrakeLevel+1])
 end
@@ -3583,7 +3139,7 @@ end
 -----------------------------------------------------------
 
 function A32NX_DspHDG ()
-    A32NX_hdg = ipc.readLvar("L:A320_Neo_FCU_HDG_SET_DATA")
+    A32NX_hdg = ipc.readLvar("A32NX_AUTOPILOT_HEADING_SELECTED")
     A32NX_hdg_dashes = ipc.readLvar("A32NX_FCU_HDG_MANAGED_DASHES")
     A32NX_hdg_dot = ipc.readLvar('A32NX_FCU_HDG_MANAGED_DOT')
 
@@ -3609,7 +3165,6 @@ function A32NX_DspHDG ()
 
     if not _MCP1() then
         DspHDGs(strVal, true)
-
     end
 end
 

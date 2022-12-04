@@ -2,26 +2,16 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-<<<<<<< HEAD
   Version: 1.0.4
-     Date: 2022-09-24
-=======
-  Version: 1.0.3
      Date: 2022-04-07
->>>>>>> 62cb0eef4d2099210c1dc14749fcc3c91977cd5e
    Author: Joe Herwig / Andrew Gransden
            Falk Scherber (0.8.2)
            Neil Clements (0.4.4 / 0.6.1)
 
 ------------------------------------------------------------------------
-<<<<<<< HEAD
-1.0.4
-° Fixed the FCU rotaries by switching to execCalcCode to work in Experimental Version.
-known-issues: 
-😔 HDG Display and SPD Display not yet working. Didn't get the right LVAR from experimental version
+1.0.4 
+° replaced a lot of the unreliable line index dependant EvtPtr stuff with ExecCalcCode to get it back working even if Hvars have not been correctly loaded within FSUIPC.
 
-=======
->>>>>>> 62cb0eef4d2099210c1dc14749fcc3c91977cd5e
 1.0.3
 + Rework Transponder/TCAS Switches
 + Fixed InitCustomEvents() operation
