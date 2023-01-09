@@ -2,13 +2,16 @@
  LINDA Module
 ------------------------------------------------------------------------
  Aircraft: FlyByWireSim A32nx
-  Version: 1.0.4
-     Date: 2022-04-07
+  Version: 1.0.5
+     Date: 2023-01-09
    Author: Joe Herwig / Andrew Gransden
            Falk Scherber (0.8.2)
            Neil Clements (0.4.4 / 0.6.1)
 
 ------------------------------------------------------------------------
+1.0.5 
+° fixed further functions by replacing Event pointer with execCalcCode.
+
 1.0.4 
 ° replaced a lot of the unreliable line index dependant EvtPtr stuff with ExecCalcCode to get it back working even if Hvars have not been correctly loaded within FSUIPC.
 

@@ -9,7 +9,7 @@
 -- $$ Autopilot Buttons
 
 function A32nx_GLSD_FCU_SPDMACH_toggle()
-    ipc.exeCalcCode("(>H:A320_Neo_FCU_SPEED_TOGGLE_SPEED_MACH)")
+    ipc.exeCalcCode("(>K:AP_MANAGED_SPEED_IN_MACH_TOGGLE)")
     DspShow('MACH','tgl')
 end
 
@@ -177,49 +177,41 @@ end
 -- $$ Vertical Speed
 
 function A32nx_GLSD_FCU_VS_inc()
-        ipc.execCalcCode(" (L:A32NX_TRK_FPA_MODE_ACTIVE, bool) 1 == if{ (>H:A320_Neo_FCU_AP_DEC_FPA) } els{ 3 (>K:AP_VS_VAR_DEC) (>H:A320_Neo_FCU_VS_DEC) }")
-    A32NX_DspVVS ()
-end
-
-function A32nx_GLSD_FCU_VS_dec()
     ipc.execCalcCode(" (L:A32NX_TRK_FPA_MODE_ACTIVE, bool) 1 == if{ (>H:A320_Neo_FCU_AP_INC_FPA) } els{ 3 (>K:AP_VS_VAR_INC) (>H:A320_Neo_FCU_VS_INC) }")
     A32NX_DspVVS ()
 end
 
+function A32nx_GLSD_FCU_VS_dec()
+    ipc.execCalcCode(" (L:A32NX_TRK_FPA_MODE_ACTIVE, bool) 1 == if{ (>H:A320_Neo_FCU_AP_DEC_FPA) } els{ 3 (>K:AP_VS_VAR_DEC) (>H:A320_Neo_FCU_VS_DEC) }")
+    A32NX_DspVVS ()
+end
+
 function A32nx_GLSD_FCU_VS_MODE_push ()
-    ipc.control(EvtPtr + 27)
+    ipc.execCalcCode("(>K:A32NX.FCU_VS_PUSH)")
     DspShow ("VS", "push")
     A32NX_DspVVS ()
 end
 
 function A32nx_GLSD_FCU_VS_MODE_pull ()
-    ipc.control(EvtPtr + 28)
+    ipc.execCalcCode("(>K:A32NX.FCU_VS_PULL)")
     DspShow ("VS", "pull")
     A32NX_DspVVS ()
 end
 
 function A32nx_GLSD_FCU_VS_selected ()
-    --ipc.control(66101)
-    ipc.control(EvtPtr + 28)
+    ipc.execCalcCode("(>K:A32NX.FCU_VS_PULL)")
     DspShow ("VS", "set")
     A32NX_DspVVS ()
 end
 
-function A32nx_GLSD_FCU_VS_managed ()
-    --ipc.control(66100)
-    ipc.control(EvtPtr + 27)
-    DspShow ("VS", "mngd")
-    A32NX_DspVVS ()
-end
-
 function A32nx_GLSD_FCU_VS_leveloff ()
-    ipc.control(EvtPtr + 26,0) -- zero rate of climb
-    DspShow ("VS", "mngd")
+    ipc.execCalcCode("(>K:A32NX.FCU_VS_PUSH)")
+    DspShow ("VS", "lvl")
     A32NX_DspVVS ()
 end
 
 function A32nx_GLSD_FCU_FPA_MODE_toggle ()
-    ipc.control(66099)
+    ipc.execCalcCode("(>K:A32NX.FCU_TRK_FPA_TOGGLE_PUSH)")
     DspShow ("FPA", "tog")
     A32NX_DspVVS (1)
     A32NX_DspHDGtxt()
