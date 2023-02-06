@@ -2218,73 +2218,73 @@ function A32nx_PED_ECAM_TOCONFIG_press()
 end
 
 function A32nx_PED_ECAM_eng()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_ENG")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 0)
      eicasEcam2Page = 1
      DspShow('ECAM','eng')
 end
 
 function A32nx_PED_ECAM_bleed()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_BLEED")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 1)
      eicasEcam2Page = 2
      DspShow('ECAM','bled')
 end
 
 function A32nx_PED_ECAM_press()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_PRESS")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 2)
      eicasEcam2Page = 3
      DspShow('ECAM','pres')
 end
 
 function A32nx_PED_ECAM_elec()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_ELEC")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 3)
      eicasEcam2Page = 4
      DspShow('ECAM','elec')
 end
 
 function A32nx_PED_ECAM_hyd()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_HYD")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 4)
      eicasEcam2Page = 5
      DspShow('ECAM','hyd')
 end
 
 function A32nx_PED_ECAM_fuel()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_FUEL")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 5)
      eicasEcam2Page = 6
      DspShow('ECAM','fuel')
 end
 
 function A32nx_PED_ECAM_apu()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_APU")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 6)
      eicasEcam2Page = 7
      DspShow('ECAM','apu')
 end
 
 function A32nx_PED_ECAM_cond()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_COND")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 7)
      eicasEcam2Page = 8
      DspShow('ECAM','cond')
 end
 
 function A32nx_PED_ECAM_door()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_DOOR")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 8)
      eicasEcam2Page = 9
      DspShow('ECAM','door')
 end
 
 function A32nx_PED_ECAM_wheel()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_WHEEL")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 9)
      eicasEcam2Page = 10
      DspShow('ECAM','whel')
 end
 
 function A32nx_PED_ECAM_fctl()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_FTCL")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 10)
      eicasEcam2Page = 11
      DspShow('ECAM','fctl')
 end
 
 function A32nx_PED_ECAM_sts()
-     ipc.activateHvar("H:A320_Neo_EICAS_2_ECAM_CHANGE_PAGE_STS")
+     ipc.writeLvar("L:A32NX_ECAM_SD_CURRENT_PAGE_INDEX", 11)
      eicasEcam2Page = 12
      DspShow('ECAM','sts')
 end

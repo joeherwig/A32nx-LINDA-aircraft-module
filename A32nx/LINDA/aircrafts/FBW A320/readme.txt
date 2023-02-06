@@ -7,8 +7,12 @@
    Author: Joe Herwig / Andrew Gransden
            Falk Scherber (0.8.2)
            Neil Clements (0.4.4 / 0.6.1)
+           Michael Dittus (1.0.6)
 
 ------------------------------------------------------------------------
+1.0.6
+° fixed dedicated ECAM page selection keys (credits to Micha Dittus)
+
 1.0.5 
 ° fixed further functions by replacing Event pointer with execCalcCode.
 
